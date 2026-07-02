@@ -1,0 +1,101 @@
+/*****************************************
+ * modal
+ *****************************************/
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  min-height: 220px;
+  padding: 50px 45px;
+  background-color: white;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.modal-shade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+}
+
+.modal-button__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 58px;
+  height: 58px;
+  z-index: 9999;
+}
+
+.modal-button__close::before,
+.modal-button__close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60%;
+  height: 1px;
+  background-color: #000000;
+}
+
+.modal-button__close::before {
+  transform: translate(-50%, 0) rotate(45deg);
+}
+
+.modal-button__close::after {
+  transform: translate(-50%, 0) rotate(-45deg);
+}
+
+.modal-body {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: 50px 35px 30px 35px; */
+}
+
+.modal-image {
+  max-width: 100%;
+}
+
+.modal-message {
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  white-space: pre-wrap;
+  letter-spacing: -1px;
+  word-break: keep-all;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0 10px;
+}
+
+.modal-buttons button {
+  position: relative;
+  width: 130px;
+  height: 48px;
+  margin-top: 25px;
+  font-size: 16px;
+  color: white;
+  background-color: #333;
+  border-radius: 4px;
+}
+
+.modal-buttons .modal-button__no {
+  background-color: #a1a1a1;
+}

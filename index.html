@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, user-scalable=no" />
+    <title>서든어택 21주년 : 21th 대축제</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+    <link rel="stylesheet" href="./assets/styles/style.css" />
+    <script type="text/javascript" src="https://ssl.nexon.com/s1/da/a2s.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript" src="https://rs.nxfs.nexon.com/common/js/gnb.min.js" charset="UTF-8" data-name="GNB" data-gamecode="94227" data-funresize="fnGnbResize" data-ispchub="true" data-ispublicbanner="true" data-skiptocontentsid="skipNav"></script>
+
+    <div class="wrap">
+      <header class="header">
+        <h1 class="header__logo"><a href="https://sa.nexon.com"></a></h1>
+        <nav class="header__nav">
+          <div class="header__link-group">
+            <a class="header__link" href="https://sa.nexon.com"></a>
+            <a class="header__link" href="https://www.facebook.com/SuddenAttack.Korea" target="_blank"></a>
+            <a class="header__link" href="https://www.youtube.com/user/SuddenAttackmkt" target="_blank"></a>
+            <a class="header__link" href="https://www.instagram.com/Suddenattack_official/" target="_blank"></a>
+          </div>
+        </nav>
+      </header>
+
+      <aside class="quick">
+        <button type="button" class="quick-1 active" data-scroll-active="#e1"></button>
+        <button type="button" class="quick-2" data-scroll-active="#e2"></button>
+        <button type="button" class="quick-3" data-scroll-active="#showcase"></button>
+      </aside>
+
+      <main class="body">
+        <div class="topbar">
+          <div class="in">
+            <div class="logo">
+              <img class="logo-mark" src="./assets/images/logo_line.png" alt="" />
+              서든어택 <span class="b">21</span>
+            </div>
+            <div class="top-actions">
+              <nav class="nav">
+                <a href="#e1" @click.prevent="go('e1')">메달 완성</a>
+                <a href="#e2" @click.prevent="go('e2')">21일 출석</a>
+                <a href="#showcase" @click.prevent="go('showcase')">쇼케이스</a>
+              </nav>
+              <button type="button" class="btn btn-sm btn-outline" @click="openVault">내 보상함</button>
+            </div>
+          </div>
+        </div>
+
+        <header class="hero">
+          <div class="inner-wrap">
+            <div class="hero-grid">
+              <div>
+                <img class="hero-logo" src="./assets/images/logo.png" alt="서든어택 21주년" />
+                <h1>둘이서 <span class="t">하나</span>되는<br />서든어택 <span class="c">21주년</span></h1>
+                <p class="lead">반쪽짜리 메달의 나머지 듀오를 찾아 하나로 완성하세요. 친구와 함께라면 출석도 보상도 두 배로 즐거워집니다.</p>
+                <div class="period">2026.08.06 (목) 점검 후 ~ 08.27 (목) 점검 전 · 21일간</div>
+                <div class="hero-cta">
+                  <button type="button" class="btn btn-primary" @click="go('e1')">메달 발급받기</button>
+                  <button type="button" class="btn btn-ghost" @click="go('reward')">보상 구경하기</button>
+                </div>
+              </div>
+              <div class="hero-visual char-wrap">
+                <img class="hero-char" src="./assets/images/character.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- EVENT 1 -->
+        <section id="e1">
+          <div class="inner-wrap">
+            <div class="sec-head">
+              <span class="sec-tag">EVENT 1</span>
+              <h2>둘이서 하나, 21주년 메달 합체</h2>
+              <p>반쪽 메달의 듀오를 찾아 메달 코드를 주고받고, 합체 신청을 수락하면 메달이 하나로 완성돼 양쪽 모두 보상을 받아요.</p>
+            </div>
+
+            <div class="panel">
+              <div class="steps">
+                <div
+                  v-for="step in steps"
+                  :key="step.n"
+                  class="stp"
+                  :class="{ on: medal.step === step.n, done: medal.step > step.n }"
+                >
+                  <span class="n">{{ step.n }}</span>
+                  <span class="t"><b>{{ step.title }}</b><span>{{ step.desc }}</span></span>
+                </div>
+              </div>
+
+              <!-- phase 1 -->
+              <div class="phase" :class="{ active: medal.phase === 1 }">
+                <div style="text-align: center">
+                  <div class="charslot"></div>
+                  <p class="label-sm" style="max-width: 420px; margin: 0 auto 18px">접속 후 메달을 발급받으면 반쪽 메달과 나의 메달 코드가 함께 표시됩니다.</p>
+                  <button type="button" class="btn btn-primary" @click="clickMedalIssue">메달 발급받기</button>
+                </div>
+              </div>
+
+              <!-- phase 2 -->
+              <div class="phase" :class="{ active: medal.phase === 2 }">
+                <div class="duo">
+                  <div class="pcard me">
+                    <h4>MY MEDAL</h4>
+                    <div class="charslot"></div>
+                    <div class="half"></div>
+                    <div class="nick">나</div>
+                    <div class="codebox">
+                      <span class="cd">{{ medal.code }}</span>
+                      <button type="button" class="btn btn-sm btn-outline" @click="clickCopyCode">복사</button>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline btn-full" style="margin-top: 10px" @click="clickSnsShare">내 메달 코드 SNS 공유하기</button>
+                  </div>
+                  <div class="plus">+</div>
+                  <div class="pcard par">
+                    <h4>메달 코드 입력</h4>
+                    <input class="inp" v-model="medal.findCode" type="text" placeholder="메달 코드 입력" maxlength="8" @input="lookupCode" />
+                    <div class="hints">
+                      <span class="hint" v-for="hint in codeHints" :key="hint" @click="fillCodeHint(hint)">{{ hint }}</span>
+                    </div>
+                    <div v-if="medal.findName" class="req" style="background: var(--surface-1); margin-top: 12px">
+                      <div class="info"><div class="n">{{ medal.findName }}</div><div class="label-sm">코드 확인됨</div></div>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-full"
+                      style="margin-top: 12px"
+                      :disabled="!medal.canRequest"
+                      @click="clickMedalRequest"
+                    >메달 합체 신청하기</button>
+                    <div class="quota">오늘 남은 신청 <b>{{ medal.quota }}</b>/5회</div>
+                  </div>
+                </div>
+
+                <div class="received-divider">
+                  <div class="received-head">
+                    <div class="att-sub" style="margin: 0">나에게 온 메달 합체 신청 ({{ medal.received.length }})</div>
+                  </div>
+                  <div v-if="!medal.received.length" class="empty-state">아직 받은 합체 신청이 없어요.</div>
+                  <div v-else class="reqlist">
+                    <div v-for="item in medal.received" :key="item.code" class="req">
+                      <div class="info"><div class="n">{{ item.nick }}</div></div>
+                      <div style="display: flex; gap: 6px">
+                        <button type="button" class="btn btn-sm btn-ghost" @click="clickReject(item)">거절</button>
+                        <button type="button" class="btn btn-sm btn-primary" @click="clickAccept(item)">합체 수락</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- phase 4 : 완성 -->
+              <div class="phase" :class="{ active: medal.phase === 4 }">
+                <div class="complete">
+                  <div class="bigmedal"></div>
+                  <h3>21주년 메달 완성!</h3>
+                  <p class="label-sm">{{ medal.completeMsg }}</p>
+                  <div class="reward-strip">
+                    <div v-for="item in rewardItems" :key="item.key" class="ritem">
+                      <div class="k">{{ item.label }}</div>
+                      <div class="v" :class="item.type">{{ item.value }}</div>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-primary" :disabled="medal.claimed" @click="clickClaimReward">
+                    {{ medal.claimed ? '보상 수령 완료' : '보상 받기' }}
+                  </button>
+                </div>
+              </div>
+
+              <div id="reward" class="reward-grid">
+                <div v-for="item in rewardGuide" :key="item.title" class="pcard">
+                  <h4>{{ item.title }}</h4>
+                  <p class="label-sm">{{ item.desc }}</p>
+                </div>
+              </div>
+              <div style="text-align: center; margin-top: 18px">
+                <button type="button" class="btn btn-ghost btn-sm" @click="openNotice('e1')">이벤트1 유의사항</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EVENT 2 -->
+        <section id="e2">
+          <div class="inner-wrap">
+            <div class="sec-head">
+              <span class="sec-tag t2">EVENT 2</span>
+              <h2>21일 듀오 출석 챌린지</h2>
+              <p>매일 게임에 접속하면 출석 도장이 찍혀요. 듀오와 동반 출석·연속 출석으로 보충 출석권을 모을 수 있어요.</p>
+            </div>
+
+            <div class="panel e2-panel">
+              <div class="att-head">
+                <div class="duo-tag">
+                  <span class="nm">{{ attendance.duoLabel }}</span>
+                </div>
+                <div class="att-head-actions">
+                  <div class="makeup">보충 출석권 <b>{{ attendance.makeup }}</b>개 · 연속 <b>{{ attendance.streak }}</b>일</div>
+                  <button type="button" class="btn btn-sm btn-outline" @click="clickRefreshAttendance">출석 갱신하기</button>
+                  <button type="button" class="btn btn-sm btn-primary" @click="clickClaimAllDaily">보상 일괄 수령하기</button>
+                </div>
+              </div>
+
+              <div class="att-sub">개인 출석판 · 누적 <b>{{ attendance.totalDays }}</b>일</div>
+              <div class="progress">
+                <div class="bar"><i :style="{ width: progress + '%' }"></i></div>
+                <span class="pct">{{ attendance.totalDays }} / 21일</span>
+              </div>
+
+              <div class="cal">
+                <button
+                  v-for="day in days"
+                  :key="day.i"
+                  type="button"
+                  class="day"
+                  :class="{
+                    weekend: day.weekend,
+                    on: day.status === 1,
+                    duo: day.status === 2,
+                    makeup: day.status === 4,
+                    today: day.today,
+                    makeable: day.makeable,
+                    claimed: day.claimed
+                  }"
+                  @click="clickDay(day)"
+                >
+                  <span class="dn">{{ day.label }}<em class="dw">{{ day.dow }}</em></span>
+                  <span class="rw">{{ day.rwLabel }}</span>
+                </button>
+              </div>
+
+              <div class="att-sub">개인 누적 마일스톤</div>
+              <div class="ms-row">
+                <div
+                  v-for="item in milestones"
+                  :key="item.d"
+                  class="ms"
+                  :class="{ reached: item.reached, claimed: item.claimed }"
+                >
+                  <div class="d">{{ item.d }}</div>
+                  <div class="lab">누적 {{ item.d }}일</div>
+                  <div class="gift">{{ item.gift }}</div>
+                  <button
+                    type="button"
+                    class="claim"
+                    :disabled="!item.reached || item.claimed"
+                    @click="clickClaimMilestone(item.d)"
+                  >{{ item.claimed ? '수령 완료' : item.reached ? '보상 받기' : '미달성' }}</button>
+                </div>
+              </div>
+
+              <!-- desktop.html challenge.active 패턴과 동일 -->
+              <div v-if="attendance.hasDuo" class="att-actions">
+                <button type="button" class="btn btn-primary" @click="clickCheckIn('solo')">오늘 출석 (게임 접속)</button>
+                <button type="button" class="btn btn-outline" @click="clickCheckIn('duo')">듀오와 동반 출석</button>
+              </div>
+              <div v-else class="att-actions">
+                <button type="button" class="btn btn-primary" @click="clickCheckIn('solo')">오늘 출석 (게임 접속)</button>
+                <button type="button" class="btn btn-outline" disabled title="이벤트1에서 듀오를 맺으면 활성화됩니다">듀오와 동반 출석</button>
+              </div>
+
+              <div style="text-align: center; margin-top: 14px">
+                <button type="button" class="btn btn-ghost btn-sm" @click="openNotice('e2')">이벤트2 유의사항</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EVENT 3 -->
+        <section id="showcase">
+          <div class="inner-wrap">
+            <div class="sec-head">
+              <span class="sec-tag t2">EVENT 3</span>
+              <h2>21주년 쇼케이스 안내</h2>
+              <p>21주년 쇼케이스 일정·라인업을 안내하는 영역입니다.</p>
+            </div>
+            <div class="panel" style="text-align: center; min-height: 200px; display: flex; align-items: center; justify-content: center; color: var(--text-secondary)">
+              쇼케이스 안내 영역
+            </div>
+          </div>
+        </section>
+
+        <footer class="page-footer">
+          <div class="inner-wrap">
+            <p>ⓒ NEXON Korea Corporation. & NEXON Games Co., Ltd. All Rights Reserved.</p>
+          </div>
+        </footer>
+      </main>
+
+      <div class="vault-dim" :class="{ show: popup.vault }" @click="closeVault"></div>
+      <div class="vault" :class="{ show: popup.vault }">
+        <div class="vault-top">
+          <h3>내 보상함</h3>
+          <button type="button" class="vault-close" @click="closeVault">×</button>
+        </div>
+        <div class="vault-body">
+          <div class="vempty">보상 내역은 API 연동 후 표시됩니다.</div>
+        </div>
+      </div>
+
+      <div class="modal-dim" :class="{ show: popup.notice }" @click.self="closeNotice">
+        <div class="modal">
+          <h4>유의사항 <span>{{ popup.noticeTitle }}</span></h4>
+          <ol style="font-size: 13px; color: var(--text-secondary); margin: 14px 0 0 18px; line-height: 1.7">
+            <li v-for="(text, i) in popup.noticeList" :key="i">{{ text }}</li>
+          </ol>
+          <div class="m-actions">
+            <button type="button" class="btn btn-primary btn-full" @click="closeNotice">확인</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" :class="{ show: toast.show }">{{ toast.msg }}</div>
+    </div>
+
+    <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript" src="https://img.sa.nexon.com/sa/js/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="./assets/scripts/control.js"></script>
+    <script>
+      const { createApp, reactive, computed } = Vue;
+
+      createApp({
+        setup() {
+          const medal = reactive({
+            step: 1,
+            phase: 1,
+            code: "SA-----",
+            quota: 5,
+            findCode: "",
+            findName: "",
+            canRequest: false,
+            claimed: false,
+            completeMsg: "",
+            received: [
+              { code: "SA-RECV1", nick: "불꽃저격수" },
+              { code: "SA-RECV2", nick: "복귀한김병장" },
+            ],
+          });
+
+          const attendance = reactive({
+            hasDuo: false,
+            duoLabel: "나 혼자 출석 중 (이벤트1 미참여)",
+            makeup: 0,
+            streak: 0,
+            totalDays: 0,
+            todayIdx: 0,
+            dayState: Array(21).fill(0),
+            dayClaimed: [],
+            msClaimed: [],
+          });
+
+          const popup = reactive({ vault: false, notice: false, noticeTitle: "", noticeList: [] });
+          const toast = reactive({ show: false, msg: "" });
+
+          const steps = [
+            { n: 1, title: "메달 발급", desc: "반쪽 메달·코드" },
+            { n: 2, title: "반쪽 찾기", desc: "코드 공유·신청" },
+            { n: 3, title: "메달 합체", desc: "신청 수락" },
+            { n: 4, title: "메달 완성", desc: "보상 수령" },
+          ];
+
+          const codeHints = ["SA-MATCH", "SA-DONE"];
+          const rewardItems = [
+            { key: "medal", label: "완성 메달", value: "21주년 한정 메달", type: "teal" },
+            { key: "base", label: "기본 보상", value: "10만 경험치 · 리센느 멀티카운트 외", type: "coral" },
+            { key: "lottery", label: "추첨 보상", value: "MD · 넥슨캐시 추첨", type: "teal" },
+          ];
+          const rewardGuide = [
+            { title: "확정 보상", desc: "메달 합체 완료 시 양쪽 모두 기본 보상 지급" },
+            { title: "추첨 보상", desc: "21주년 MD 100명 · 1만 넥슨캐시 2,100명" },
+          ];
+
+          const dayRewards = ["위장 닉네임 3일","플러스 콤보팩 EX 3일","수박 무기 멀티카운트","도안_특수밀봉","고수 컬러 닉네임 3일","3만 경험치","패스티켓 5개","대박 포인트 상자","아트탄-영혼 탈출 3일","5만 경험치","제작 재료 3,000개","리센느 멀티카운트","분해용 부속","두꺼운 컬러 닉네임 3일","유니크 카운트","퍼니 캐릭터 상자","저격 기간연장 영구제","영구제 밀봉","컬러 닉네임 3일","경험치 부스터 2.0 3일","5만 경험치"];
+          const DOW = "일월화수목금토";
+
+          const attendanceDays = computed(() => {
+            return dayRewards.map((reward, i) => {
+              const d = new Date(2026, 7, 6 + i);
+              const status = attendance.dayState[i];
+              const makeable = status === 0 && i < attendance.todayIdx;
+              let rwLabel = reward;
+              if (makeable && attendance.makeup > 0) rwLabel = "＋ 보충하기";
+              else if (makeable) rwLabel = "보충권 필요";
+              else if (status > 0 && !attendance.dayClaimed.includes(i)) rwLabel = "받기";
+              else if (attendance.dayClaimed.includes(i)) rwLabel = "수령✓";
+              return {
+                i,
+                label: `${d.getMonth() + 1}월 ${d.getDate()}일`,
+                dow: `(${DOW[d.getDay()]})`,
+                weekend: d.getDay() === 0 || d.getDay() === 6,
+                status,
+                today: i === attendance.todayIdx && status === 0,
+                makeable,
+                claimed: attendance.dayClaimed.includes(i),
+                rwLabel,
+              };
+            });
+          });
+
+          const days = attendanceDays;
+          const milestones = computed(() => [
+            { d: 7, gift: "10만 경험치", reached: attendance.totalDays >= 7, claimed: attendance.msClaimed.includes(7) },
+            { d: 14, gift: "보조 기간연장 영구제", reached: attendance.totalDays >= 14, claimed: attendance.msClaimed.includes(14) },
+            { d: 21, gift: "1,000 SP", reached: attendance.totalDays >= 21, claimed: attendance.msClaimed.includes(21) },
+          ]);
+          const progress = computed(() => Math.round((attendance.totalDays / 21) * 100));
+
+          function showToast(msg) {
+            toast.msg = msg;
+            toast.show = true;
+            setTimeout(() => (toast.show = false), 2400);
+          }
+          function go(id) {
+            document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+          }
+
+          function clickMedalIssue() {
+            medal.code = "SA-" + Math.random().toString(36).slice(2, 6).toUpperCase();
+            medal.step = 2;
+            medal.phase = 2;
+            showToast("메달 발급 완료");
+          }
+          function clickCopyCode() {
+            navigator.clipboard?.writeText(medal.code);
+            showToast("코드 복사: " + medal.code);
+          }
+          function clickSnsShare() { showToast("SNS 공유 (API 연동)"); }
+          function lookupCode() {
+            const code = medal.findCode.trim().toUpperCase();
+            medal.findName = "";
+            medal.canRequest = false;
+            if (code.length < 4) return;
+            if (code === medal.code) return showToast("본인 코드는 신청 불가");
+            if (code === "SA-DONE") return showToast("이미 듀오가 있는 유저");
+            medal.findName = "듀오후보_" + code.slice(-2);
+            medal.canRequest = medal.quota > 0;
+          }
+          function fillCodeHint(hint) {
+            medal.findCode = hint;
+            lookupCode();
+          }
+          function clickMedalRequest() {
+            if (!medal.canRequest) return;
+            medal.quota--;
+            medal.step = 3;
+            showToast("합체 신청 발송");
+          }
+          function clickReject(item) {
+            medal.received = medal.received.filter((r) => r.code !== item.code);
+            showToast("신청 거절");
+          }
+          function clickAccept(item) {
+            medal.step = 4;
+            medal.phase = 4;
+            medal.completeMsg = item.nick + " 님과 메달을 합쳤어요";
+            attendance.hasDuo = true;
+            attendance.duoLabel = "나 & " + item.nick;
+            showToast("메달 합체 완료");
+          }
+          function clickClaimReward() {
+            medal.claimed = true;
+            showToast("보상 수령 완료");
+          }
+
+          function clickCheckIn(type) {
+            if (attendance.todayIdx >= 21) return;
+            attendance.dayState[attendance.todayIdx] = type === "duo" ? 2 : 1;
+            attendance.totalDays++;
+            attendance.todayIdx++;
+            showToast(type === "duo" ? "동반 출석 완료" : "출석 완료");
+          }
+          function clickDay(day) {
+            if (day.status > 0 && !day.claimed) {
+              attendance.dayClaimed.push(day.i);
+              showToast(day.label + " 보상 수령");
+            }
+          }
+          function clickClaimMilestone(d) {
+            if (attendance.totalDays < d) return;
+            attendance.msClaimed.push(d);
+            showToast("마일스톤 " + d + "일 보상");
+          }
+          function clickClaimAllDaily() { showToast("일괄 수령 (API 연동)"); }
+          function clickRefreshAttendance() { showToast("출석 갱신 (API 연동)"); }
+
+          function openVault() { popup.vault = true; }
+          function closeVault() { popup.vault = false; }
+          function openNotice(type) {
+            popup.noticeTitle = type === "e1" ? "· 메달 합체" : "· 21일 출석";
+            popup.noticeList = type === "e1"
+              ? ["계정당 1회 참여", "듀오 결성 후 변경 불가", "보상 수령 기간 확인"]
+              : ["매일 접속 시 출석", "보충 출석권 사용 시 연속 출석 미반영", "보상 수령 기간 확인"];
+            popup.notice = true;
+          }
+          function closeNotice() { popup.notice = false; }
+
+          return {
+            medal, attendance, popup, toast, steps, codeHints, rewardItems, rewardGuide,
+            days, milestones, progress,
+            go, showToast,
+            clickMedalIssue, clickCopyCode, clickSnsShare, lookupCode, fillCodeHint,
+            clickMedalRequest, clickReject, clickAccept, clickClaimReward,
+            clickCheckIn, clickDay, clickClaimMilestone, clickClaimAllDaily, clickRefreshAttendance,
+            openVault, closeVault, openNotice, closeNotice,
+          };
+        },
+      }).mount(".wrap");
+    </script>
+  </body>
+</html>

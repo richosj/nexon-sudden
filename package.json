@@ -1,0 +1,15 @@
+{
+  "name": "nexon-sudden",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "scss": "sass assets/styles/style.scss assets/styles/style.css",
+    "scss:watch": "sass --watch assets/styles/style.scss assets/styles/style.css",
+    "dev": "npm run scss:watch",
+    "build": "npm run scss -- --style=compressed"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "sass": "^1.83.0"
+  }
+}

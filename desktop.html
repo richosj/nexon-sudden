@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440, user-scalable=no" />
+    <title>서든어택 20주년 : 20th 대축제</title>
+    <link rel="stylesheet" href="./assets/styles/desktop.css" />
+    <script type="text/javascript" src="https://ssl.nexon.com/s1/da/a2s.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript" src="https://rs.nxfs.nexon.com/common/js/gnb.min.js" charset="UTF-8" data-name="GNB" data-gamecode="94227" data-funresize="fnGnbResize" data-ispchub="true" data-ispublicbanner="true" data-skiptocontentsid="skipNav"></script>
+    
+    <div class="wrap">
+      <!-- 🧱 HEADER -->
+      <header class="header">
+        <h1 class="header__logo"><a href="https://sa.nexon.com"></a></h1>
+        <nav class="header__nav">
+          <div class="header__link-group">
+            <a class="header__link" href="https://sa.nexon.com"></a>
+            <a class="header__link" href="https://www.facebook.com/SuddenAttack.Korea" target="_blank"></a>
+            <a class="header__link" href="https://www.youtube.com/user/SuddenAttackmkt" target="_blank"></a>
+            <a class="header__link" href="https://www.instagram.com/Suddenattack_official/" target="_blank"></a>
+          </div>
+        </nav>
+      </header>
+
+      <!-- 🧱 QUICK -->
+      <aside class="quick">
+        <button type="button" class="quick-1 active" data-scroll-active="#event01"></button>
+        <button type="button" class="quick-2" data-scroll-active="#event02"></button>
+        <button type="button" class="quick-3" onclick="alert('08월 28일(목) 공개됩니다.')"></button>
+      </aside>
+
+      <!-- 🧱 TOKEN -->
+      <aside class="token">
+        <button 
+          type="button" 
+          class="token-button01" 
+          :class="{'spin-animation': user.token.refresh}" 
+          @click="clickTokenRefresh"
+        >
+          <img src="./assets/images/desktop/token_refresh.png" alt="">
+        </button>
+        <div class="token-info">
+          <div class="num has">
+            <span>{{ String(user.token.has).at(-3) || '0' }}</span>
+            <span>{{ String(user.token.has).at(-2) || '0' }}</span>
+            <span>{{ String(user.token.has).at(-1) || '0' }}</span>
+          </div>
+          <div class="num use">
+            <span>{{ String(user.token.use).at(-3) || '0' }}</span>
+            <span>{{ String(user.token.use).at(-2) || '0' }}</span>
+            <span>{{ String(user.token.use).at(-1) || '0' }}</span>
+          </div>
+        </div>
+        <div v-if="!isUserValid" class="token-alert">
+          <span v-if="!user.login">로그인이 필요합니다.</span>
+          <span v-if="user.login && user.penalty">제재 상태에서는 <br/>이벤트 참여가 불가능합니다.</span>
+          <span v-if="user.login && !user.penalty && !user.character">캐릭터 생성 후, <br/>참여 가능한 이벤트입니다.</span>
+        </div>
+        <a href="" target="_blank" class="token-button02"></a>
+      </aside>
+
+      <!-- 🧱 BODY -->
+      <main class="body">
+
+        <section id="event01" class="event01">
+          <div class="container">
+            <div class="exchange-items weekly-1">
+              <ul>
+                <!--
+                  [버튼 상태값 정의]
+                  - Locked: disabled 속성 추가
+                  - 교환하기: 기본
+                  - 교환완료: disabled 속성 및 complete 클래스 추가
+                -->
+                <li v-for="item in exchangeItems.weekly1" class="exchange-item" :class="{lottery: item.type === 'lottery'}">
+                  <button
+                    v-if="item.zoom"
+                    type="button" 
+                    class="exchange-detail"
+                    @click="item.zoom ? selectedExchangeItemDetail(item) : null"
+                  ></button>
+                  <div class="exchange-limit">
+                    최대 <strong>{{ item.limit }}회</strong> {{ item.type === 'lottery' ? '응모' : '교환'}}
+                  </div>
+                  <div class="exchange-image">
+                    <img :src="item.image" alt="">
+                  </div>
+                  <div class="exchange-name">
+                    {{ item.name }}
+                  </div>
+                  <div class="exchange-token">
+                    토큰 <strong>{{ item.need }}개</strong>
+                  </div>
+                  <button 
+                    type="button" 
+                    class="exchange-button" 
+                    :disabled="item.status === 0 || item.status === 2" 
+                    :class="{'locked': item.status === 0, 'complete': item.status === 2}"
+                    @click="item.status === 1 ? selectedExchangeItem(item) : null"
+                  ></button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="exchange-items weekly-2">
+              <ul>
+                <!--
+                  [버튼 상태값 정의]
+                  - Locked: disabled 속성 추가
+                  - 교환하기: 기본
+                  - 교환완료: disabled 속성 및 complete 클래스 추가
+                -->
+                <li v-for="item in exchangeItems.weekly2" class="exchange-item" :class="{lottery: item.type === 'lottery'}">
+                  <button
+                    v-if="item.zoom"
+                    type="button" 
+                    class="exchange-detail"
+                    @click="item.zoom ? selectedExchangeItemDetail(item) : null"
+                  ></button>
+                  <div class="exchange-limit">
+                    최대 <strong>{{ item.limit }}회</strong> {{ item.type === 'lottery' ? '응모' : '교환'}}
+                  </div>
+                  <div class="exchange-image">
+                    <img :src="item.image" alt="">
+                  </div>
+                  <div class="exchange-name">
+                    {{ item.name }}
+                  </div>
+                  <div class="exchange-token">
+                    토큰 <strong>{{ item.need }}개</strong>
+                  </div>
+                  <button 
+                    type="button" 
+                    class="exchange-button" 
+                    :disabled="item.status === 0 || item.status === 2" 
+                    :class="{'locked': item.status === 0, 'complete': item.status === 2}"
+                    @click="item.status === 1 ? selectedExchangeItem(item) : null"
+                  ></button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="exchange-items weekly-3">
+              <ul>
+                <!--
+                  [버튼 상태값 정의]
+                  - Locked: disabled 속성 추가
+                  - 교환하기: 기본
+                  - 교환완료: disabled 속성 및 complete 클래스 추가
+                -->
+                <li v-for="item in exchangeItems.weekly3" class="exchange-item" :class="{lottery: item.type === 'lottery'}">
+                  <button
+                    v-if="item.zoom"
+                    type="button" 
+                    class="exchange-detail"
+                    @click="item.zoom ? selectedExchangeItemDetail(item) : null"
+                  ></button>
+                  <div class="exchange-limit">
+                    최대 <strong>{{ item.limit }}회</strong> {{ item.type === 'lottery' ? '응모' : '교환'}}
+                  </div>
+                  <div class="exchange-image">
+                    <img :src="item.image" alt="">
+                  </div>
+                  <div class="exchange-name">
+                    {{ item.name }}
+                  </div>
+                  <div class="exchange-token">
+                    토큰 <strong>{{ item.need }}개</strong>
+                  </div>
+                  <button 
+                    type="button" 
+                    class="exchange-button" 
+                    :disabled="item.status === 0 || item.status === 2" 
+                    :class="{'locked': item.status === 0, 'complete': item.status === 2}"
+                    @click="item.status === 1 ? selectedExchangeItem(item) : null"
+                  ></button>
+                </li>
+              </ul>
+            </div>
+
+            <button type="button" class="button event01-button01" data-popup-image="./assets/images/desktop/popup_exchange_guide.png"></button>
+            <button type="button" class="button event01-button02" @click="clickPopupExchangeHistory"></button>
+          </div>
+        </section>
+
+        <section id="event02" class="event02">
+          <div class="container">
+            <div v-if="challenge.active" class="challenge-circle">
+              <span class="challenge-alert">
+                <img src="./assets/images/desktop/challenge_alert.png" alt="">
+              </span>
+              <div class="challenge-button">
+                <button type="button" @click="clickChallengeStart"></button>
+              </div>
+            </div>
+            <div v-else class="challenge-circle">
+              <span class="challenge-alert">
+                <img src="./assets/images/desktop/challenge_alert2.png" alt="">
+              </span>
+              <div class="challenge-button">
+                <img src="./assets/images/desktop/challenge_complete.png" alt="">
+              </div>
+            </div>
+            <button type="button" class="button event02-button01" data-popup-image="./assets/images/desktop/popup_challenge_guide.png"></button>
+            <button type="button" class="button event02-button02" @click="clickPopupChallengeHistory"></button>
+          </div>
+        </section>
+      </main>
+
+      <!-- 🧱 FOOTER -->
+      <footer class="footer">
+        <a class="footer__link" href="https://sa.nexon.com"></a>
+        <p class="footer__copyright">ⓒ NEXON Korea Corporation. & NEXON Games Co., Ltd. All Rights Reserved.</p>
+      </footer>
+
+
+      <!-- 🧱 POPUP -->
+      <!-- [교환소] 아이템 이미지 보기 -->
+      <div 
+        class="popup popup-hidden popup-cursor" 
+        :style="{display: popupExchange.display ? 'block' : 'none'}"
+        @click="clickClosePopupExchange"
+      >
+        <div class="popup-container">
+          <div class="popup-body popup-item">
+            <div class="popup-item__image">
+              <img v-show="popupExchange.item.id === 4" src="./assets/images/desktop/popup_item01.png" alt="">
+              <img v-show="popupExchange.item.id === 9" src="./assets/images/desktop/popup_item02.png" alt="">
+              <img v-show="popupExchange.item.id === 14" src="./assets/images/desktop/popup_item03.png" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [교환소] 내 아이템 교환 내역 -->
+      <div 
+        class="popup popup-hidden" 
+        :style="{display: popupExchangeHistory.display ? 'block' : 'none'}"
+      >
+        <div class="popup-container">
+          <div class="popup-body popup-history exchange">
+            <button type="button" class="popup-close" @click="closePopupExchangeHistory"></button>
+            <div v-if="!popupExchangeHistory.list.length" class="popup-history__empty">
+              아이템 교환 내역이 없습니다
+            </div>
+            <div v-else class="popup-history__table">
+              <table>
+                <colgroup>
+                  <col style="width: 33.33%;">
+                  <col style="width: 33.33%;">
+                  <col style="width: 33.33%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>교환 일시</th>
+                    <th>교환 아이템</th>
+                    <th>교환/응모 횟수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in popupExchangeHistory.list" :key="item.id">
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.amount }} 회</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [챌린지] 당첨 보상받기 -->
+      <div 
+        v-show="challenge.reward.display"
+        class="popup popup-hidden" 
+        :style="{display: challenge.reward.display ? 'block' : 'none'}"
+      >
+        <div class="popup-container">
+          <div class="popup-body modal modal-reward">
+            <button type="button" class="modal-button__close" @click="closePopupChallengeItem"></button>
+            <img src="./assets/images/popup_congratulation.png" class="modal-reward__congratulation" alt="">
+            <div class="modal-reward__item">
+              <img src="./assets/images/desktop/challenge_sp.png" alt="">
+            </div>
+            <h3 class="modal-reward__text1">축하합니다!</h3>
+            <p class="modal-reward__text2">
+              <strong>{{ challenge.reward.item.name }}</strong>에 당첨되셨습니다.
+            </p>
+            <span class="modal-reward__text3">[보상 받기] 버튼을 클릭하시면 보상이 지급됩니다.</span>
+            <div class="modal-buttons">
+              <button class="modal-button__confirm" type="button" @click="clickGetChallengeItem(challenge.reward.item)">보상 받기</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- [챌린지] 나의 SP 획득 내역 -->
+      <div 
+        class="popup popup-hidden" 
+        :style="{display: popupChallengeHistory.display ? 'block' : 'none'}"
+      >
+        <div class="popup-container">
+          <div class="popup-body popup-history challenge">
+            <button type="button" class="popup-close" @click="closePopupChallengeHistory"></button>
+            <div v-if="!popupChallengeHistory.list.length" class="popup-history__empty">
+              SP 획득 내역이 없습니다
+            </div>
+            <div v-else class="popup-history__table">
+              <table>
+                <colgroup>
+                  <col style="width: 33.33%;">
+                  <col style="width: 33.33%;">
+                  <col style="width: 33.33%;">
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>참여 일시</th>
+                    <th>획득 SP</th>
+                    <th>지급 내역</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in popupChallengeHistory.list" :key="item.id">
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.name }}</td>
+                    <td v-if="!item.receiveItem">지급 완료</td>
+                    <td v-if="item.receiveItem">
+                      <button type="button" class="popup-history__button" @click="receiveChallengeItem(item.receiveItem)" @keydown.enter.prevent>보상 받기</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- SCRIPT -->
+    <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="text/javascript" src="https://img.sa.nexon.com/sa/js/jquery/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="./assets/scripts/control.js"></script>
+    <script type="text/javascript" src="./assets/scripts/utils.js"></script>
+    <script type="text/javascript" src="./assets/scripts/desktop.js"></script>
+    <script>
+      const { createApp, ref, reactive, computed } = Vue;
+      createApp({
+        setup() {
+          
+          // [유저] 정보
+          const user = reactive({
+            login: true,        // 로그인 상태
+            penalty: false,       // 제재 상태
+            character: true,    // 캐릭터 여부
+            token: {
+              refresh: false,   // 토큰정보 새로고침 상태
+              has: 0,           // 보유토큰
+              use: 0,           // 사용토큰
+            }
+          });
+
+          // [유저] 정보 유효성 검사
+          const isUserValid = computed(() => {
+            return user.login && !user.penalty && user.character;
+          });
+
+          // [유저] 토큰 정보 가져오기
+          const getUserToken = async () => {
+            try {
+              // const response = await fetch("./assets/json/user.json");
+              // const data = await response.json();
+              const data = {
+                "login": true,
+                "penalty": false,
+                "character": true,
+                "token": {
+                  "has": 100,
+                  "use": 0
+                }
+              }
+              user.token.has = data.token.has;
+              user.token.use = data.token.use;
+            } catch(e){
+              console.error("getUserToken:", e);
+            }
+          }
+
+          // [유저] 토근 현황 새로고침
+          const clickTokenRefresh = () => {
+            if(user.token.refresh) return alert("잠시 후 다시 시도해주세요.");
+            user.token.refresh = true;
+            setTimeout(() => user.token.refresh = false, 1000);
+            getUserToken();
+          }
+
+          // [교환소] 아이템 최초값 설정
+          const exchangeItemModel = {
+            id: 0,            // 아이템 번호
+            name: "",         // 아이템 이름
+            amount: 0,        // 아이템 지급개수 (0: 영구제)
+            limit: 0,         // 최대 교환 횟수
+            exchange: 0,      // 유저 교환 횟수
+            need: 0,          // 교환 필요 토큰
+            status: 0,        // 버튼 상태값 (0: not open, 1: 교환하기, 2: 교환완료)
+            image: "",        // 아이템 이미지
+            zoom: false,      // 아이템 이미지 확대보기 활성화
+            type: "",         // 아이템 타입 (default: 교환, lottery: 응모)
+          };
+
+          // [교환소] 아이템 단계별 리스트
+          const exchangeItems = reactive({
+            weekly1: Array(5).fill(exchangeItemModel),
+            weekly2: Array(5).fill(exchangeItemModel),
+            weekly3: Array(5).fill(exchangeItemModel)
+          });
+
+          // [교환소] 아이템 가져오기
+          const getExchangeItems = async () => {
+            try {
+              // const response = await fetch("./assets/data/exchangeItems.json");
+              // const data = await response.json();
+              const data = {
+                "rtnCode": 0,
+                "message": "success",
+                "result": {
+                  "items": [
+                    {
+                      "id": 1,
+                      "weekly": 1,
+                      "name": "2025 랄랄 멀티카운트",
+                      "amount": 1,
+                      "need": 10,
+                      "limit": 2,
+                      "exchange": 0,
+                      "status": 0,
+                      "image": "./assets/images/desktop/item/img_ralral.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 2,
+                      "weekly": 1,
+                      "name": "Tatto 무기 멀티카운트",
+                      "amount": 1,
+                      "need": 10,
+                      "limit": 2,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_tatto.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 3,
+                      "weekly": 1,
+                      "name": "제작 재료 5,000개",
+                      "amount": 0,
+                      "need": 10,
+                      "limit": 2,
+                      "exchange": 0,
+                      "status": 2,
+                      "image": "./assets/images/desktop/item/img_materials.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 4,
+                      "weekly": 1,
+                      "name": "G18(MG) 20th 니케 Lv.1 (영구제)",
+                      "amount": 0,
+                      "need": 30,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_G18.png",
+                      "zoom": true,
+                      "type": ""
+                    },
+                    {
+                      "id": 5,
+                      "weekly": 1,
+                      "name": "서든어택 장패드",
+                      "amount": 1,
+                      "need": 10,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_pad.png",
+                      "zoom": false,
+                      "type": "lottery"
+                    },
+                    {
+                      "id": 6,
+                      "weekly": 2,
+                      "name": "5만 경험치",
+                      "amount": 1,
+                      "need": 10,
+                      "limit": 2,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_exp.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 7,
+                      "weekly": 2,
+                      "name": "영구제 탄창 (2개)",
+                      "amount": 1,
+                      "need": 20,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_magazine.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 8,
+                      "weekly": 2,
+                      "name": "영구제 밀봉",
+                      "amount": 1,
+                      "need": 20,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_sealed.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 9,
+                      "weekly": 2,
+                      "name": "KRISS(MG) 20th 니케 Lv.1 (영구제)",
+                      "amount": 1,
+                      "need": 40,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_kriss.png",
+                      "zoom": true,
+                      "type": ""
+                    },
+                    {
+                      "id": 10,
+                      "weekly": 2,
+                      "name": "서든어택 키캡",
+                      "amount": 1,
+                      "need": 10,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 1,
+                      "image": "./assets/images/desktop/item/img_keycap.png",
+                      "zoom": false,
+                      "type": "lottery"
+                    },
+                    {
+                      "id": 11,
+                      "weekly": 3,
+                      "name": "20만 경험치",
+                      "amount": 1,
+                      "need": 20,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 0,
+                      "image": "./assets/images/desktop/item/img_exp.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 12,
+                      "weekly": 3,
+                      "name": "패스티켓 20개",
+                      "amount": 1,
+                      "need": 20,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 0,
+                      "image": "./assets/images/desktop/item/img_passticket.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 13,
+                      "weekly": 3,
+                      "name": "2,000 SP",
+                      "amount": 1,
+                      "need": 30,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 0,
+                      "image": "./assets/images/desktop/item/img_SP.png",
+                      "zoom": false,
+                      "type": ""
+                    },
+                    {
+                      "id": 14,
+                      "weekly": 3,
+                      "name": "GSR-6(MG) 20th 니케 Lv.1 (영구제)",
+                      "amount": 1,
+                      "need": 40,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 0,
+                      "image": "./assets/images/desktop/item/img_gsr6.png",
+                      "zoom": true,
+                      "type": ""
+                    },
+                    {
+                      "id": 15,
+                      "weekly": 3,
+                      "name": "서든어택 티셔츠",
+                      "amount": 1,
+                      "need": 10,
+                      "limit": 1,
+                      "exchange": 0,
+                      "status": 0,
+                      "image": "./assets/images/desktop/item/img_tshirt.png",
+                      "zoom": false,
+                      "type": "lottery"
+                    }
+                  ]
+                }
+              }
+              exchangeItems.weekly1 = data.result.items.filter(item => item.weekly === 1);
+              exchangeItems.weekly2 = data.result.items.filter(item => item.weekly === 2);
+              exchangeItems.weekly3 = data.result.items.filter(item => item.weekly === 3);
+            } catch(e){
+              console.error("getExchangeItems:", e);
+            }
+          }
+
+          // [교환소] 아이템 선택
+          const selectedExchangeItem = async (item) =>  {
+
+            // 체크 유저 로그인
+            if(!user.login) return await Utils.alert("로그인 후 참여 하실 수 있습니다.");
+
+            // 체크 유저 제재
+            if(user.penalty) return await Utils.alert("제재 상태에서는\n본 이벤트 참여가 불가능합니다.");
+
+            // 체크 유저 캐릭터
+            if(!user.character) return await Utils.alert("캐릭터 생성 후,\n참여 가능한 이벤트입니다.");
+
+            // // 체크 유저 토큰 보유 수량
+            if(user.token.has < item.need) return await Utils.alert("아이템 교환을 위해 필요한\n 토큰이 부족합니다.");
+
+            // 교환 횟수 초과
+            if(item.exchange >= item.limit){
+              return await Utils.alert("교환 횟수 초과로\n더 이상 교환할 수 없습니다.");
+            }
+
+            // 토큰 보유 수량 만족
+            if(await Utils.confirm(`<strong>20주년 토큰 ${ item.need }개</strong>를 사용하여\n <strong>${ item.name }</strong>${ item.type === 'lottery' ? '에 응모' : '과(와) 교환'} 하시겠습니까?`, {image: item.image})){
+              console.log("교환/응모가 완료되었습니다.");
+            }
+          }
+
+          // [교환소] 아이템 상세보기 이미지 정보
+          const popupExchange = reactive({
+            display: false,
+            item: {},
+          });
+
+          // [교환소] 아이템 상세보기 이미지 팝업 열기 및 선택
+          const selectedExchangeItemDetail = (item) => {
+            popupExchange.display = true;
+            popupExchange.item = item;
+            Utils.bodyScroll.hide();
+          }
+
+          // [교환소] 아이템 상세보기 이미지 팝업 닫기
+          const clickClosePopupExchange = () => {
+            popupExchange.display = false;
+            popupExchange.item = {};
+            Utils.bodyScroll.show();
+          }
+
+          // [교환소] 교환내역 리스트
+          const popupExchangeHistory = reactive({
+            display: false,
+            list: []
+          });
+
+          // [교환소] 교환내역 리스트 불러오기
+          const getExchangeHistory = async () => {
+            // const response = await fetch("./assets/data/exchangeHistory.json");
+            // const data = await response.json();
+            const data = {
+              "list": [
+                {
+                  "id": 1,
+                  "date": "00일 00시 00분",
+                  "name": "1%아이템 명%",
+                  "amount": "3"
+                },
+                {
+                  "id": 2,
+                  "date": "00일 00시 00분",
+                  "name": "2%아이템 명%",
+                  "amount": "1"
+                },
+                {
+                  "id": 3,
+                  "date": "00일 00시 00분",
+                  "name": "3%아이템 명%",
+                  "amount": "2"
+                },
+                {
+                  "id": 4,
+                  "date": "00일 00시 00분",
+                  "name": "4%아이템 명%",
+                  "amount": "1"
+                },
+                {
+                  "id": 5,
+                  "date": "00일 00시 00분",
+                  "name": "5%아이템 명%",
+                  "amount": "3"
+                },
+                {
+                  "id": 6,
+                  "date": "00일 00시 00분",
+                  "name": "6%아이템 명%",
+                  "amount": "10"
+                },
+                {
+                  "id": 7,
+                  "date": "00일 00시 00분",
+                  "name": "7%아이템 명%",
+                  "amount": "5"
+                },
+                {
+                  "id": 8,
+                  "date": "00일 00시 00분",
+                  "name": "8%아이템 명%",
+                  "amount": "3"
+                }
+              ]
+            }
+            popupExchangeHistory.list = data.list;
+          }
+                
+          // [교환소] 획득내역 팝업 열기
+          const clickPopupExchangeHistory = async ()=> {
+            await getExchangeHistory();
+            popupExchangeHistory.display = true;
+            Utils.bodyScroll.hide();
+          }
+
+          // [교환소] 획득내역 팝업 닫기
+          const closePopupExchangeHistory = ()=> {
+            popupExchangeHistory.display = false;
+            Utils.bodyScroll.show();
+          }
+
+          // [챌린지] 교환내역 리스트
+          const popupChallengeHistory = reactive({
+            display: false,
+            list: []
+          });
+
+          
+          // [챌린지] 교환내역 리스트 불러오기
+          const getChallengeHistory = async () => {
+            // const response = await fetch("./assets/data/challengeHistory.json");
+            // const data = await response.json();
+            const data = {
+              "list": [
+                {
+                  "id": 1,
+                  "date": "00일 00시 00분",
+                  "name": "1%아이템 명%",
+                  "receiveItem": null
+                },
+                {
+                  "id": 2,
+                  "date": "00일 00시 00분",
+                  "name": "2%아이템 명%",
+                  "receiveItem": {
+                    "id": 7,
+                    "name": "5,000 캐시",
+                    "image": "./assets/images/item_exp.jpg",
+                    "soldout": false
+                  }
+                },
+                {
+                  "id": 3,
+                  "date": "00일 00시 00분",
+                  "name": "3%아이템 명%",
+                  "receiveItem": {
+                    "id": 2,
+                    "name": "제작 재료 1,000개",
+                    "image": "./assets/images/item_exp.jpg",
+                    "soldout": false
+                  }
+                },
+                {
+                  "id": 4,
+                  "date": "00일 00시 00분",
+                  "name": "4%아이템 명%",
+                  "receiveItem": null
+                },
+                {
+                  "id": 5,
+                  "date": "00일 00시 00분",
+                  "name": "5%아이템 명%",
+                  "receiveItem": null
+                },
+                {
+                  "id": 6,
+                  "date": "00일 00시 00분",
+                  "name": "6%아이템 명%",
+                  "receiveItem": null
+                },
+                {
+                  "id": 7,
+                  "date": "00일 00시 00분",
+                  "name": "7%아이템 명%",
+                  "receiveItem": null
+                },
+                {
+                  "id": 8,
+                  "date": "00일 00시 00분",
+                  "name": "8%아이템 명%",
+                  "receiveItem": null
+                }
+              ]
+            }
+            popupChallengeHistory.list = data.list;
+          }
+                
+          // [챌린지] 획득내역 팝업 열기
+          const clickPopupChallengeHistory = async ()=> {
+            await getChallengeHistory();
+            popupChallengeHistory.display = true;
+            Utils.bodyScroll.hide();
+          }
+
+          // [챌린지] 획득내역 팝업 닫기
+          const closePopupChallengeHistory = ()=> {
+            popupChallengeHistory.display = false;
+            Utils.bodyScroll.show();
+          }
+
+          
+          // [챌린지] 획득 내역에서 보상받기 버튼 클릭
+          const receiveChallengeItem = async (item) => {
+            // 보상받기 아이템 post api후 실행 await
+            await Utils.alert(`<strong>${ item.name }</strong>\n 아이템이 지급 완료되었습니다.`);
+            Utils.bodyScroll.hide();
+          }
+
+          // [챌린지] 데이터 정보
+          const challenge = reactive({
+            result: null,
+            active: true,
+            reward: {
+              display: false,
+              item: {},
+            },
+          });
+
+          // [챌린지] 스타트 버튼 클릭
+          const clickChallengeStart = async () => {
+            // // 체크 유저 제재
+            // if(user.penalty) return await Utils.alert("제재 상태에서는\n본 이벤트 참여가 불가능합니다.");
+
+            // // 체크 유저 캐릭터
+            // if(!user.character) return await Utils.alert("캐릭터 생성 후,\n참여 가능한 이벤트입니다.");
+
+            // // 체크 유저 토큰 보유 수량
+            // if(user.token.has < 10) return await Utils.alert("아이템 교환을 위해 필요한\n30주년 토큰이 부족합니다.");
+
+            if(await Utils.confirm(`<strong>20주년 토큰 10 개</strong>를 사용하여\n 챌린지에 참여 하시겠습니까?`, {buttonClose: true})){
+              startChallengeItem();
+              console.log("complete confirm yes");
+            }
+          }
+
+          // [챌린지] 결과 가져오기
+          const getChallengeResult = async () => {
+            try {
+              // const response = await fetch("./assets/data/challengeResult.json");
+              // const data = await response.json();
+              const data = {
+                "result": {
+                  "id": 2,
+                  "name": "2,000 SP",
+                  "image": "./assets/images/desktop/item/challenge_sp.png"
+                }
+              }
+              return data.result;
+            } catch(e){
+              console.error("getChallengeResult:", e);
+            }
+          }
+
+          // [챌린지] 스타트
+          const startChallengeItem = async () => {
+            const result = await getChallengeResult();
+            getUserToken(); // 유저 정보 갱신
+
+            if(challenge.result) {
+              challenge.result = null;
+              challenge.reward.item = {};
+            }
+
+            challenge.reward.display = true;
+            challenge.reward.item = result;
+            Utils.bodyScroll.hide();
+          }
+
+          // [챌린지] 보상받기 팝업 닫기
+          const closePopupChallengeItem = () => {
+            challenge.reward.display = false;
+            Utils.bodyScroll.show();
+          }
+
+          
+          // [챌린지] 팝업에서 보상받기 확인 버튼 클릭
+          const clickGetChallengeItem = async (item) => {
+            // 보상받기 아이템 post api후 실행 await
+            closePopupChallengeItem();
+            challenge.active = false;
+            await Utils.alert(`<strong>${ item.name }</strong>\n 아이템이 지급 완료되었습니다.`);
+          }
+
+          // 초기 설정
+          const init = async ()=> {
+            getUserToken();
+            getExchangeItems();
+          }
+
+          init();
+
+          return {
+            user,
+            isUserValid,
+
+            exchangeItems,
+            popupExchange,
+            popupExchangeHistory,
+            selectedExchangeItem,
+            selectedExchangeItemDetail,
+            clickTokenRefresh,
+            clickClosePopupExchange,
+            clickPopupExchangeHistory,
+            closePopupExchangeHistory,
+
+            challenge,
+            popupChallengeHistory,
+            clickPopupChallengeHistory,
+            closePopupChallengeHistory,
+            receiveChallengeItem,
+
+            clickChallengeStart,
+            startChallengeItem,
+            closePopupChallengeItem,
+            clickGetChallengeItem
+          }
+        }
+      }).mount('.wrap');
+
+      $("button[type='button']").on("keydown", function(e){
+        e.preventDefault();
+      });
+    </script>
+  </body>
+</html>

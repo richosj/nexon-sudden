@@ -1,0 +1,62 @@
+{
+  "list": [
+    {
+      "id": 1,
+      "date": "00일 00시 00분",
+      "name": "1%아이템 명%",
+      "receiveItem": null
+    },
+    {
+      "id": 2,
+      "date": "00일 00시 00분",
+      "name": "2%아이템 명%",
+      "receiveItem": {
+        "id": 7,
+        "name": "5,000 캐시",
+        "image": "./assets/images/item_exp.jpg",
+        "soldout": false
+      }
+    },
+    {
+      "id": 3,
+      "date": "00일 00시 00분",
+      "name": "3%아이템 명%",
+      "receiveItem": {
+        "id": 2,
+        "name": "제작 재료 1,000개",
+        "image": "./assets/images/item_exp.jpg",
+        "soldout": false
+      }
+    },
+    {
+      "id": 4,
+      "date": "00일 00시 00분",
+      "name": "4%아이템 명%",
+      "receiveItem": null
+    },
+    {
+      "id": 5,
+      "date": "00일 00시 00분",
+      "name": "5%아이템 명%",
+      "receiveItem": null
+    },
+    {
+      "id": 6,
+      "date": "00일 00시 00분",
+      "name": "6%아이템 명%",
+      "receiveItem": null
+    },
+    {
+      "id": 7,
+      "date": "00일 00시 00분",
+      "name": "7%아이템 명%",
+      "receiveItem": null
+    },
+    {
+      "id": 8,
+      "date": "00일 00시 00분",
+      "name": "8%아이템 명%",
+      "receiveItem": null
+    }
+  ]
+}
