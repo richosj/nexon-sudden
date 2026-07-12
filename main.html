@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>둘이서 하나되는 서든어택 21주년</title>
+  <meta name="description"
+    content="반쪽 메달의 듀오를 찾아 하나로 완성하고, 21일 듀오 출석 챌린지와 21주년 쇼케이스까지! 2026.08.06~08.27 서든어택 21주년 여름 이벤트." />
+  <meta name="theme-color" content="#171717" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="서든어택" />
+  <meta property="og:title" content="둘이서 하나되는 서든어택 21주년" />
+  <meta property="og:description" content="반쪽 메달의 듀오를 찾아 하나로! 21일 출석 챌린지·21주년 쇼케이스 이벤트 (8/6~8/27)" />
+  <meta property="og:image" content="./assets/images/og_share.png" />
+  <meta property="og:locale" content="ko_KR" />
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
+  <link rel="stylesheet" href="./assets/styles/style.css" />
+  <script type="text/javascript" src="https://ssl.nexon.com/s1/da/a2s.js"></script>
+</head>
+
+<body>
+  <script type="text/javascript" src="https://rs.nxfs.nexon.com/common/js/gnb.min.js" charset="UTF-8" data-name="GNB"
+    data-gamecode="94227" data-funresize="fnGnbResize" data-ispchub="true" data-ispublicbanner="true"
+    data-skiptocontentsid="skipNav"></script>
+  <div id="app">
+  <div class="wrap">
+    <!-- ===== 상단바 ===== -->
+    <div class="topbar">
+      <div class="topbar__in">
+        <div class="topbar__logo" aria-label="21주년 로고"></div>
+        <div class="topbar__actions">
+          <nav class="topbar__nav">
+            <a href="#event01" data-scroll-active="#event01" class="is-active">메달 완성</a>
+            <a href="#event02" data-scroll-active="#event02">21일 출석</a>
+            <a href="#event03" data-scroll-active="#event03">쇼케이스</a>
+          </nav>
+          <div class="topbar__channels">
+            <a class="topbar__channel" href="https://sa.nexon.com" title="홈페이지">
+              <i class="topbar__channel-icon topbar__channel-icon--home" aria-hidden="true"></i>
+            </a>
+            <a class="topbar__channel" href="https://www.facebook.com/SuddenAttack.Korea" target="_blank" rel="noopener" title="페이스북">
+              <i class="topbar__channel-icon topbar__channel-icon--facebook" aria-hidden="true"></i>
+            </a>
+            <a class="topbar__channel" href="https://www.youtube.com/user/SuddenAttackmkt" target="_blank" rel="noopener" title="유튜브">
+              <i class="topbar__channel-icon topbar__channel-icon--youtube" aria-hidden="true"></i>
+            </a>
+            <a class="topbar__channel" href="https://www.instagram.com/Suddenattack_official/" target="_blank" rel="noopener" title="인스타그램">
+              <i class="topbar__channel-icon topbar__channel-icon--instagram" aria-hidden="true"></i>
+            </a>
+          </div>
+          <button type="button" class="btn btn--benefit" @click="openVault"><i class="icon-benefit" aria-hidden="true"></i>내 보상함</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 히어로 ===== -->
+    <header class="hero">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__visual img-slot" aria-label="히어로 캐릭터"></div>
+      <div class="hero__content">
+        <div class="hero__logo-slot img-slot" aria-label="21주년 로고"></div>
+
+        <p class="hero__lead">
+          반쪽짜리 메달의 나머지 듀오를 찾아 하나로 완성하세요.<br>
+          친구와 함께라면 출석도 보상도 두 배로 즐거워집니다.
+        </p>
+        <div class="hero__period">2026.08.06(목) 점검 후 ~ 08.27 (목) 점검 전 · 21일간</div>
+        <div class="hero__cta">
+          <a href="#event01" class="btn btn--gold" data-scroll-to="#event01">메달 발급받기</a>
+          <a href="#event01-reward" class="btn btn--blue-gradient" data-scroll-to="#event01-reward">보상 구경하기</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="main">
+
+      <!-- ===== 이벤트:1~2번 배경 랩퍼 ===== -->
+      <div class="event01-bg">
+        <!-- ===== 이벤트1 · 메달 합체 ===== -->
+        <section id="event01" class="section-block event01">
+          <div class="sec-head">
+            <span class="sec-tag">EVENT 1</span>
+            <h2 class="text-gradient-gold">둘이서 하나, 21주년 메달 합체</h2>
+            <p>반쪽 메달의 듀오를 찾아 메달 코드를 주고받고, 합체 신청을 수락하면<br>메달이 하나로 완성돼 양쪽 모두 보상을 받아요.</p>
+          </div>
+
+          <div class="event01__panel">
+            <ol class="step-list">
+              <li
+                v-for="st in steps"
+                :key="st.id"
+                class="step-list__item"
+                :class="stepItemClass(st.n)"
+              >
+                <div class="step-list__num-wrap">
+                  <div class="step-list__num-box"><span class="step-list__num">{{ st.n }}</span></div>
+                </div>
+                <div class="step-list__text">
+                  <strong class="step-list__title">{{ st.title }}</strong>
+                  <span class="step-list__sub">{{ st.sub }}</span>
+                </div>
+              </li>
+            </ol>
+
+            <!-- PHASE 1 · 메달 발급 -->
+            <div v-show="medal.phase === 1" class="medal-flow__phase">
+              <div class="medal-issue">
+                <div class="medal-issue__char">
+                  <img src="./assets/images/medal_issue_char.png" alt="메달 발급 이미지">
+                </div>
+                <div class="medal-issue__action">
+                  <p class="medal-issue__desc">접속 후 메달을 발급받으면 반쪽 메달과 나의 메달 코드가 함께 표시됩니다.</p>
+                  <button
+                    type="button"
+                    class="btn btn--primary"
+                    :disabled="medal.issued"
+                    @click="clickIssueMedal"
+                  >메달 발급받기</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 2~3 · 반쪽 찾기 / 합체 신청 -->
+            <div v-show="medal.phase >= 2 && medal.phase <= 3" class="medal-flow__phase">
+              <div class="medal-match">
+                <div class="medal-match__panel">
+                  <h4 class="medal-match__title">MY MEDAL</h4>
+                  <p class="medal-match__desc">내 메달 코드를 공유하고, 함께할 듀오를 찾아 메달을 합체해 보세요!</p>
+                  <div class="medal-match__code-box">
+                    <span class="medal-match__code">{{ medal.code || 'SA-----' }}</span>
+                    <button type="button" class="btn btn--outline btn--sm" @click="copyCode">복사</button>
+                  </div>
+                  <button type="button" class="btn btn--outline btn--sm btn--full" @click="clickShare">내 메달 코드 SNS 공유하기</button>
+                </div>
+                <div class="medal-match__plus">+</div>
+                <div class="medal-match__panel">
+                  <h4 class="medal-match__title">메달 코드 입력</h4>
+                  <input
+                    class="medal-match__input"
+                    v-model="medal.find.input"
+                    @input="lookupLive"
+                    placeholder="메달 코드 입력 (예: SA-K7X9)"
+                    maxlength="8"
+                  />
+                  <div class="medal-match__hints">
+                    <span class="medal-match__hint" @click="fillHint('SA-MATCH')">SA-MATCH</span>
+                    <span class="medal-match__hint" @click="fillHint('SA-DONE')">SA-DONE</span>
+                  </div>
+                  <div v-if="medal.find.preview" class="medal-match__preview">
+                    <strong>{{ medal.find.preview.nick }}</strong>
+                    <span class="medal-match__desc">코드 확인됨 · 닉네임만 노출</span>
+                  </div>
+                  <div
+                    v-if="medal.find.alert"
+                    class="medal-match__alert"
+                    :class="'medal-match__alert--' + medal.find.alert.type"
+                  >{{ medal.find.alert.text }}</div>
+                  <button
+                    type="button"
+                    class="btn btn--primary btn--full"
+                    :disabled="!medal.find.alert || !medal.find.alert.ok"
+                    @click="clickSendRequest"
+                  >메달 합체 신청하기</button>
+                  <p class="medal-match__quota">오늘 남은 신청 <b>{{ medal.quota }}</b>/5회 · 매일 오전 8시 초기화</p>
+                </div>
+              </div>
+
+              <div v-if="medal.sentTo" class="medal-waiting">
+                <b>{{ medal.sentTo.nick }}</b> 님에게 신청을 보냈어요! 수락 대기 중...
+                <div class="medal-waiting__actions">
+                  <button type="button" class="btn btn--ghost btn--sm" @click="cancelRequest">신청 취소</button>
+                  <button type="button" class="btn btn--outline btn--sm" @click="partnerAccepts">▶ 상대가 수락함 (데모)</button>
+                </div>
+              </div>
+
+              <div class="medal-request">
+                <div class="medal-request__head">
+                  <span>나에게 온 메달 합체 신청 ({{ medal.received.length }})</span>
+                  <div class="medal-request__sort">
+                    <button
+                      type="button"
+                      class="medal-request__sort-btn"
+                      :class="{ 'is-active': medal.sortMode === 'new' }"
+                      @click="setSort('new')"
+                    >최신순</button>
+                    <button
+                      type="button"
+                      class="medal-request__sort-btn"
+                      :class="{ 'is-active': medal.sortMode === 'old' }"
+                      @click="setSort('old')"
+                    >오래된순</button>
+                  </div>
+                </div>
+                <div class="medal-request__list">
+                  <div v-for="r in sortedReceived" :key="r.id" class="medal-request__item">
+                    <span class="medal-request__name">{{ r.nick }}</span>
+                    <div class="medal-request__actions">
+                      <button type="button" class="btn btn--ghost btn--sm" @click="rejectReceived(r.code)">거절</button>
+                      <button type="button" class="btn btn--primary btn--sm" @click="clickAcceptReceived(r.code)">합체 수락</button>
+                    </div>
+                  </div>
+                  <p v-if="!medal.received.length" class="medal-request__empty">아직 받은 합체 신청이 없어요.<br>내 메달 코드를 공유해 신청을 받아보세요.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- PHASE 4 · 메달 완성 -->
+            <div v-show="medal.phase === 4" class="medal-flow__phase">
+              <div class="medal-complete">
+                <h3 class="medal-complete__title">21주년 메달 완성!</h3>
+                <p class="medal-complete__desc">{{ medal.matched ? medal.matched.nick + ' 님과 ' : '' }}메달을 하나로 합쳤어요</p>
+                <dl class="medal-complete__rewards">
+                  <div v-for="rw in rewardItems" :key="rw.id" class="medal-complete__reward">
+                    <dt>{{ rw.label }}</dt>
+                    <dd>{{ rw.value }}</dd>
+                  </div>
+                </dl>
+                <button
+                  type="button"
+                  class="btn btn--primary"
+                  :class="{ 'is-complete': medal.claimed }"
+                  :disabled="medal.claimed"
+                  @click="clickClaimReward"
+                >{{ medal.claimed ? '보상 수령 완료' : '보상 받기' }}</button>
+                <p v-if="medal.claimed" class="medal-complete__note">듀오 결성! {{ medal.matched ? medal.matched.nick : '듀오' }} 님과 기본 보상이 지급됐어요. 이제 동반 출석 챌린지에 도전해 보세요!</p>
+                <p class="medal-complete__note">※ 듀오는 '메달 합체(결성)' 시점부터 변경·취소가 불가능합니다</p>
+              </div>
+            </div>
+
+            <div id="event01-reward" class="reward-cards">
+              <article class="reward-cards__card">
+                <span class="corner-deco corner-deco--tl"></span>
+                <span class="corner-deco corner-deco--tr"></span>
+                <span class="corner-deco corner-deco--bl"></span>
+                <span class="corner-deco corner-deco--br"></span>
+                <h3 class="reward-cards__title text-gradient-gold">확정 보상</h3>
+                <div class="reward-cards__line"></div>
+                <p class="reward-cards__desc">메달 합체(매칭) 완료 시 양쪽 서든러 모두에게 기본 보상 지급</p>
+                <div class="reward-cards__items">
+                  <div class="reward-item">
+                    <div class="reward-item__icon img-slot img-slot--circle" aria-label="10만 경험치">
+                      <img src="./assets/images/reward_item_icon01.png" alt="10만 경험치">
+                    </div>
+                    <span class="reward-item__label">10만 경험치</span>
+                  </div>
+                  <div class="reward-item">
+                    <div class="reward-item__icon img-slot img-slot--circle" aria-label="리센느 멀티카운트">
+                      이미지<br>수급예정
+                    </div>
+                    <span class="reward-item__label">리센느 멀티카운트</span>
+                  </div>
+                  <div class="reward-item">
+                    <div class="reward-item__icon img-slot img-slot--circle" aria-label="돌격 기간연장 영구제">
+                      <img src="./assets/images/reward_item_icon03.png" alt="돌격 기간연장 영구제">
+                    </div>
+                    <span class="reward-item__label">돌격 기간연장 영구제</span>
+                  </div>
+                </div>
+              </article>
+              <article class="reward-cards__card">
+                <span class="corner-deco corner-deco--tl"></span>
+                <span class="corner-deco corner-deco--tr"></span>
+                <span class="corner-deco corner-deco--bl"></span>
+                <span class="corner-deco corner-deco--br"></span>
+                <h3 class="reward-cards__title text-gradient-gold">추첨 보상</h3>
+                <div class="reward-cards__line"></div>
+                <p class="reward-cards__desc">매칭 완료 유저 대상 추첨 진행 후 당첨자에 한하여 지급</p>
+                <div class="reward-cards__items">
+                  <div class="reward-item">
+                    <div class="reward-item__icon img-slot img-slot--circle" aria-label="21주년 현물 경품">이미지<br>수급예정</div>
+                    <span class="reward-item__label">21주년 현물 경품 100명</span>
+                  </div>
+                  <div class="reward-item">
+                    <div class="reward-item__icon img-slot img-slot--circle" aria-label="1만 넥슨캐시">
+                      <img src="./assets/images/reward_item_icon05.png" alt="1만 넥슨캐시">
+                    </div>
+                    <span class="reward-item__label">1만 넥슨캐시 2,100명</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <p class="notice-wrap"><button type="button" class="notice-btn" @click="openNotice('event01')"><i class="icon-info"></i> 이벤트1 유의사항</button></p>
+        </section>
+
+        <!-- ===== 이벤트2 · 21일 출석 ===== -->
+        <section id="event02" class="section-block event02">
+          <div class="sec-head">
+            <span class="sec-tag">EVENT 2</span>
+            <h2 class="text-gradient-gold">21일 듀오 출석 챌린지</h2>
+            <p>매일 1시간 이상 접속하면 출석 도장이 찍혀요.<br>듀오와 동반 출석(일 1개)·3일 연속 출석으로 '보충 출석권'을 모아 빠진 날을 채울 수 있어요.</p>
+          </div>
+
+          <div class="attendance-panel panel-glow">
+            <div class="att-head">
+              <div class="att-head__tag">
+                <span class="att-head__avatar" aria-label="듀오 아바타"></span>
+                <span>{{ duoLabel }}</span>
+              </div>
+              <div class="att-head__info">
+                <div class="att-head__stats">
+                  <span><i class="icon-ticket"></i>보충 출석권<strong>{{ attend.makeup }}</strong>개</span>
+                  <span class="divider"></span>
+                  <span>연속<strong>{{ attend.streak }}</strong>일</span>
+                  <span class="divider"></span>
+                  <span>동반<strong>{{ duoDays }}</strong>일</span>
+                </div>
+                <div class="att-head__actions">
+                  <button type="button" class="att-head__btn att-head__btn--outline" @click="clickRefreshAttendance"><i></i>출석 갱신하기</button>
+                  <button type="button" class="att-head__btn att-head__btn--primary" @click="claimAllDaily"><i></i>보상 일괄 수령하기</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="att-board">
+              <div class="att-board__head">
+                <span class="icon-calendar"></span>
+                개인 출석판
+                <small>· 누적 <b>{{ totalDays }}</b>일</small>
+              </div>
+              <div class="att-board__progress">
+                <div class="att-board__bar" :style="{ '--progress': progress + '%' }"><span></span></div>
+                <span class="att-board__count">{{ totalDays }} / 21일</span>
+              </div>
+            </div>
+
+            <div class="cal-grid">
+              <div class="cal-grid__row" v-for="(row, rowIdx) in calRows" :key="'cal-row-' + rowIdx">
+                <div
+                  v-for="d in row"
+                  :key="d.id"
+                  class="cal-card"
+                  :class="calCardClass(d)"
+                  :role="isCalCardClickable(d) ? 'button' : undefined"
+                  :tabindex="isCalCardClickable(d) ? 0 : undefined"
+                  @click="isCalCardClickable(d) && clickDay(d.i)"
+                  @keydown.enter="isCalCardClickable(d) && clickDay(d.i)"
+                >
+                  <div class="cal-card__icon" :aria-label="d.label + ' 보상'">
+                    <img :src="calIconPath(d.i)" :alt="d.reward">
+                  </div>
+                  <p class="cal-card__date">{{ d.label }}<em>{{ d.dow }}</em></p>
+                  <p class="cal-card__reward">{{ d.reward }}</p>
+                  <button
+                    v-if="d.s > 0 && !d.claimed"
+                    type="button"
+                    class="cal-card__btn"
+                    @click.stop="clickDay(d.i)"
+                  >보상 받기</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="cal-legend">
+              <span><i></i>미출석</span>
+              <span><i class="is-check"></i>출석</span>
+              <span><i class="is-duo"></i>듀오와 동반</span>
+              <span><i class="is-makeup"></i>보충 출석권 사용</span>
+              <span><i class="is-streak"></i>연속 3일 달성(보충권 +1)</span>
+            </div>
+
+            <div class="milestone">
+              <div class="milestone__heads">
+                <h3 class="milestone__head"><span class="icon-milestone"></span>개인 누적 마일스톤</h3>
+                <div class="milestone__head-dummy"></div>
+                <div class="milestone__head-dummy"></div>
+                <h3 class="milestone__head milestone__head--duo"><span class="icon-milestone-duo"></span>동반 출석 마일스톤</h3>
+              </div>
+              <div class="milestone__row">
+                <article
+                  v-for="m in milestoneDefs"
+                  :key="m.id"
+                  class="milestone__card"
+                  :class="milestoneCardClass(m.d, 'personal')"
+                >
+                  <h4 class="milestone__title">누적 {{ m.d }}일</h4>
+                  <div class="milestone__icon" :aria-label="m.g">
+                    <img :src="'assets/images/' + m.icon" :alt="m.g">
+                  </div>
+                  <p class="milestone__gift">{{ m.g }}</p>
+                  <button
+                    type="button"
+                    :class="milestoneBtnClass(m.d, 'personal')"
+                    :disabled="isMilestoneDisabled(m.d, 'personal')"
+                    @click="clickClaimMilestone(m.d)"
+                  >{{ milestoneBtnLabel(m.d, 'personal') }}</button>
+                </article>
+                <article
+                  class="milestone__card"
+                  :class="milestoneCardClass(duoMilestoneHighlight.d, 'duo')"
+                >
+                  <h4 class="milestone__title">동반 {{ duoMilestoneHighlight.d }}일</h4>
+                  <div class="milestone__icon" :aria-label="duoMilestoneHighlight.g">
+                    <img :src="'assets/images/' + duoMilestoneHighlight.icon" :alt="duoMilestoneHighlight.g">
+                  </div>
+                  <p class="milestone__gift">{{ duoMilestoneHighlight.g }}</p>
+                  <button
+                    type="button"
+                    :class="milestoneBtnClass(duoMilestoneHighlight.d, 'duo')"
+                    :disabled="isMilestoneDisabled(duoMilestoneHighlight.d, 'duo')"
+                    @click="clickClaimDuoMilestone(duoMilestoneHighlight.d)"
+                  >{{ milestoneBtnLabel(duoMilestoneHighlight.d, 'duo') }}</button>
+                </article>
+              </div>
+            </div>
+
+            <div class="milestone-notes">
+              <p>※ 일자별 보상은 각 날짜의 「받기」 또는 상단 「보상 일괄 수령하기」로 수령 · 마일스톤은 별도 수령 / · 동반 출석 마일스톤은 보충 출석권으로 채운 날 제외</p>
+              <p>※ 빈 날짜를 클릭하면 보충 출석권 1개로 출석을 채울 수 있어요 (보충 출석권 보유 시) · 동반 출석 버튼은 이벤트1에서 듀오를 맺으면 활성화됩니다.</p>
+              <p>※ 동반 출석: 이벤트1에서 듀오를 맺은 서든러 2명이 같은 날 각각 게임에 접속(동시 접속 불필요) · 보충 출석권 한도: 동반 5개 + 연속 5개</p>
+              <p>※ 보충 출석권을 사용하여 출석 처리할 경우, 해당 일자는 연속 출석 및 동반 출석 조건에 포함되지 않습니다.</p>
+            </div>
+
+            <p class="notice-wrap"><button type="button" class="notice-btn" @click="openNotice('event02')">ⓘ 이벤트2 유의사항</button></p>
+          </div>
+        </section>
+      </div>
+
+      <!-- ===== 이벤트3 · 배경 배경 ===== -->
+      <section id="event03" class="section-block section-block--event3 event03">
+        <div class="section-block__bg" aria-hidden="true"></div>
+        <div class="sec-head">
+          <span class="sec-tag">EVENT 3</span>
+          <h2 class="text-gradient-gold">21주년 쇼케이스 · 최강의 둘이서 한 팀 선발전</h2>
+          <p>챔피언십과 태디컵 참가 선수가 한 팀이 되어, 최고의 '둘이서 하나' 팀을 가리는 특별 매치!</p>
+          <p class="match-date">매치일 : 2026.08.23 (일)</p>
+        </div>
+
+        <!-- ===== 이벤트3 · 타임테이블 ===== -->
+        <div class="timetable">
+          <div class="timetable__head">
+            <span class="icon-timetable"></span>
+            타임 테이블
+            <small>· 8월 23일(일) 오후 6시 시작</small>
+          </div>
+          <div class="timetable__cols">
+            <article class="timetable__part">
+              <div class="timetable__part-head">
+                <div class="timetable__part-icon" aria-label="1부 아이콘">
+                  <img src="assets/images/timetable_part1.png" alt="1부 아이콘">
+                </div>
+                <div>
+                  <p class="timetable__part-num">1부</p>
+                  <p class="timetable__part-name">이벤트 매치</p>
+                </div>
+              </div>
+              <div class="timetable__row">
+                <time class="timetable__time">18:00 - 18:30</time>
+                <p class="timetable__desc">우리는 모두 하나! 업투게더 성공 미션 도전</p>
+              </div>
+              <div class="timetable__row">
+                <time class="timetable__time">18:30 - 20:00</time>
+                <p class="timetable__desc">최강의 둘이서! 선발전</p>
+              </div>
+            </article>
+            <article class="timetable__part">
+              <div class="timetable__part-head">
+                <div class="timetable__part-icon" aria-label="2부 아이콘">
+                  <img src="assets/images/timetable_part2.png" alt="2부 아이콘">
+                </div>
+                <div>
+                  <p class="timetable__part-num">2부</p>
+                  <p class="timetable__part-name">생일 파티</p>
+                </div>
+              </div>
+              <div class="timetable__row">
+                <time class="timetable__time">20:00 ~ 20:30</time>
+                <p class="timetable__desc">21주년 무기 공모전 당선작 발표</p>
+              </div>
+              <div class="timetable__row">
+                <time class="timetable__time">20:30 ~ 22:00</time>
+                <p class="timetable__desc">디렉터 쇼케이스 &amp; 생일 파티</p>
+              </div>
+            </article>
+          </div>
+          <div class="timetable__broadcast">
+            <a href="#" class="btn btn--broadcast"><i class="icon-soop"></i>보러가기<i class="icon-arrow-right"></i></a>
+            <a href="#" class="btn btn--broadcast"><i class="icon-youtube"></i>보러가기<i class="icon-arrow-right"></i></a>
+          </div>
+          <p class="timetable__note">※ 생방송 중 깜짝 쿠폰 공개 · SOOP 브레드 방송국을 통해 드롭스 보상 지급 · 진행 상황에 따라 시작 시간 변동 가능</p>
+        </div>
+
+        <!-- ===== 이벤트3 · 출전팀 & 중계진 ===== -->
+        <div class="showcase-panel">
+
+          <!-- ===== 이벤트3 · 출전팀 ===== -->
+          <div class="showcase-panel__block">
+            <h3 class="block-title team-grid__head"><span class="icon-team"></span>출전 팀<small>· 프로 + 아마추어 듀오</small></h3>
+            <div class="team-grid">
+              <article class="team-grid__card">
+                <div class="team-grid__logo img" aria-label="Friend 팀 로고">
+                  <img src="assets/images/team_friend.png" alt="Friend 팀 로고">
+                </div>
+                <div class="team-grid__body">
+                  <h4 class="team-grid__name">Friend</h4>
+                  <div class="team-grid__players">
+                    <p class="team-grid__player"><span class="badge-pro">PRO</span> FINF <span class="name">김현우</span>
+                      <span class="role">스나</span></p>
+                    <p class="team-grid__player"><span class="badge-ama">AMA</span> 새싹 <span class="name">유지성</span>
+                      <span class="role">라플</span></p>
+                  </div>
+                </div>
+              </article>
+              <article class="team-grid__card">
+                <div class="team-grid__logo img" aria-label="Infinity 팀 로고">
+                  <img src="assets/images/team_infinity.png" alt="Infinity 팀 로고">
+                </div>
+                <div class="team-grid__body">
+                  <h4 class="team-grid__name">Infinity</h4>
+                  <div class="team-grid__players">
+                    <p class="team-grid__player"><span class="badge-pro">PRO</span> FINF <span class="name">손태현</span>
+                      <span class="role">라플</span></p>
+                    <p class="team-grid__player"><span class="badge-ama">AMA</span> 새싹 <span class="name">강혜준</span>
+                      <span class="role">스나</span></p>
+                  </div>
+                </div>
+              </article>
+              <article class="team-grid__card">
+                <div class="team-grid__logo img" aria-label="Nexus 팀 로고">
+                  <img src="assets/images/team_nexus.png" alt="Nexus 팀 로고">
+                </div>
+                <div class="team-grid__body">
+                  <h4 class="team-grid__name">Nexus</h4>
+                  <div class="team-grid__players">
+                    <p class="team-grid__player"><span class="badge-pro">PRO</span> FINF <span class="name">천건욱</span>
+                      <span class="role">라플</span></p>
+                    <p class="team-grid__player"><span class="badge-ama">AMA</span> 새싹 <span class="name">박경민</span>
+                      <span class="role">스나</span></p>
+                  </div>
+                </div>
+              </article>
+              <article class="team-grid__card">
+                <div class="team-grid__logo img" aria-label="Forever 팀 로고">
+                  <img src="assets/images/team_forever.png" alt="Forever 팀 로고">
+                </div>
+                <div class="team-grid__body">
+                  <h4 class="team-grid__name">Forever</h4>
+                  <div class="team-grid__players">
+                    <p class="team-grid__player"><span class="badge-pro">PRO</span> FINF <span class="name">이병화</span>
+                      <span class="role">스나</span></p>
+                    <p class="team-grid__player"><span class="badge-ama">AMA</span> 긍정 <span class="name">최송호</span>
+                      <span class="role">멀티</span></p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- ===== 이벤트3 · 중계진 ===== -->
+          <div class="showcase-panel__block">
+            <h3 class="block-title caster-grid__head"><span class="icon-caster"></span>중계진 소개</h3>
+            <div class="caster-grid">
+              <article class="caster-grid__card">
+                <div class="caster-grid__photo-wrap">
+                  <div class="caster-grid__photo" aria-label="김경섭">
+                    <img src="assets/images/caster_kim.png" alt="김경섭">
+                  </div>
+                </div>
+                <div class="caster-grid__info">
+                  <div class="caster-grid__info-inner">
+                    <p class="caster-grid__name">김경섭</p>
+                    <p class="caster-grid__meta"><span>FINF</span><span class="dot"></span><span>특별 해설</span></p>
+                  </div>
+                </div>
+              </article>
+              <article class="caster-grid__card">
+                <div class="caster-grid__photo-wrap">
+                  <div class="caster-grid__photo img" aria-label="온상민">
+                    <img src="assets/images/caster_son.png" alt="온상민">
+                  </div>
+                </div>
+                <div class="caster-grid__info">
+                  <div class="caster-grid__info-inner">
+                    <p class="caster-grid__name">온상민</p>
+                    <p class="caster-grid__meta"><span>중계진</span></p>
+                  </div>
+                </div>
+              </article>
+              <article class="caster-grid__card">
+                <div class="caster-grid__photo-wrap">
+                  <div class="caster-grid__photo img" aria-label="그니">
+                    <img src="assets/images/caster_gyuni.png" alt="그니">
+                  </div>
+                </div>
+                <div class="caster-grid__info">
+                  <div class="caster-grid__info-inner">
+                    <p class="caster-grid__name">그니</p>
+                    <p class="caster-grid__meta"><span>중계진</span></p>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== 이벤트3 · 시청 이벤트 ===== -->
+        <div class="watch-panel panel-purple">
+          <h3 class="block-title watch-list__head"><span class="icon-watch"></span>시청 이벤트</h3>
+          <div class="watch-list">
+            <article class="watch-list__item" v-for="ev in showcase.watchEvents" :key="ev.id">
+              <span class="watch-list__num">{{ ev.no }}</span>
+              <div class="watch-list__icon" :aria-label="ev.title">
+                <img :src="'assets/images/' + ev.icon" :alt="ev.title">
+              </div>
+              <div class="watch-list__body">
+                <h4 class="watch-list__title">{{ ev.title }}</h4>
+                <p class="watch-list__desc" v-html="ev.desc"></p>
+                <div class="watch-list__reward-row">
+                  <span class="reward-chip">보상</span>
+                  <span class="watch-list__reward-text">{{ ev.reward }}</span>
+                </div>
+              </div>
+              <button v-if="ev.cta" type="button" class="btn btn--gold-action">{{ ev.cta }} <i class="icon-arrow-right2"></i></button>
+            </article>
+          </div>
+          <p class="notice-wrap"><button type="button" class="notice-btn" @click="openNotice('event03')"><i class="icon-info"></i> 쇼케이스 유의사항</button></p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 모달 · body Teleport (.wrap overflow:hidden 클ipping 방지) -->
+  <teleport to="body">
+    <div class="vault-dim" :class="{ 'is-open': vault.open }" @click="closeVault"></div>
+    <aside class="vault" :class="{ 'is-open': vault.open }" aria-label="내 보상함" @keydown.esc="closeVault">
+      <div class="vault__head">
+        <div class="vault__title-wrap">
+          <span class="vault__icon" aria-hidden="true"></span>
+          <div>
+            <h3 class="vault__title">내 보상함</h3>
+            <p class="vault__sub">수령한 보상 내역</p>
+          </div>
+        </div>
+        <button type="button" class="vault__close" @click="closeVault" aria-label="닫기"></button>
+      </div>
+      <div class="vault__body">
+        <div v-for="item in vault.rewards" :key="item.id || item.name" class="vault__item">
+          <span class="vault__item-badge">보상</span>
+          <p class="vault__item-name">{{ item.name }}</p>
+          <p class="vault__item-date">{{ item.date }}</p>
+        </div>
+        <p v-if="!vault.rewards.length" class="vault__empty">표시할 보상 내역이 없어요.</p>
+      </div>
+    </aside>
+
+    <div class="notice-dim" :class="{ 'is-open': ui.notice }" @click="closeNotice"></div>
+    <div
+      class="notice-modal"
+      :class="{ 'is-open': ui.notice }"
+      role="dialog"
+      aria-modal="true"
+      :aria-labelledby="ui.notice ? 'notice-modal-title' : undefined"
+      @keydown.esc="closeNotice"
+    >
+      <div class="notice-modal__panel" v-if="ui.notice" @click.stop>
+        <span class="corner-deco corner-deco--tl" aria-hidden="true"></span>
+        <span class="corner-deco corner-deco--tr" aria-hidden="true"></span>
+        <span class="corner-deco corner-deco--bl" aria-hidden="true"></span>
+        <span class="corner-deco corner-deco--br" aria-hidden="true"></span>
+        <button type="button" class="notice-modal__close" @click="closeNotice" aria-label="닫기"></button>
+        <div class="notice-modal__panel-inner">
+          <h4 class="notice-modal__title" id="notice-modal-title">
+            유의사항
+            <span>{{ noticeTitle }}</span>
+          </h4>
+          <ul class="notice-modal__list">
+            <li v-for="(line, idx) in notices[ui.notice]" :key="ui.notice + '-' + idx">{{ line }}</li>
+          </ul>
+        </div>
+        <div class="notice-modal__actions">
+          <button type="button" class="btn btn--primary" @click="closeNotice">확인</button>
+        </div>
+      </div>
+    </div>
+  </teleport>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script>
+  <script src="./assets/scripts/utils.js"></script>
+  <script src="./assets/scripts/control.js"></script>
+  <script src="./assets/scripts/event.js"></script>
+</body>
+
+</html>

@@ -6,7 +6,7 @@ $(function () {
   window.snap = {
     screen: $("body"),
     maxWidth: 1920,
-    minWidth: $(".inner").width(),
+    minWidth: 1200,
     init: (function () {
       const $target = $("[data-image-snap]");
       if (!$target.length) return;
@@ -245,7 +245,8 @@ $(function () {
     const $scrollActive = $("[data-scroll-active]");
     if ($scrollActive.length) {
       $.each($scrollActive, function (idx, el) {
-        $(el).on("click", function () {
+        $(el).on("click", function (e) {
+          e.preventDefault();
           const target = $(el).data().scrollActive;
           pageScroll.to(target);
         });
@@ -263,15 +264,16 @@ $(function () {
           const offsetTop = ($anchor.length ? $anchor : $section).offset().top - offset;
           const targetHeight = $section.height();
           if (scrollTop >= offsetTop && scrollTop < offsetTop + targetHeight) {
-            $(el).addClass("active");
+            $(el).addClass("is-active");
           } else {
-            $(el).removeClass("active");
+            $(el).removeClass("is-active");
           }
         });
       });
     }
 
     pageScroll.syncOffset();
+    pageScroll.initHash();
 
     $(window).on("resize", function () {
       pageScroll.syncOffset();

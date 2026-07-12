@@ -1,87 +1,53 @@
-* {
-  margin: 0;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-}
-
 *,
-::after,
-::before {
+*::before,
+*::after {
   box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
-  }
 }
 
 html,
 body {
-  height: 100%;
-}
-
-img,
-picture,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-button {
-  background: none;
-  border: 0;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-a {
-  text-decoration: none;
-}
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-li {
-  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  font-size: 15.5px;
-  font-weight: 500;
-  line-height: 1.62;
-  background: var(--background);
-  color: var(--foreground);
-  overflow-x: hidden;
+  min-width: var(--min-width);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--white);
+  background: var(--bg-page);
   -webkit-font-smoothing: antialiased;
 }
 
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-[tabindex]:focus-visible {
-  outline: 2px solid var(--foreground);
-  outline-offset: 2px;
+img {
+  max-width: 100%;
+  vertical-align: top;
 }
 
-section[id^="event"] .sec-head,
-#event01-reward {
-  scroll-margin-top: var(--scroll-offset);
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+p,
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }

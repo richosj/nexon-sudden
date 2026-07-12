@@ -1,0 +1,73 @@
+// EVENT 3 · 시청 이벤트
+.watch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .icon-watch{
+    width: 20px;
+    height: 20px;
+    background: url("../images/icon_watch.png") no-repeat center / contain;
+    display: inline-block;
+  }
+
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 42px;
+    padding: 22px 32px 22px 38px;
+    border: 1px solid #525365;
+    background: var(--bg-purple);
+  }
+
+  &__num {
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 47px;
+    height: 47px;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 0 0 7px;
+    background: url("../images/watch_event_num.png") no-repeat center / contain;
+  }
+
+  &__icon {
+    width: 114px;
+    height: 114px;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  &__desc {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--purple-sub);
+  }
+
+  &__reward-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__reward-text {
+    font-size: 13px;
+    line-height: 15px;
+    color: var(--purple-tag);
+  }
+}

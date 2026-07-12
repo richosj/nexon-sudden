@@ -1,0 +1,60 @@
+// EVENT 3 · 쇼케이스 (공통)
+.event03 {
+  background: url("../images/event03_bg.png") no-repeat 0 0 / cover;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+
+  > .sec-head {
+    margin-bottom: 0;
+  }
+
+  > .sec-head + * {
+    margin-top: 0;
+  }
+
+  .match-date {
+    display: inline-flex;
+    padding: 4px 40px;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    background: linear-gradient(90deg, rgba(102, 109, 206, 0) 0%, #4e549d 55.3%, rgba(102, 109, 206, 0) 100%);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+}
+
+.showcase-panel,
+.watch-panel {
+  width: var(--inner-width);
+  max-width: calc(100% - 80px);
+  margin: 0 auto;
+  padding: 31px 33px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.showcase-panel__block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.block-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24.3px;
+
+  small {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 19px;
+    color: #9da2ac;
+  }
+}

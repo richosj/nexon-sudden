@@ -1,0 +1,145 @@
+// EVENT 3 · 타임테이블
+.timetable {
+  width: var(--inner-width);
+  margin: 0 auto;
+  padding: 34px 36px;
+  display: flex;
+  flex-direction: column;
+  height: 460px;
+  background: url("../images/timetable_bg.png") no-repeat center / cover;
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24.3px;
+    padding-bottom: 10px;
+    .icon-timetable {
+      width: 20px;
+      height: 20px;
+      background: url("../images/icon_timetable.png") no-repeat center / contain;
+      display: inline-block;
+    }
+
+    small {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 19px;
+      color: #9da2ac;
+    }
+  }
+
+  &__cols {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__part {
+    flex: 1 0 0;
+    min-width: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: #302B4C;
+  }
+
+  &__part-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 32px;
+    background: linear-gradient(90deg, #262336 0%, rgba(38, 35, 54, 0.46) 47.12%, #574B93 100%);
+
+  }
+
+  &__part-icon {
+    flex-shrink: 0;
+  }
+
+  &__part-num {
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  &__part-name {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #DFDDEF;
+  }
+
+  &__row {
+    display: flex;
+    gap: 8px;
+    padding: 16px 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
+  }
+
+  &__time {
+    width: 168px;
+    flex-shrink: 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    color: var(--purple-text);
+  }
+
+  &__desc {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--purple-sub);
+  }
+
+  &__broadcast {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .btn--broadcast {
+    width: 260px;
+    height: 60px;
+    padding-left: 40px;
+    padding-right: 60px;
+    background: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    color: #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    i {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      flex-shrink: 0;
+      &.icon-arrow-right {
+        width: 10px;
+        height: 10px;
+        background: url("../images/icon_arrow_right.svg") no-repeat center / contain;
+        display: inline-block;
+      }
+      &.icon-youtube {
+        width: 89px;
+        height: 20px;
+        background: url("../images/icon_youtube.png") no-repeat center / contain;
+      }
+      &.icon-soop {
+        width: 71px;
+        height: 20px;
+        background: url("../images/icon_soop.png") no-repeat center / contain;
+      }
+    }
+  }
+  &__note {
+    color: rgba(255, 255, 255, 0.60);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 22.68px; /* 174.462% */
+    margin-top: 20px;
+  }
+}

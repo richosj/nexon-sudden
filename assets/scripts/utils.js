@@ -90,6 +90,13 @@
     body.appendChild(el.shade);
     body.appendChild(el.modal);
     Utils.bodyScroll.hide();
+    el.shade.addEventListener("click", function onShadeClick() {
+      el.shade.removeEventListener("click", onShadeClick);
+      const confirmBtn = el.modal.querySelector(".modal-button__confirm");
+      const noBtn = el.modal.querySelector(".modal-button__no");
+      if (confirmBtn) confirmBtn.click();
+      else if (noBtn) noBtn.click();
+    });
   };
 
   /**

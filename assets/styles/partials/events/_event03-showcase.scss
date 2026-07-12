@@ -1,0 +1,173 @@
+// EVENT 3 · 출전팀 & 중계진
+.showcase-panel {
+  background: url("../images/showcase_panel_bg.png") no-repeat center;
+  height: 640px;
+  
+  .icon-team {
+    width: 20px;
+    height: 20px;
+    background: url("../images/icon_team.png") no-repeat center / contain;
+    display: inline-block;
+  }
+
+  .icon-caster {
+    width: 20px;
+    height: 20px;
+    background: url("../images/icon_caster.png") no-repeat center / contain;
+    display: inline-block;
+  }
+  
+}
+.team-grid {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  &__card {
+    flex: 1 0 0;
+    min-width: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 25px 16px 24px;
+    border-top: 4px solid var(--white-20);
+    border-bottom: 1px solid var(--white-20);
+    background: var(--bg-purple);
+    text-align: center;
+  }
+
+  &__logo {
+    width: 98px;
+    height: 98px;
+    flex-shrink: 0;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+  }
+
+  &__players {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+  }
+
+  &__player {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    font-size: 15px;
+    line-height: 20.25px;
+
+    .name {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 20.25px;
+    }
+
+    .role {
+      font-size: 14px;
+      line-height: 17px;
+      color: #929292;
+    }
+  }
+}
+
+.caster-grid {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+
+  &__card {
+    flex: 1 0 0;
+    min-width: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0 0;
+    border-top: 4px solid var(--white-20);
+    border-bottom: 1px solid var(--white-20);
+    background: var(--bg-purple);
+    text-align: center;
+  }
+
+  &__photo-wrap {
+    width: 100%;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__photo {
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+    border: 2px solid #525365;
+    border-radius: 50%;
+    background: #dadadc;
+
+    &.img-slot {
+      border-style: solid;
+      color: transparent;
+      font-size: 0;
+    }
+  }
+
+  &__info {
+    width: 100%;
+    padding: 12px 0;
+    background: var(--bg-purple-bar);
+  }
+
+  &__info-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    width: 100%;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #e8e9f5;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin: 0;
+    font-size: 14px;
+    line-height: 17px;
+    color: var(--purple-sub);
+    white-space: nowrap;
+
+    .dot {
+      width: 1px;
+      height: 9px;
+      background: var(--purple-sub);
+    }
+  }
+}

@@ -1,7 +1,8 @@
 @use "partials/variables";
 @use "partials/reset";
-@use "partials/header";
 @use "partials/layout";
 @use "partials/components";
+@use "partials/hero";
 @use "partials/event";
-@use "partials/overlay";
+@use "partials/functional";
+@use "partials/modals";

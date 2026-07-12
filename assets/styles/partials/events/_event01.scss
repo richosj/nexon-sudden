@@ -1,0 +1,229 @@
+// EVENT 1 · 메달 합체
+.event01-bg{
+  background: url("../images/event01_bg.png") no-repeat center / cover;
+}
+.event01 {
+  .event01__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: var(--inner-width);
+    max-width: calc(100% - 80px);
+    margin: 0 auto;  
+  }
+
+  .sec-head{
+    gap: 10px;
+    margin-bottom: 50px;
+    h2{
+      margin-top: 6px;
+    }
+  }
+
+}
+
+.step-list {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid #000;
+  box-shadow: 0 0 6.3px rgba(0, 0, 0, 0.53);
+
+  &__item {
+    flex: 1 0 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 120px;
+    height: 90px;
+    padding: 12px 24px;
+    border: 2px solid rgba(52, 69, 114, 0.68);
+    background: #212A36;
+    &--active {
+      border: 2px solid rgba(255, 243, 196, 0.46);
+      background: linear-gradient(0deg, #22355E 0%, #3D528D 100%), linear-gradient(0deg, #314578 0%, #9FBAFF 103.75%);
+      box-shadow: 0 0 15px #314477;
+      .step-list__num-box {
+        background: #c6d9fb;
+        border-color: #d9e4ff;
+        box-shadow: 0 0 6.2px #83a1f3;
+      }
+
+      .step-list__title {
+        color: #E4EEFF;
+      }
+
+      .step-list__sub {
+        color: #CDDBF4;
+      }
+    }
+
+    &--done {
+      opacity: 0.75;
+
+      .step-list__num-box {
+        background: #6b7a94;
+      }
+
+      .step-list__title,
+      .step-list__sub {
+        color: #b8c4d8;
+      }
+    }
+  }
+
+  &__num-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  &__num-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    transform: rotate(45deg);
+    background: #96A1B9;
+    border: 1px solid transparent;
+  }
+
+  &__num {
+    transform: rotate(-45deg);
+    font-size: 14px;
+    font-weight: 800;
+    color: #3a3a46;
+    line-height: 21px;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 22px;
+    color: #96A1B9;
+  }
+
+  &__sub {
+    font-size: 17px;
+    line-height: 21px;
+    color: #96A1B9;
+  }
+}
+
+.medal-issue {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+
+  &__char {
+    width: 200px;
+    height: 200px;
+    
+  }
+
+  &__desc {
+    max-width: 420px;
+    font-size: 14px;
+    line-height: 22.68px;
+    text-align: center;
+    color: var(--white);
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+.reward-cards {
+  display: flex;
+  gap: 16px;
+
+  &__card {
+    position: relative;
+    flex: 1 0 0;
+    min-width: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    border: 2px solid rgba(255, 243, 196, 0.46);
+    background: linear-gradient(180deg, #232C3D 0%, #182033 100%);
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 26px;
+    letter-spacing: 0.78px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  &__line {
+    width: 182px;
+    height: 1px;
+    background: linear-gradient(
+      270deg,
+      rgba(255, 243, 196, 0) 0%,
+      rgba(255, 243, 196, 0.276) 21.6%,
+      rgba(255, 227, 181, 0.6) 50%,
+      rgba(255, 243, 196, 0.102) 78.8%,
+      rgba(255, 243, 196, 0) 100%
+    );
+  }
+
+  &__desc {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 21px;
+    text-align: center;
+    color: var(--white);
+    margin: 14px 0;
+  }
+
+  &__items {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+}
+
+.reward-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  &__icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: var(--white-60);
+    text-align: center;
+  }
+}
+
+.icon-info {
+  width: 12px;
+  height: 12px;
+  background: url("../images/icon_info.png") no-repeat center / cover;
+}
