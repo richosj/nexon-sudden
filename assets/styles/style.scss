@@ -1,8 +1,8 @@
-@use "partials/variables";
+@use "partials/variables";   // 디자인 토큰
 @use "partials/reset";
-@use "partials/layout";
-@use "partials/components";
+@use "partials/layout";      // .wrap · .topbar · .section-block
+@use "partials/components"; // 버튼 · 패널 · 공통 UI
 @use "partials/hero";
-@use "partials/event";
-@use "partials/functional";
-@use "partials/modals";
+@use "partials/event";       // events/* partial import
+@use "partials/functional";  // scroll-offset · disabled · is-active
+@use "partials/modals";      // vault · notice · Utils.alert DOM

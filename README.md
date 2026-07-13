@@ -3,7 +3,7 @@
 서든어택 21주년 이벤트 페이지 — 퍼블리싱 + Vue 기능 프로토타입
 
 > **최종 갱신:** 2026-07-12  
-> 작업 기준 HTML: `main.html` (디자인 + 기능) · 기능 참고: `update.html`
+> 작업 기준 HTML: `index.html` (디자인 + 기능)
 
 ---
 
@@ -27,7 +27,7 @@ npx serve .
 
 ## 배포
 
-GitHub Pages — `main` push 시 Actions에서 SCSS 빌드 후 루트(`index.html`) 배포  
+GitHub Pages — `main` push 시 Actions에서 SCSS 빌드 후 `index.html` 배포  
 `dist/` 폴더는 사용하지 않습니다.
 
 ---
@@ -35,8 +35,7 @@ GitHub Pages — `main` push 시 Actions에서 SCSS 빌드 후 루트(`index.htm
 ## 파일 구조
 
 ```
-main.html                 ← 메인 페이지 (디자인 + Vue 바인딩)
-update.html               ← 기능 프로토타입 (구버전 마크업, 참고용)
+index.html                ← 메인 페이지 (디자인 + Vue 바인딩)
 assets/
   data/                   ← API 목업 JSON
     medal.json
@@ -160,7 +159,7 @@ API 연동 지점은 `getMedalState`, `postIssueMedal`, `getAttendance` 등 `TOD
 
 | 날짜 | 내용 |
 |---|---|
-| 2026-07-12 | `main.html` Vue 기능 연결, `_functional.scss` 추가 |
+| 2026-07-13 | `main.html` → `index.html` 통일, 모바일 viewport 고정(1920), GitHub Pages 배포 정리 |
 | 2026-07-12 | 출석 카드 CSS 수정 — `_functional.scss`에서 border/background 리셋 제거 |
 | 2026-07-12 | 모달 Teleport(`body`) · `_modals.scss` 통합 (보상함/유의사항/Utils.alert) |
 

@@ -1,4 +1,6 @@
 // 모달 · 알림 (Vue Teleport + Utils.alert/confirm)
+//   .vault / .notice-modal — event.js openVault, openNotice
+//   .modal-shade / .modal-confirm — utils.js 동적 생성
 
 $z-dim: 500;
 $z-panel: 501;
@@ -49,7 +51,7 @@ $z-system: 10000;
   }
 }
 
-// ── dim ──
+// ── 내 보상함 드로어 (topbar @click openVault) ──
 .vault-dim,
 .notice-dim {
   position: fixed;
@@ -67,7 +69,6 @@ $z-system: 10000;
   }
 }
 
-// ── 보상함 드로어 ──
 .vault {
   position: fixed;
   top: 0;
@@ -192,7 +193,7 @@ $z-system: 10000;
   }
 }
 
-// ── 유의사항 팝업 ──
+// ── 유의사항 모달 (openNotice → notices[event01|02|03]) ──
 .notice-modal {
   position: fixed;
   inset: 0;
@@ -292,7 +293,7 @@ $z-system: 10000;
   }
 }
 
-// ── Utils.alert / Utils.confirm (body에 동적 삽입) ──
+// ── Utils.alert / Utils.confirm (utils.js 동적 DOM) ──
 .modal-shade {
   position: fixed;
   inset: 0;

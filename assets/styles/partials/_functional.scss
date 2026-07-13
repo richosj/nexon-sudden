@@ -1,4 +1,4 @@
-// 앵커 스크롤 — sticky topbar 높이 보정 (control.js --scroll-offset 연동)
+// 앵커 스크롤 offset (control.js --scroll-offset)
 section[id^="event"],
 #event01-reward {
   scroll-margin-top: var(--scroll-offset, 104px);
@@ -51,7 +51,7 @@ section[id^="event"],
   filter: none;
 }
 
-// 출석 카드 — 동적 상태 (기본 border/background는 _event02.scss 유지)
+// 출석 카드 상태 modifier (기본 스타일: _event02.scss)
 .cal-card {
   &--duo::after {
     opacity: 1;

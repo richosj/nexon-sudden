@@ -1,6 +1,6 @@
-@use "events/event01";
-@use "events/event02";
-@use "events/event03";
-@use "events/event03-timetable";
-@use "events/event03-showcase";
-@use "events/event03-watch";
+@use "events/event01";           // EVENT1 메달 합체
+@use "events/event02";           // EVENT2 출석판·마일스톤
+@use "events/event03";            // EVENT3 공통
+@use "events/event03-timetable"; // 타임테이블
+@use "events/event03-showcase";   // 출전팀·중계진
+@use "events/event03-watch";      // 시청 이벤트
