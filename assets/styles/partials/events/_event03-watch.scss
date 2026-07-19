@@ -1,16 +1,21 @@
-// EVENT 3 · 시청 이벤트
-.watch-list {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  .icon-watch{
+// =============================================================================
+// EVENT3 · 시청 이벤트 (.watch-panel / .watch-list)
+// 패널 프레임은 _event03.scss 공통 선택자 참고
+// 보상: rewardIcons 있으면 아이콘 행 → 다음 단락에 칩+문구
+// =============================================================================
+.watch-panel {
+  .icon-watch {
+    display: inline-block;
     width: 20px;
     height: 20px;
     background: url("../images/icon_watch.png") no-repeat center / contain;
-    display: inline-block;
   }
-
+}
+.watch-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   &__item {
     position: relative;
     display: flex;
@@ -27,7 +32,7 @@
     top: -1px;
     width: 47px;
     height: 47px;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
     padding: 4px 0 0 7px;
     background: url("../images/watch_event_num.png") no-repeat center / contain;
@@ -43,20 +48,56 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
 
   &__title {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 28px;
   }
 
   &__desc {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
-    line-height: 24px;
-    color: var(--purple-sub);
+    line-height: 26px;
+    color: #EFEFEF;
+  }
+
+  // 보상: 아이콘 있으면 아이콘 행 → 다음 단락에 칩+문구
+  &__reward {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__reward-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  &__reward-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__reward--has-icons {
+    .watch-list__reward-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   &__reward-row {
@@ -65,9 +106,24 @@
     gap: 8px;
   }
 
-  &__reward-text {
-    font-size: 13px;
+    
+  .reward-chip {
+    color: #302B4C;
+    font-size: 18px;
+    font-weight: 700;
     line-height: 15px;
-    color: var(--purple-tag);
+    display: flex;
+    padding: 4px 10px;
+    align-items: center;
+    gap: 10px;
+    border-radius: 4px;
+    background: #ABADC2;
+  }
+
+  &__reward-text {
+    color: #CECFD9;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 15px;
   }
 }

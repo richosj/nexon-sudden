@@ -1,0 +1,278 @@
+// =============================================================================
+// EVENT1 · 반쪽 찾기 (.medal-match / .medal-waiting)
+// phase 2~3 — MY MEDAL · 코드 입력 · 대기
+// =============================================================================
+.medal-flow__phase {
+  width: 100%;
+}
+
+.medal-match {
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 119px;
+  align-items: center;
+  margin: 40px 0;
+  &__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__forms {
+    width: 100%;
+    border: 1px solid rgba(150, 170, 200, 0.34);
+    background: #222B3C;
+  }
+
+  &__forms-inner {
+    display: flex;
+    padding: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    align-self: stretch;
+    background: rgba(34, 43, 60, 1);
+    flex-shrink: 0;
+  }
+ 
+  &__panel {
+  }
+
+  &__title {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  &__panel--my {
+    width: 100%;
+    padding: 0 45px;
+  }
+  &__panel--input {
+    width: 100%;
+    padding: 0 45px;
+  }
+  &__panel--submit {
+    display: flex;
+    padding: 12px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
+    background: linear-gradient(90deg, #22345D 0%, #4868B5 100%), linear-gradient(0deg, #22355E 0%, #3D528D 100%), #374B82;
+  }
+
+  &__line {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(270deg, rgba(255, 243, 196, 0.00) 0%, rgba(101, 103, 117, 0.28) 21.63%, rgba(116, 121, 133, 0.60) 50%, rgba(101, 103, 117, 0.60) 78.85%, rgba(255, 243, 196, 0.00) 100%);
+  }
+
+  &__code-box {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    border: 1px solid rgba(255, 255, 255, 0.40);
+    background: rgba(0, 0, 0, 0.00);
+  }
+
+  &__code {
+    flex: 1;
+    padding: 12px 16px;
+    color: #FFF;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 4.8px;
+  }
+
+  &__copy {
+    flex-shrink: 0;
+    display: flex;
+    width: 110px;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    border-left: 1px solid rgba(255, 255, 255, 0.40);
+    background: var(--butten, linear-gradient(0deg, #22355E 0%, #3D528D 100%), #374B82);
+  }
+
+  &__desc {
+    color: #FFF;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 22.68px;
+    margin-top: 6px;
+  }
+
+  &__sns {
+    margin: 12px auto 0;
+    display: flex;
+    padding: 10px 32px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    border-radius: 500px;
+    border-top: 1px solid rgba(255, 255, 255, 0.30);
+    background: linear-gradient(0deg, #4B53C3 0%, #4B53C3 100%), linear-gradient(90deg, #22345D 0%, #4868B5 100%);
+  }
+  &__sns-icon {
+    display: inline-block;
+    width: 16px;height: 16px;
+    background: url('../../../assets/images/icon-share.png') no-repeat center center;
+  }
+
+  &__input {
+    width: 100%;
+    height: 56px;
+    border: 1px solid rgba(255, 255, 255, 0.40);
+    background: rgba(0, 0, 0, 0.00);
+    text-align: center;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.40);
+    }
+  }
+
+  &__alert {
+    width: 100%;
+    max-width: 320px;
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+
+    &--ok {
+      background: rgba(75, 83, 195, 0.2);
+      color: var(--blue-text);
+    }
+
+    &--warn {
+      background: rgba(234, 156, 29, 0.15);
+      color: #f5d08a;
+    }
+  }
+
+  &__preview {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+    max-width: 320px;
+    padding: 12px;
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.06);
+    text-align: center;
+    font-size: 13px;
+    color: var(--white-60);
+
+    strong {
+      color: var(--white);
+      font-size: 15px;
+    }
+  }
+
+  &__submit-box {
+    display: flex;
+    padding: 12px 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-left: 0;
+    background: linear-gradient(90deg, #22345D 0%, #4868B5 100%), linear-gradient(0deg, #22355E 0%, #3D528D 100%), #374B82;
+  }
+
+  &__submit {
+    color: #FFF;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  &__quota {
+    color: rgba(255, 255, 255, 0.60);
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.medal-waiting {
+  position: relative;
+  display: flex;
+  padding: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(255, 243, 196, 0.46);
+  background: #222B3C;
+  &__desc {
+    color: #F7F7F7;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+    margin: 0;
+    b{
+      color: #FFE28F;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    height: 40px;
+    padding: 10px 60px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 8px;
+    border: 1px solid #B9BBD5;
+    color: #B9BBD5;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+
+@media (max-width: 1100px) {
+  .medal-match {
+    grid-template-columns: 1fr;
+
+    &__visual img {
+      width: min(100%, 320px);
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .medal-match {
+    gap: 16px;
+
+    &__panel {
+      padding: 20px 16px;
+    }
+
+    &__title {
+      font-size: 16px;
+    }
+
+    &__code {
+      font-size: 18px;
+    }
+
+    &__apply {
+      font-size: 16px;
+      padding: 14px 16px;
+    }
+  }
+}

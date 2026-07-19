@@ -17,11 +17,15 @@ $(function () {
   };
 
   window.pageScroll = {
-    /** sticky .topbar 실측 높이 + 12px 여백 */
+    /** GNB + sticky .topbar 실측 높이 + 12px 여백 */
     getOffset: function () {
       const topbar = document.querySelector(".topbar");
-      if (!topbar) return 0;
-      return Math.ceil(topbar.getBoundingClientRect().height) + 12;
+      const gnb =
+        parseFloat(
+          getComputedStyle(document.documentElement).getPropertyValue("--gnb-height")
+        ) || 0;
+      const topbarH = topbar ? Math.ceil(topbar.getBoundingClientRect().height) : 0;
+      return Math.ceil(gnb) + topbarH + 12;
     },
 
     /** CSS 변수 --scroll-offset 동기화 (_functional.scss scroll-margin-top 과 연동) */

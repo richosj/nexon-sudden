@@ -1,0 +1,127 @@
+// EVENT2 · 출석 헤더
+.att-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    border-top: 1.2px solid rgba(255, 255, 255, 0.30);
+    background: #4B53C3;
+    padding: 8px 16px 7px 8px;
+    color: #FFF;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+    display: block;
+    width: 28px;
+    height: 28px;
+    overflow: hidden;
+    background: url("../images/att_head_avatar_bg.png") no-repeat center;
+    &.is-duo{
+      width: 51px;
+      background-image: url("../images/att_head_avatar_bg_duo.png");
+    }
+  }
+
+  &__stats {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    gap: 12px;
+    padding: 0 16px;
+    border: 1px solid var(--white);
+    border-radius: var(--radius-lg);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    color: var(--white);
+
+    strong {
+      font-size: 18px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 4px 0 8px;
+      display: inline-block;
+    }
+    small{
+      font-weight: 500;
+      font-size: 1em;
+    }
+
+    .icon-ticket{
+      display: inline-block;
+      width: 13px;
+      height: 9px;
+      margin-right: 10px;
+      background: url("../images/icon_ticket.png") no-repeat center / cover;
+    }
+
+    .divider {
+      width: 1px;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &__info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    .att-head__btn{
+      display: flex;
+      height: 40px;
+      padding: 0 24px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      &--outline{
+        border: 1px solid #B9BBD5;
+        color: #B9BBD5;
+        i{
+          width: 16px;
+          height: 16px;
+          background: url("../images/icon_refresh.png") no-repeat center / cover;
+        }
+      }
+      &--primary{
+        border-radius: 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.30);
+        background: #4B53C3;
+        color: #fff;
+        i{
+          width: 20px;
+          height: 20px;
+          background: url("../images/icon_reward.png") no-repeat center / cover;
+        }
+      }
+    } 
+  }
+}
+
+.att-head__btn:disabled {
+  pointer-events: none;
+  cursor: default;
+  opacity: 1;
+
+  &:hover {
+    opacity: 1;
+  }
+}

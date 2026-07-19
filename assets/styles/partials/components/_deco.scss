@@ -1,0 +1,13 @@
+.corner-deco {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-top: 3px solid #ffbd32;
+  border-left: 3px solid #ffbd32;
+  opacity: 0.3;
+
+  &--tr { top: -2px; right: -2px; transform: rotate(90deg); }
+  &--bl { bottom: -2px; left: -2px; transform: rotate(-90deg); }
+  &--br { bottom: -2px; right: -2px; transform: rotate(180deg); }
+  &--tl { top: -2px; left: -2px; }
+}

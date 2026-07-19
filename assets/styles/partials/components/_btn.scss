@@ -1,0 +1,122 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+
+  &:hover {
+    opacity: 0.92;
+  }
+
+  &--gold {
+    padding: 16px 60px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: linear-gradient(0deg, #C49848 0%, #C49848 100%), #683121;
+    font-size: 18px;
+    line-height: 21px;
+    color: var(--white);
+  }
+
+  &--blue-gradient {
+    padding: 16px 60px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: linear-gradient(90deg, #22345D 0%, #4868B5 100%);
+    font-size: 18px;
+    line-height: 21px;
+    color: var(--white);
+  }
+
+  &--primary {
+    padding: 20px 100px;
+    border-radius: 500px;
+    border: 2px solid rgba(255, 255, 255, 0.10);
+    background: linear-gradient(90deg, #22345D 0%, #4868B5 100%), linear-gradient(90deg, #4C1D10 0%, #8D4834 100%), linear-gradient(90deg, #8B623A 0%, #F4C15D 100%);
+    font-size: 18px;
+    color: var(--white);
+    opacity: 1;
+  }
+
+  &--benefit {
+    height: 36px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 8px;
+    background: #3b66f5;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    gap: 6px;
+
+    .icon-benefit {
+      width: 16px;
+      height: 16px;
+      background: url("../images/icon_benefit.png") no-repeat center / contain;
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  &--gold-action {
+    padding: 10px 32px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #664A2F 0%, #C09849 100%), linear-gradient(90deg, #8B623A 0%, #F4C15D 100%);
+    font-size: 20px;
+    border: 0;
+    color: var(--white);
+    gap: 8px;
+
+    .icon-arrow-right {
+      width: 16px;
+      height: 16px;
+      background: url("../images/icon_arrow_right.png") no-repeat center / contain;
+      display: inline-block;
+    }
+  }
+
+  &--gold-issue {
+    padding: 17px 75px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.10);
+    background: linear-gradient(90deg, #664A2F 0%, #C09849 100%), linear-gradient(0deg, #FFE28F 0%, #FFE28F 100%), linear-gradient(90deg, #4C1D10 0%, #8D4834 100%), linear-gradient(90deg, #8B623A 0%, #F4C15D 100%);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--white);
+  }
+
+  &--sm {
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: var(--radius-sm);
+  }
+
+  &--full {
+    width: 100%;
+  }
+
+  &--outline {
+    border: 1px solid var(--border-step);
+    background: transparent;
+    color: var(--white);
+  }
+
+  &--ghost {
+    border: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white-80);
+  }
+
+  &:disabled,
+  &.is-complete {
+    pointer-events: none;
+    cursor: default;
+    opacity: 1;
+    filter: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

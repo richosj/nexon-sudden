@@ -1,0 +1,63 @@
+.text-gradient-gold {
+  background: linear-gradient(180deg, #FFFBE3 0%, #E6C363 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.img-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  color: #6b788e;
+  font-size: 12px;
+  text-align: center;
+  line-height: 1.4;
+
+  &:has(img) {
+    background: transparent;
+    border: none;
+    color: transparent;
+    font-size: 0;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &--circle {
+    border-radius: 50%;
+    border: 1px dashed rgba(227, 197, 121, 0.4);
+
+    &:has(img) {
+      border: none;
+    }
+  }
+
+  &--round {
+    border-radius: 500px;
+    border: 2px dashed #eed48a;
+  }
+
+  &--square {
+    border: 1px dashed rgba(227, 197, 121, 0.4);
+  }
+
+  &--diamond {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    background: #47406b;
+    border: 1px solid #575b86;
+    transform: rotate(45deg);
+
+    span {
+      transform: rotate(-45deg);
+      display: block;
+    }
+  }
+}

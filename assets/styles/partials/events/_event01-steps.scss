@@ -1,0 +1,119 @@
+// EVENT1 · 스텝
+.step-list {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-shadow: 0 0 6.3px 0 rgba(0, 0, 0, 0.53);
+
+  &__item {
+    display: flex;
+    height: 90px;
+    min-width: 120px;
+    padding: 12px 24px;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
+    border: 2px solid rgba(52, 69, 114, 0.68);
+    background: #212A36;
+    &--active {
+      border: 2px solid rgba(255, 243, 196, 0.46);
+      background: linear-gradient(0deg, #22355E 0%, #3D528D 100%), linear-gradient(0deg, #314578 0%, #9FBAFF 103.75%);
+      box-shadow: 0 0 30px 0 #314477;
+      .step-list__num-box {
+        border: 1px solid #D9E4FF;
+        background: linear-gradient(0deg, #C6D9FB 0%, #C6D9FB 100%), linear-gradient(180deg, #F9D9A5 0%, #FFF3C4 100%);
+        box-shadow: 0 0 12.4px 0 #83A1F3;
+      }
+
+      .step-list__title {
+        color: #E4EEFF;
+      }
+
+      .step-list__sub {
+        color: #CDDBF4;
+      }
+    }
+  }
+
+  &__num-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  &__num-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    transform: rotate(45deg);
+    background: #96A1B9;
+    border: 1px solid transparent;
+  }
+
+  &__num {
+    transform: rotate(-45deg);
+    font-size: 14px;
+    font-weight: 800;
+    color: #3a3a46;
+    line-height: 21px;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 22px;
+    color: #96A1B9;
+  }
+
+  &__sub {
+    font-size: 17px;
+    line-height: 21px;
+    color: #96A1B9;
+  }
+}
+
+@media (max-width: 767px) {
+.step-list {
+    flex-wrap: wrap;
+
+    &__item {
+      flex: 1 1 calc(50% - 4px);
+      min-width: 0;
+      height: auto;
+      min-height: 56px;
+      padding: 11px 17px;
+    }
+
+    &__title {
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    &__sub {
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    &__num-box {
+      width: 24px;
+      height: 24px;
+    }
+
+    &__num {
+      font-size: 13px;
+    }
+  }
+}

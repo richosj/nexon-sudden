@@ -1,23 +1,21 @@
 .hero {
   position: relative;
-  height: 910px;
-  min-height: 910px;
+  height: calc(910px - 80px);
+  min-height: calc(910px - 80px);
   display: flex;
   align-items: flex-start;
-  padding: 80px var(--content-pad);
+  padding: 168px var(--content-pad) 0;
   overflow: hidden;
 
   &__bg {
     position: absolute;
     inset: 0;
-    background: #111827;
     border: none;
-
     &::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: url("../images/hero_bg.png") no-repeat center / cover;
+      background: url("../images/hero_bg.png") no-repeat center  / cover;
     }
   }
 
@@ -34,42 +32,31 @@
   &__content {
     position: relative;
     z-index: 1;
-    max-width: 560px;
-    padding-top: 260px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
-  }
-
-  &__logo-slot {
-    width: 280px;
-    height: 120px;
-    margin-bottom: -10px;
+    gap: 10px;
   }
 
   &__lead {
-    font-size: 15px;
+    font-size: 22px;
     line-height: 21px;
+    font-weight: 600;
     color: var(--white);
     text-align: center;
   }
 
   &__period {
-    display: inline-flex;
-    padding: 6px 16px;
-    border-radius: var(--radius-lg);
-    background: #f8f8f8;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
-    color: rgba(0, 0, 0, 0.6);
-    max-width:346px;
-    letter-spacing: -0.02em;
-  }
-
-  &__cta {
+    border-radius: 100px;
+    background: #3458AF;
     display: flex;
-    gap: 8px;
+    padding: 6px 16px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 6px;
+    color: #FFF;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
   }
 }

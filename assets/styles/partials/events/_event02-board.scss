@@ -1,0 +1,66 @@
+// EVENT2 · 출석 보드
+.att-board {
+  width: 100%;
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+    .icon-calendar{
+      width: 24px;
+      height: 24px;
+      background: url("../images/icon_calendar.png") no-repeat center / cover;
+    }
+    small {
+      font-size: 20px;
+      font-weight: 400;
+      color: #8d8d8d;
+
+      b {
+        color: #8C93FF;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &__progress {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  &__bar {
+    height: 4px;
+    border-radius: 9999px;
+    overflow: hidden;
+    background: #efefef;
+    position: relative;
+    width: 100%;
+    --progress: 0%;
+
+    span {
+      position: absolute;
+      border-radius: 999px;
+      display: block;
+      height: 100%;
+      left: 0;
+      top: 0;
+      width: var(--progress);
+      background: #4B53C3;
+      overflow: hidden;
+    }
+  }
+
+  &__count {
+    font-size: 20px;
+    font-weight: 700;
+    color: #7B7D97;
+    white-space: nowrap;
+    b{
+      color: #CFD2FF;
+    }
+  }
+}

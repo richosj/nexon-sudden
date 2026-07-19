@@ -1,0 +1,99 @@
+// 이벤트 상단바 (sticky · GNB 아래 고정)
+.topbar {
+  position: sticky;
+  //top: var(--gnb-height, 0px);
+  z-index: 30;
+  background: linear-gradient(0deg, rgba(34, 53, 94, 0.57) 0%, rgba(61, 82, 141, 0.57) 100%), linear-gradient(0deg, #1C1B1B 0%, #1C1B1B 100%), #60372A;
+
+  &__in {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+    padding: 12px 60px;
+  }
+
+  &__logo {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    background: url("../images/event_logo.png") no-repeat center / contain;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+
+  // data-scroll-active — control.js 스크롤 구간별 is-active 토글
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+
+    a {
+      position: relative;
+      padding: 8px 0 10px;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 24px;
+      white-space: nowrap;
+      transition: color 0.2s;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: #6eb7ff;
+        opacity: 0;
+        transform: scaleX(0.6);
+        transition: opacity 0.2s, transform 0.2s;
+      }
+
+      &.is-active,
+      &:hover,
+      &:focus-visible {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      &.is-active::after,
+      &:hover::after,
+      &:focus-visible::after {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .topbar {
+    &__in {
+      min-height: 56px;
+      padding: 10px 16px;
+    }
+
+    &__logo {
+      width: 40px;
+      height: 40px;
+    }
+
+    &__actions {
+      gap: 12px;
+    }
+
+    &__nav {
+      gap: 12px;
+
+      a {
+        font-size: 13px;
+      }
+    }
+  }
+}

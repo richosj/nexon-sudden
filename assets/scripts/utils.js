@@ -1,11 +1,12 @@
 /**
- * utils.js — 20주년 공용 모달·스크롤 락
+ * utils.js — 공용 모달·스크롤 락
  *
- * Utils.alert(msg)           — 확인 1버튼, Promise<boolean>
- * Utils.confirm(msg)         — 예/아니오, Promise<boolean>
- * Utils.bodyScroll.hide/show — 모달·드로어 오픈 시 body 스크롤 잠금
+ * Utils.alert(msg, options)    — 확인 1버튼, Promise<boolean>
+ * Utils.confirm(msg, options)  — 예/아니오(또는 커스텀 라벨), Promise<boolean>
+ *   options.confirmText / cancelText / confirmOnly / title / note / variant
+ * Utils.bodyScroll.hide/show
  *
- * DOM: .modal-shade, .modal.modal-confirm, .modal-message, .modal-buttons
+ * DOM: .modal-shade, .modal.modal-confirm
  * 스타일: assets/styles/partials/_modals.scss
  */
 (function (window) {
@@ -23,7 +24,8 @@
   const createModal = (msg, options) => {
     const shade = createElement("div", "modal-shade");
     const modal = createElement("div", ["modal", "modal-confirm"]);
-    const message = createElement("p", "modal-message");
+    if (options.variant === "warn") modal.classList.add("is-warn");
+
     const buttons = createElement("div", "modal-buttons");
 
     if (options.buttonClose) {
@@ -36,9 +38,22 @@
       imageDiv.appendChild(image);
       modal.appendChild(imageDiv);
     }
+    if (options.title) {
+      const title = createElement("h4", "modal-title");
+      title.textContent = options.title;
+      modal.appendChild(title);
+    }
 
+    const message = createElement("p", "modal-message");
     message.innerHTML = msg;
     modal.appendChild(message);
+
+    if (options.note) {
+      const note = createElement("div", "modal-note");
+      note.innerHTML = options.note;
+      modal.appendChild(note);
+    }
+
     modal.appendChild(buttons);
     return { shade, modal, buttons };
   };
@@ -57,13 +72,23 @@
   };
 
   window.Utils = {
-    alert: (message, { buttonClose = false } = {}) =>
+    alert: (
+      message,
+      {
+        buttonClose = false,
+        confirmText = "확인",
+        title = "",
+        note = "",
+        variant = "",
+      } = {}
+    ) =>
       new Promise((resolve) => {
-        const el = createModal(message, { buttonClose });
+        const el = createModal(message, { buttonClose, title, note, variant });
+        el.buttons.classList.add("is-single");
         el.buttons.appendChild(
           Object.assign(createElement("button", "modal-button__confirm"), {
             type: "button",
-            textContent: "확인",
+            textContent: confirmText,
           })
         );
         showModal(el);
@@ -76,23 +101,56 @@
         el.modal
           .querySelector(".modal-button__confirm")
           .addEventListener("click", () => closeModal(el, () => resolve(true)));
+        el.shade.addEventListener("click", () =>
+          closeModal(el, () => resolve(true))
+        );
       }),
 
-    confirm: (message, { buttonClose = false, image = "" } = {}) =>
+    confirm: (
+      message,
+      {
+        buttonClose = false,
+        image = "",
+        confirmText = "예",
+        cancelText = "아니오",
+        confirmOnly = false,
+        title = "",
+        note = "",
+        variant = "",
+      } = {}
+    ) =>
       new Promise((resolve) => {
-        const el = createModal(message, { buttonClose, image });
-        el.buttons.appendChild(
-          Object.assign(createElement("button", "modal-button__yes"), {
-            type: "button",
-            textContent: "예",
-          })
-        );
-        el.buttons.appendChild(
-          Object.assign(createElement("button", "modal-button__no"), {
-            type: "button",
-            textContent: "아니오",
-          })
-        );
+        const el = createModal(message, {
+          buttonClose,
+          image,
+          title,
+          note,
+          variant,
+        });
+
+        if (confirmOnly) {
+          el.buttons.classList.add("is-single");
+          el.buttons.appendChild(
+            Object.assign(createElement("button", "modal-button__yes"), {
+              type: "button",
+              textContent: confirmText,
+            })
+          );
+        } else {
+          el.buttons.appendChild(
+            Object.assign(createElement("button", "modal-button__no"), {
+              type: "button",
+              textContent: cancelText,
+            })
+          );
+          el.buttons.appendChild(
+            Object.assign(createElement("button", "modal-button__yes"), {
+              type: "button",
+              textContent: confirmText,
+            })
+          );
+        }
+
         showModal(el);
 
         if (buttonClose) {
@@ -103,9 +161,15 @@
         el.modal
           .querySelector(".modal-button__yes")
           .addEventListener("click", () => closeModal(el, () => resolve(true)));
-        el.modal
-          .querySelector(".modal-button__no")
-          .addEventListener("click", () => closeModal(el, () => resolve(false)));
+        const noBtn = el.modal.querySelector(".modal-button__no");
+        if (noBtn) {
+          noBtn.addEventListener("click", () =>
+            closeModal(el, () => resolve(false))
+          );
+        }
+        el.shade.addEventListener("click", () =>
+          closeModal(el, () => resolve(false))
+        );
       }),
 
     bodyScroll: {

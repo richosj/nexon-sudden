@@ -1,0 +1,182 @@
+// =============================================================================
+// EVENT1 · 메달 완성 (.medal-complete)
+// phase 4 — 보상 보드 · 수령 CTA · 듀오 정보
+// =============================================================================
+.medal-complete {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 0;
+  text-align: center;
+
+  &__title {
+    margin: 0;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 56px;
+  }
+
+  &__desc {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 24px;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+  }
+
+  // 확정 / 추첨 / 이벤트2 보상 3열
+  &__board {
+    display: grid;
+    grid-template-columns: 245px 440px 330px;
+    gap: 20px;
+    width: 100%;
+    margin-top: 23px;
+    padding: 30px 40px;
+    border: 1px solid rgba(150, 170, 200, 0.34);
+    background: linear-gradient(180deg, #232c3d 0%, #182033 100%), #212a36;
+  }
+
+  &__col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 30px 20px;
+    border: 2px solid rgba(255, 243, 196, 0.46);
+    background: #16223b;
+  }
+
+  &__col-title {
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 32px;
+    text-align: center;
+    text-shadow: 0 2px 0.3px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(180deg, #fffbe3 0%, #e6c363 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    span {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 24px;
+      color: #fff;
+      text-align: center;
+    }
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__claim-wrap {
+    display: flex;
+    justify-content: center;
+    grid-column: 1 / -1;
+  }
+
+  &__claim {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 200px;
+    height: 44px;
+    padding: 10px 24px;
+    border: 1px solid #4b53c3;
+    border-radius: 8px;
+    background: #4b53c3;
+  }
+
+  // 듀오 결성 안내 바
+  &__duo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+    gap: 16px;
+    margin-top: 20px;
+    padding: 30px 40px;
+    border: 2px solid rgba(255, 243, 196, 0.46);
+    background: linear-gradient(180deg, #232c3d 0%, #182033 100%);
+  }
+
+  &__duo-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24.3px;
+    color: #fff;
+
+    .icon-duo-user {
+      width: 24px;
+      height: 24px;
+      background: url("../images/icon-duo-user.png") no-repeat center / contain;
+    }
+  }
+
+  &__duo-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    width: 100%;
+
+    strong {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 36px;
+      background: linear-gradient(180deg, #fffbe3 0%, #e6c363 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__duo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 24px;
+    border: 1px solid #b9bbd5;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 24px;
+    color: #b9bbd5;
+    text-align: center;
+  }
+}

@@ -1,0 +1,354 @@
+// EVENT2 · 출석 캘린더
+//
+// cal-card 타입 (Figma 1:4012 ~ 1:4158 외)
+// · 기본(출석기본)     .cal-card
+// · 미출석·보충        .cal-card--need-ticket | --makeable | --makeup
+// · 출석·보상받기      .cal-card--claim
+// · 수령완료           .cal-card--done
+// · 듀오와 동반        .cal-card--duo (+ --claim | --done)
+// · 3일연속            .cal-card--streak (+ --claim | --done)
+// · 3일연속+듀오       .cal-card--streak.cal-card--duo (+ --claim | --done)
+
+.cal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__row {
+    display: flex;
+    gap: 6px;
+  }
+}
+
+.cal-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 157px;
+  min-height: 176px;
+  padding: 24px 0;
+  border: 1px solid #4a4d69;
+  border-radius: 8px;
+  background: #16223b;
+  opacity: 0.8;
+
+  &__icon {
+    width: 120px;
+    height: 80px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  &__date {
+    display: flex;
+    gap: 1px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    color: var(--white);
+
+    em {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 18px;
+    }
+  }
+
+  &__reward {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--white-60);
+    text-align: center;
+  }
+
+  // 좌상단 뱃지 · 3일연속(+1) / 보충
+  &__badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-height: 16px;
+    padding: 0 7px 0 5px;
+    border-radius: 500px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    color: #fff;
+
+    &--streak {
+      background: #ea9c1d;
+
+      &::before {
+        content: "";
+        width: 9px;
+        height: 8px;
+        background: url("../images/cal_star.svg") no-repeat center / contain;
+      }
+    }
+
+    &--makeup {
+      padding: 0 8px;
+      background: #24a17d;
+    }
+  }
+
+  // 우상단 체크/듀오 마크
+  &__mark {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background: #4b53c3;
+
+    &::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: url("../images/cal_check_white.svg") no-repeat center / contain;
+    }
+  }
+
+  &__btn {
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    right: 30px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 12px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 4px;
+    background: #4b53c3;
+    transform: translateY(-50%);
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  // 출석완료(보상받기) · 수령완료 — 콘텐츠 딤
+  &--claim,
+  &--done {
+    opacity: 1;
+    border-width: 2px;
+    border-color: #5d6cfe;
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+      #16223b;
+
+    .cal-card__icon,
+    .cal-card__date,
+    .cal-card__reward {
+      opacity: 0.3;
+    }
+  }
+
+  &--claim {
+    .cal-card__btn {
+      background: #4b53c3;
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #fff;
+    }
+
+    .cal-card__mark {
+      background: #4b53c3;
+    }
+  }
+
+  &--done {
+    .cal-card__btn {
+      background: #515968;
+      border-color: rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.3);
+      pointer-events: none;
+    }
+
+    .cal-card__mark {
+      background: #515968;
+    }
+
+    .cal-card__badge--streak,
+    .cal-card__badge--makeup {
+      background: #515968;
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  // 미출석 · 보충권 필요
+  &--need-ticket {
+    opacity: 1;
+    border: 2px solid #555a63;
+    background:
+      linear-gradient(#3f4653, #3f4653),
+      #16223b;
+
+    .cal-card__icon,
+    .cal-card__date,
+    .cal-card__reward {
+      opacity: 0.3;
+    }
+
+    .cal-card__btn {
+      background: rgba(255, 255, 255, 0.65);
+      border-color: rgba(255, 255, 255, 0.6);
+      color: #606469;
+      pointer-events: none;
+    }
+  }
+
+  // 미출석 · 보충하기 가능
+  &--makeable {
+    opacity: 1;
+    cursor: pointer;
+    border: 2px solid #78849c;
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+      #16223b;
+
+    .cal-card__icon,
+    .cal-card__date,
+    .cal-card__reward {
+      opacity: 0.3;
+    }
+
+    .cal-card__btn {
+      background: #24a17d;
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #fff;
+    }
+
+    &:hover {
+      border-color: #24a17d;
+    }
+  }
+
+  // 보충 출석 완료 후 (state === 4)
+  &--makeup {
+    border-color: #24a17d;
+
+    .cal-card__mark {
+      background: #24a17d;
+    }
+
+    &.cal-card--claim .cal-card__btn {
+      background: #24a17d;
+    }
+  }
+
+  // 듀오와 동반 (state === 2)
+  &--duo {
+    border-color: #b636ea;
+
+    .cal-card__mark {
+      background: #b636ea;
+
+      &::after {
+        background-image: url("../images/cal_duo_mark.svg");
+      }
+    }
+
+    &.cal-card--claim .cal-card__btn {
+      background: #b636ea;
+    }
+  }
+
+  // 3일연속
+  &--streak {
+    border-color: #ea9c1d;
+
+    .cal-card__mark {
+      background: #ea9c1d;
+    }
+
+    &.cal-card--claim .cal-card__btn {
+      background: #ea9c1d;
+    }
+  }
+
+  // 3일연속 + 듀오
+  &--streak.cal-card--duo {
+    border: 2px solid transparent;
+    background:
+      linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+      linear-gradient(#16223b, #16223b) padding-box,
+      linear-gradient(135deg, #ea9c1d 0%, #b636ea 100%) border-box;
+
+    .cal-card__badge--streak {
+      background: linear-gradient(180deg, #ea9c1d 0%, #b636ea 100%);
+    }
+
+    .cal-card__mark {
+      background: linear-gradient(180deg, #ea9c1d 0%, #b636ea 100%);
+
+      &::after {
+        background-image: url("../images/cal_duo_mark.svg");
+      }
+    }
+
+    &.cal-card--claim .cal-card__btn {
+      border-color: rgba(255, 255, 255, 0.4);
+      background: linear-gradient(180deg, #ea9c1d 0%, #b636ea 100%);
+    }
+
+    &.cal-card--done {
+      .cal-card__badge--streak,
+      .cal-card__mark {
+        background: #515968;
+      }
+
+      .cal-card__btn {
+        background: #515968;
+      }
+    }
+  }
+}
+
+.cal-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 15px;
+  margin-top: 16px;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 21px;
+    color: var(--white-60);
+  }
+
+  i {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #555a63;
+    border-radius: var(--radius-sm);
+
+    &.is-check { background: rgba(75, 83, 195, 0.4); border-color: var(--blue); }
+    &.is-duo { background: linear-gradient(180deg, rgba(234, 156, 29, 0.6), rgba(182, 54, 234, 0.6)); border-color: #ea9c1d; }
+    &.is-makeup { background: rgba(36, 161, 125, 0.6); border-color: #24a17d; }
+    &.is-streak { background: rgba(234, 156, 29, 0.4); border-color: #ea9c1d; }
+  }
+}

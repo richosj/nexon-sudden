@@ -1,23 +1,43 @@
-// EVENT 3 · 출전팀 & 중계진
+// =============================================================================
+// EVENT3 · 출전팀 & 중계진 (.showcase-panel / .team-grid / .caster-grid)
+// 패널 프레임·.block-title 은 _event03.scss 공통 참고
+// =============================================================================
 .showcase-panel {
-  background: url("../images/showcase_panel_bg.png") no-repeat center;
-  height: 640px;
-  
+  width: 1200px;
+  margin: 0 auto;
+  padding-top: 40px;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 100%;
+    margin-top: 60px;
+    padding: 30px 32px;
+  }
+
   .icon-team {
-    width: 20px;
-    height: 20px;
-    background: url("../images/icon_team.png") no-repeat center / contain;
     display: inline-block;
+    width: 24px;
+    height: 24px;
+    background: url("../images/icon_team.png") no-repeat center / contain;
   }
 
   .icon-caster {
+    display: inline-block;
     width: 20px;
     height: 20px;
     background: url("../images/icon_caster.png") no-repeat center / contain;
-    display: inline-block;
   }
-  
 }
+
+.showcase-panel__block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
 .team-grid {
   display: flex;
   gap: 10px;
@@ -52,9 +72,9 @@
 
   &__name {
     margin: 0;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 26px;
   }
 
   &__players {
@@ -72,18 +92,34 @@
     justify-content: center;
     gap: 6px;
     margin: 0;
-    font-size: 15px;
+    font-size: 17px;
+    font-weight: 500;
     line-height: 20.25px;
-
-    .name {
-      font-size: 17px;
+    .badge-pro,
+    .badge-ama {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-size: 12px;
       font-weight: 700;
-      line-height: 20.25px;
+      line-height: 16px;
+      color: #fff;
+    }
+    
+    .badge-pro { background: #a7884e; }
+    .badge-ama { background: #999; }
+    
+    .name {
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 24px;
     }
 
     .role {
-      font-size: 14px;
-      line-height: 17px;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 21px;
       color: #929292;
     }
   }
@@ -147,9 +183,9 @@
 
   &__name {
     margin: 0;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
-    line-height: 24px;
+    line-height: 28px;
     color: #e8e9f5;
   }
 
@@ -159,15 +195,15 @@
     justify-content: center;
     gap: 6px;
     margin: 0;
-    font-size: 14px;
-    line-height: 17px;
-    color: var(--purple-sub);
+    font-size: 18px;
+    line-height: 24px;
+    color: #B3B6D2;
     white-space: nowrap;
 
     .dot {
       width: 1px;
       height: 9px;
-      background: var(--purple-sub);
+      background: #B3B6D2;
     }
   }
 }

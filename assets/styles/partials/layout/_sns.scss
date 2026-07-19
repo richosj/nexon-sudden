@@ -1,0 +1,63 @@
+// 우측 SNS 채널 바 (PC only)
+.sns-bar {
+  position: absolute;
+  top: calc(var(--gnb-height, 0px) + 100px);
+  right: max(20px, calc(50% - (var(--max-width) / 2) + 40px));
+  z-index: 20;
+  display: flex;
+  gap: 4px;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(20, 22, 28, 0.88);
+    transition: background-color 0.2s;
+
+    &:hover,
+    &:focus-visible {
+      background: #2a2e38;
+    }
+  }
+
+  &__icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: contain;
+
+    &--home {
+      mask-image: url("../images/topbar_icon_home.svg");
+      -webkit-mask-image: url("../images/topbar_icon_home.svg");
+    }
+
+    &--facebook {
+      mask-image: url("../images/topbar_icon_facebook.svg");
+      -webkit-mask-image: url("../images/topbar_icon_facebook.svg");
+    }
+
+    &--youtube {
+      mask-image: url("../images/topbar_icon_youtube.svg");
+      -webkit-mask-image: url("../images/topbar_icon_youtube.svg");
+    }
+
+    &--instagram {
+      mask-image: url("../images/topbar_icon_instagram.svg");
+      -webkit-mask-image: url("../images/topbar_icon_instagram.svg");
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .sns-bar {
+    display: none;
+  }
+}

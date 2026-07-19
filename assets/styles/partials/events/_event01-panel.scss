@@ -1,0 +1,30 @@
+// EVENT1 · 패널
+.event01-bg {
+  background: url("../images/event01_bg.png") no-repeat center / cover;
+}
+
+.event01 {
+  .event01__panel {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    padding: 30px 32px;
+    background: rgba(28, 34, 47, 0.50);
+    box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.05);
+    margin: 0 auto;
+  }
+
+  .sec-head {
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .event01 .event01__panel {
+    max-width: calc(100% - 32px);
+    gap: 24px;
+  }
+}

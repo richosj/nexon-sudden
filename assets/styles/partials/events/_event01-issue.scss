@@ -1,0 +1,77 @@
+// EVENT1 · 메달 발급
+.medal-issue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:40px 0 15px;
+  width: 100%;
+  &__visual {
+    width: 50%;
+  }
+
+  &__medal {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__ring { 
+    width: 215px;
+    height: 223px;
+    background: url("../images/medal_ring.png") no-repeat center center;
+    pointer-events: none;
+  }
+
+  &__action {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 50%;
+  }
+
+  &__desc {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 28px;
+    text-align: center;
+    color: var(--white);
+
+    em {
+      color: #ffe28f;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+.medal-issue {
+    flex-direction: column;
+    gap: 20px;
+    min-height: 0;
+    padding: 20px 16px;
+
+    &__medal {
+      width: 200px;
+      height: 200px;
+    }
+
+    &__lock {
+      width: 68px;
+    }
+
+    &__desc {
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    .btn--gold-issue {
+      width: 100%;
+      min-width: 0;
+      padding: 14px 24px;
+      font-size: 16px;
+    }
+  }
+}

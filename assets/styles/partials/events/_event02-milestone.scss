@@ -1,0 +1,116 @@
+// EVENT2 · 마일스톤
+.milestone {
+  margin-top: 30px;
+  width: 100%;
+  &__heads {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+    color: #fff;
+    flex: 1 0 0;
+    &-dummy{
+      height: 1px;
+      flex: 1 0 0;
+    }
+
+    &--duo {
+      color: var(--white);
+      text-align: left;
+      flex: 1 0 0;
+    }
+    .icon-milestone{
+      width: 24px;
+      height: 24px;
+      background: url("../images/icon_milestone.png") no-repeat center / cover;
+    }
+    .icon-milestone-duo{
+      width: 24px;
+      height: 24px;
+      background: url("../images/icon_milestone_duo.png") no-repeat center / cover;
+    }
+  }
+
+  &__row {
+    display: flex;
+    gap: 10px;
+  }
+
+  &__card {
+    flex: 1 0 0;
+    min-width: 1px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 26px 12px;
+    border: 2px solid var(--white-15);
+    border-radius: var(--radius);
+    background: var(--white-09);
+    text-align: center;
+
+    &--done {
+      border-color: #525365;
+      background: linear-gradient(180deg, #3c3e59 0%, #1d1e30 100%);
+    }
+
+    &--ready {
+      border-color: #4a4ea3;
+      background: linear-gradient(180deg, #3c3e59 0%, #1d1e30 100%);
+    }
+  }
+
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+  }
+
+  &__icon {
+    width: 160px;
+    height: 77px;
+    margin: 0 auto;
+    opacity: 0.2;
+  }
+
+  &__card--done &__icon,
+  &__card--ready &__icon {
+    opacity: 1;
+  }
+
+  &__gift {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 24px;
+    color: #fff;
+  }
+
+  &__btn {
+    padding: 10px 0;
+    border-radius: 6px;
+    background: #273040;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--white-40);
+    &--ready {
+      color: rgba(255, 255, 255, 0.40);
+    }
+
+    &--done {
+      background: #575970;
+    }
+  }
+
+  
+
+}
+

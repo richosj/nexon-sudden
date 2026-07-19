@@ -1,6 +1,7 @@
-@use "events/event01";           // EVENT1 메달 합체
-@use "events/event02";           // EVENT2 출석판·마일스톤
-@use "events/event03";            // EVENT3 공통
-@use "events/event03-timetable"; // 타임테이블
-@use "events/event03-showcase";   // 출전팀·중계진
+// events/* aggregator — 이벤트별 partial 모음 (MO 미디어쿼리는 각 파일 하단에)
+@use "events/event01";            // panel · steps · issue · match · request · complete · reward
+@use "events/event02";            // panel · head · board · calendar · milestone
+@use "events/event03";            // 공통 배경 · match-date · 패널 프레임 · block-title
+@use "events/event03-timetable";  // 타임테이블
+@use "events/event03-showcase";   // 출전팀 · 중계진
 @use "events/event03-watch";      // 시청 이벤트

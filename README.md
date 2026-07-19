@@ -113,8 +113,10 @@ assets/
 | `clickRefreshAttendance()` | 출석 갱신 (3분 쿨) |
 | `claimAllDaily()` | 일괄 수령 |
 | `clickClaimMilestone()` / `clickClaimDuoMilestone()` | 마일스톤 |
-| `openVault()` / `closeVault()` | 보상함 |
+| `openVault()` / `closeVault()` | 보상함 (메달/듀오/마일스톤/출석 4섹션) |
 | `openNotice(key)` / `closeNotice()` | 유의사항 (`event01`~`event03`) |
+| `clickShare()` / `closeShare()` | SNS 공유 모달 |
+| `showToast(text)` | 하단 토스트 알람 |
 
 API 연동 지점은 `getMedalState`, `postIssueMedal`, `getAttendance` 등 `TODO: API` 주석 참고.
 
@@ -159,6 +161,7 @@ API 연동 지점은 `getMedalState`, `postIssueMedal`, `getAttendance` 등 `TOD
 
 | 날짜 | 내용 |
 |---|---|
+| 2026-07-17 | 패널·팝업 Figma 반영 — 보상함 4섹션, 유의사항(화이트), SNS 공유, toast, confirm 라벨 |
 | 2026-07-13 | `main.html` → `index.html` 통일, 모바일 viewport 고정(1920), GitHub Pages 배포 정리 |
 | 2026-07-12 | 출석 카드 CSS 수정 — `_functional.scss`에서 border/background 리셋 제거 |
 | 2026-07-12 | 모달 Teleport(`body`) · `_modals.scss` 통합 (보상함/유의사항/Utils.alert) |

@@ -1,45 +1,41 @@
-// EVENT 3 · 타임테이블
+// =============================================================================
+// EVENT3 · 타임테이블 (.timetable)
+// 패널 프레임은 _event03.scss 공통 선택자 참고
+// =============================================================================
 .timetable {
-  width: var(--inner-width);
-  margin: 0 auto;
-  padding: 34px 36px;
   display: flex;
   flex-direction: column;
-  height: 460px;
-  background: url("../images/timetable_bg.png") no-repeat center / cover;
+  align-items: flex-start;
+
   &__head {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
-    line-height: 24.3px;
+    line-height: 26px;
     padding-bottom: 10px;
     .icon-timetable {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       background: url("../images/icon_timetable.png") no-repeat center / contain;
       display: inline-block;
-    }
-
-    small {
-      font-size: 12px;
-      font-weight: 400;
-      line-height: 19px;
-      color: #9da2ac;
     }
   }
 
   &__cols {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
   }
 
   &__part {
-    flex: 1 0 0;
+    width: 100%;
     min-width: 1px;
     border: 1px solid rgba(255, 255, 255, 0.20);
     background: #302B4C;
+    display: flex;
   }
 
   &__part-head {
@@ -47,8 +43,16 @@
     align-items: center;
     gap: 16px;
     padding: 10px 32px;
-    background: linear-gradient(90deg, #262336 0%, rgba(38, 35, 54, 0.46) 47.12%, #574B93 100%);
+    background: linear-gradient(90deg, #262336 0%, rgba(38, 35, 54, 0.46) 34.37%, #574B93 100%);
+    width: 328px;
+    flex-shrink: 0;
+  }
 
+  &__part-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
   }
 
   &__part-icon {
@@ -68,11 +72,18 @@
     color: #DFDDEF;
   }
 
+  &__row-inner {
+    flex: 1;
+  }
+
   &__row {
     display: flex;
-    gap: 8px;
-    padding: 16px 32px;
-    border-top: 1px solid rgba(255, 255, 255, 0.20);
+    gap: 16px;
+    padding: 16px 30px;
+    width: 100%;
+    +.timetable__row {
+      border-top: 1px solid rgba(255, 255, 255, 0.20);
+    }
   }
 
   &__time {
@@ -81,21 +92,47 @@
     font-size: 20px;
     font-weight: 700;
     line-height: 24px;
-    color: var(--purple-text);
+    color: #B398EA;
   }
 
   &__desc {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
     line-height: 24px;
-    color: var(--purple-sub);
+    color: #CFD2E9;
   }
 
+  &__line {
+    margin: 50px auto 30px;
+    width: 396px;
+    height: 1px;
+    background: linear-gradient(270deg, rgba(255, 243, 196, 0.00) 0%, rgba(255, 243, 196, 0.46) 15%, #FFE3B5 50%, rgba(255, 243, 196, 0.17) 85%, rgba(255, 243, 196, 0.00) 100%);
+
+  }
+  
+
+  &__broadcast-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__title {
+    color: #F6F6F6;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 50px;
+    background: linear-gradient(180deg, #FFFBE3 0%, #E6C363 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   &__broadcast {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 30px;
   }
 
   .btn--broadcast {
@@ -135,11 +172,13 @@
     }
   }
   &__note {
-    color: rgba(255, 255, 255, 0.60);
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.80);
     text-align: center;
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 400;
-    line-height: 22.68px; /* 174.462% */
-    margin-top: 20px;
+    line-height: 22px;
+    width: 100%;
   }
+  
 }

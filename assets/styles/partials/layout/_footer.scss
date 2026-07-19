@@ -1,0 +1,63 @@
+// 푸터
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  padding: 70px 20px 80px;
+  background: #221f2d;
+
+  &__home {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 334px;
+    padding: 28px 102px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 500px;
+    background: linear-gradient(90deg, #302b4c 0%, #5a5186 100%);
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--white);
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.92;
+    }
+  }
+
+  &__copyright {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 200;
+    letter-spacing: 0.99px;
+    line-height: 1;
+    text-align: center;
+    color: var(--white);
+  }
+}
+
+@media (max-width: 767px) {
+  .footer {
+    gap: 24px;
+    padding: 48px 16px 56px;
+
+    &__home {
+      min-width: 0;
+      width: 100%;
+      max-width: 320px;
+      padding: 18px 32px;
+      font-size: 16px;
+    }
+
+    &__copyright {
+      font-size: 10px;
+      letter-spacing: 0.4px;
+      word-break: keep-all;
+    }
+  }
+}

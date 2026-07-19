@@ -1,0 +1,33 @@
+// 페이지 래퍼
+.wrap {
+  position: relative;
+  max-width: var(--max-width);
+  min-width: var(--min-width);
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--bg-page);
+
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   inset: 0;
+  //   pointer-events: none;
+  //   background:
+  //     linear-gradient(
+  //       90deg,
+  //       rgba(0, 0, 0, 0.04) 0%,
+  //       rgba(27, 27, 27, 0.12) 14.9%,
+  //       rgba(13, 13, 13, 0.24) 31.25%,
+  //       rgba(21, 18, 27, 0.32) 50%,
+  //       rgba(14, 14, 14, 0.24) 67.79%,
+  //       rgba(45, 45, 45, 0.12) 83.17%,
+  //       rgba(102, 102, 102, 0) 100%
+  //     );
+  //   z-index: 0;
+  // }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}

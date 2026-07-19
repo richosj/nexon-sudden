@@ -2,14 +2,24 @@
   "rtnCode": "0000",
   "message": "SUCCESS",
   "result": {
-    "state": [1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "todayIdx": 3,
-    "makeup": 1,
+    "_comment_types": [
+      "개발용 샘플 — 1행(day0~6)에 cal-card 타입을 하나씩 배치",
+      "day0 수령완료(출석)",
+      "day1 듀오와 동반 보상받기",
+      "day2 3일연속 보상받기",
+      "day3 3일연속+듀오 보상받기",
+      "day4 3일연속+듀오 수령완료",
+      "day5 미출석(+ 보충하기)",
+      "day6 출석기본(오늘·미출석)"
+    ],
+    "state": [1, 2, 1, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "todayIdx": 6,
+    "makeup": 2,
     "streak": 3,
-    "hasDuo": false,
-    "claimed": [0, 1],
+    "hasDuo": true,
+    "claimed": [0, 4],
     "msClaimed": [],
     "duoMsClaimed": [],
-    "streakDays": [0, 1, 2]
+    "streakDays": [2, 3, 4]
   }
 }

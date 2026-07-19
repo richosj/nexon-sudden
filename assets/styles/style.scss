@@ -1,8 +1,9 @@
+// style.scss — PC 기준 엔트리. MO는 각 partial 하단 @media 로 추가 예정
 @use "partials/variables";   // 디자인 토큰
 @use "partials/reset";
-@use "partials/layout";      // .wrap · .topbar · .section-block
-@use "partials/components"; // 버튼 · 패널 · 공통 UI
+@use "partials/layout";      // layout/* — wrap · topbar · sns · sidebar · footer · main
+@use "partials/components"; // components/* — btn · section · deco · badge · util
 @use "partials/hero";
-@use "partials/event";       // events/* partial import
-@use "partials/functional";  // scroll-offset · disabled · is-active
-@use "partials/modals";      // vault · notice · Utils.alert DOM
+@use "partials/event";       // events/* (event01~03 하위 분리)
+@use "partials/functional";  // scroll-offset only
+@use "partials/modals";      // vault · notice · share · Utils.alert

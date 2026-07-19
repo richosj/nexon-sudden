@@ -1,6 +1,9 @@
 :root {
   --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 
+  /* 넥슨 GNB 높이 (고정 62px) — fnGnbResize 로도 갱신 가능 */
+  --gnb-height: 62px;
+
   --max-width: 1920px;
   --min-width: 1200px;
   --inner-width: 1200px;

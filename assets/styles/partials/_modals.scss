@@ -1,29 +1,23 @@
-// 모달 · 알림 (Vue Teleport + Utils.alert/confirm)
-//   .vault / .notice-modal — event.js openVault, openNotice
-//   .modal-shade / .modal-confirm — utils.js 동적 생성
+// 패널·팝업 — Figma 「패널 & 팝업」 PC/MO
+//   .vault — 내 보상함 사이드패널
+//   .notice-modal — 유의사항
+//   .share-modal — SNS 공유
+//   .toast — 하단 알람
+//   .modal-shade / .modal-confirm — Utils.alert/confirm
 
 $z-dim: 500;
 $z-panel: 501;
 $z-system: 10000;
 
-@mixin panel-surface {
-  border: 2px solid var(--gold-border-soft);
-  border-radius: var(--radius);
-  background: linear-gradient(180deg, #232c3d 0%, #182033 100%);
-  box-shadow: var(--shadow-panel);
-  color: var(--white);
-}
-
-@mixin close-x($size: 36px) {
+@mixin close-x($size: 36px, $color: #fff) {
   flex-shrink: 0;
   position: relative;
   width: $size;
   height: $size;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 0;
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.06);
+  background: transparent;
   cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
 
   &::before,
   &::after {
@@ -33,7 +27,7 @@ $z-system: 10000;
     left: 50%;
     width: 14px;
     height: 2px;
-    background: var(--white);
+    background: $color;
     border-radius: 1px;
   }
 
@@ -44,156 +38,257 @@ $z-system: 10000;
   &::after {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.35);
-  }
 }
 
-// ── 내 보상함 드로어 (topbar @click openVault) ──
+// ── dim ──
 .vault-dim,
-.notice-dim {
+.notice-dim,
+.share-dim {
   position: fixed;
   inset: 0;
   z-index: $z-dim;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.6);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
   transition: opacity 0.25s ease, visibility 0.25s ease;
 
   &.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
   }
 }
 
+// ── 내 보상함 (Figma: #27292f, 330px) ──
 .vault {
   position: fixed;
-  top: 0;
+  top: var(--gnb-height, 0px);
   right: 0;
   z-index: $z-panel;
   display: flex;
   flex-direction: column;
-  width: min(440px, 100%);
-  height: 100%;
-  border-left: 1px solid var(--gold-border-soft);
-  background: linear-gradient(180deg, #1a2233 0%, #121824 100%);
-  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.6);
+  width: 330px;
+  max-width: 100%;
+  height: calc(100% - var(--gnb-height, 0px));
+  background: #27292f;
+  box-shadow: -12px 0 20px rgba(0, 0, 0, 0.15);
   transform: translateX(100%);
   transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
+  pointer-events: none;
 
   &.is-open {
     transform: translateX(0);
+    pointer-events: auto;
   }
 
   &__head {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 28px 24px 20px;
-    border-bottom: 1px solid rgba(255, 243, 196, 0.15);
-    background: linear-gradient(180deg, rgba(75, 83, 195, 0.18) 0%, transparent 100%);
+    padding: 18px 20px 0;
   }
 
   &__title-wrap {
     display: flex;
     align-items: center;
-    gap: 12px;
-    min-width: 0;
+    gap: 8px;
   }
 
   &__icon {
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--white) url("../images/icon_benefit.png") no-repeat center / 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    width: 20px;
+    height: 20px;
+    background: url("../images/icon_benefit.png") no-repeat center / contain;
+    filter: invert(1);
   }
 
   &__title {
     margin: 0;
-    font-size: 20px;
-    font-weight: 800;
-    line-height: 1.2;
-    color: var(--white);
-  }
-
-  &__sub {
-    margin: 4px 0 0;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--white-60);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 26px;
+    color: #fff;
   }
 
   &__close {
-    @include close-x(36px);
+    @include close-x(20px, #fff);
   }
 
   &__body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 20px 24px 32px;
+    gap: 20px;
+    padding: 20px;
     overflow: auto;
   }
 
-  &__item {
-    position: relative;
-    padding: 16px 18px 14px;
-    border: 1px solid rgba(255, 243, 196, 0.18);
-    border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.04);
+  &__section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
-  &__item-badge {
-    display: inline-flex;
-    margin-bottom: 8px;
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
-    background: rgba(75, 83, 195, 0.35);
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--blue-text);
-  }
-
-  &__item-name {
+  &__section-title {
     margin: 0;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
-    line-height: 1.45;
-    color: var(--white);
+    line-height: 22px;
+    color: #fff;
   }
 
-  &__item-date {
-    margin: 6px 0 0;
-    font-size: 12px;
-    line-height: 1.4;
-    color: var(--white-60);
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border: 1px solid #47474c;
+    background: #32343a;
   }
 
   &__empty {
-    flex: 1;
+    margin: 0;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    color: #a2a2a9;
+  }
+
+  &__filled {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: center;
+    color: #fff;
+  }
+
+  &__table {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #47474c;
+    background: #32343a;
+  }
+
+  &__row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    min-height: 220px;
-    padding: 32px 20px;
-    border: 1px dashed rgba(255, 243, 196, 0.2);
-    border-radius: var(--radius);
-    text-align: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+
+    & + & {
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  &__row-main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    min-width: 0;
+  }
+
+  &__row-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
     font-size: 14px;
-    line-height: 1.65;
-    color: var(--white-60);
+    font-weight: 700;
+    line-height: 18px;
+    color: #fff;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin-left: 2px;
+      border-right: 1.5px solid #fff;
+      border-bottom: 1.5px solid #fff;
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__row-gift {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+    color: #fff;
+  }
+
+  &__chip {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    border-radius: 500px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 14px;
+    color: #fff;
+    background: #686a6e;
+
+    &--ready {
+      background: #4b53c3;
+    }
+
+    &--done {
+      background: #575970;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    &--locked {
+      color: rgba(255, 255, 255, 0.6);
+      font-weight: 600;
+    }
+  }
+
+  &__stats {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &__stat {
+    flex: 1 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 20px 16px;
+    border: 1px solid #47474c;
+    background: #32343a;
+    text-align: center;
+  }
+
+  &__stat-value {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 18px;
+    color: #fff;
+  }
+
+  &__stat-label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 18px;
+    color: #fff;
   }
 }
 
-// ── 유의사항 모달 (openNotice → notices[event01|02|03]) ──
+// ── 유의사항 (Figma: white panel) ──
 .notice-modal {
   position: fixed;
   inset: 0;
@@ -214,92 +309,274 @@ $z-system: 10000;
   }
 
   &__panel {
-    position: relative;
     width: min(680px, 100%);
-    max-height: min(82vh, 680px);
+    max-height: min(82vh, 720px);
     display: flex;
     flex-direction: column;
-    padding: 36px 32px 28px;
-    @include panel-surface;
+    padding: 50px 40px;
+    background: #fff;
+    box-shadow: -12px 0 20px rgba(0, 0, 0, 0.15);
     overflow: hidden;
-
-    .corner-deco {
-      opacity: 0.45;
-      z-index: 1;
-      pointer-events: none;
-    }
-  }
-
-  &__close {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    z-index: 2;
-    @include close-x(34px);
   }
 
   &__panel-inner {
     flex: 1;
     overflow: auto;
-    padding-right: 8px;
-    margin-right: -4px;
+    min-height: 0;
   }
 
   &__title {
-    margin: 0 0 20px;
-    padding: 0 36px 16px 0;
-    border-bottom: 1px solid rgba(255, 243, 196, 0.2);
-    font-size: 22px;
-    font-weight: 800;
-    line-height: 1.3;
-    color: var(--white);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 24px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 26px;
+    color: #000;
+
+    &::before {
+      content: "";
+      width: 18px;
+      height: 18px;
+      background: url("../images/notice_info.svg") no-repeat center / contain;
+    }
 
     span {
-      display: block;
-      margin-top: 6px;
       font-size: 14px;
-      font-weight: 600;
-      color: var(--gold);
+      font-weight: 500;
+      color: #595959;
     }
   }
 
   &__list {
     margin: 0;
-    padding-left: 20px;
-    list-style: disc;
-    color: var(--white-80);
-    font-size: 14px;
-    line-height: 1.75;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 
-    li + li {
-      margin-top: 10px;
-    }
+    li {
+      position: relative;
+      padding-left: 10px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 17px;
+      color: #595959;
+      word-break: keep-all;
 
-    li::marker {
-      color: var(--gold);
+      &::before {
+        content: "";
+        position: absolute;
+        top: 7px;
+        left: 0;
+        width: 3px;
+        height: 3px;
+        border-radius: 50%;
+        background: #595959;
+      }
     }
   }
 
   &__actions {
     flex-shrink: 0;
     margin-top: 24px;
-    padding-top: 8px;
 
-    .btn {
+    .btn,
+    button {
       width: 100%;
-      padding: 14px 24px;
-      border-radius: var(--radius);
+      height: 52px;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 0;
+      background: #4b53c3;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #fff;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.92;
+      }
     }
   }
 }
 
-// ── Utils.alert / Utils.confirm (utils.js 동적 DOM) ──
+// ── SNS 공유 (Figma: white) ──
+.share-modal {
+  position: fixed;
+  inset: 0;
+  z-index: $z-panel;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  &__panel {
+    width: min(680px, 100%);
+    padding: 50px 40px;
+    background: #fff;
+    box-shadow: -12px 0 20px rgba(0, 0, 0, 0.15);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 36px;
+    text-align: center;
+    color: #000;
+  }
+
+  &__desc {
+    margin: 10px 0 0;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: center;
+    color: #595959;
+
+    b {
+      font-weight: 700;
+      color: #333;
+    }
+  }
+
+  &__channels {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+
+  &__channel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  &__channel-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #e5e6f2;
+    overflow: hidden;
+
+    img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+  }
+
+  &__channel-label {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 17px;
+    color: #000;
+  }
+
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 52px;
+    margin-top: 30px;
+    border: 0;
+    background: #4b53c3;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.92;
+    }
+  }
+}
+
+// ── 하단 토스트 ──
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  z-index: $z-system;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 280px;
+  max-width: calc(100% - 48px);
+  padding: 8px 20px;
+  border-radius: 4px;
+  background: rgba(30, 32, 38, 0.95);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #4b53c3;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 5px;
+      width: 3px;
+      height: 6px;
+      border-right: 1.5px solid #fff;
+      border-bottom: 1.5px solid #fff;
+      transform: rotate(45deg);
+    }
+  }
+}
+
+// ── Utils.alert / confirm ──
 .modal-shade {
   position: fixed;
   inset: 0;
   z-index: $z-system;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .modal.modal-confirm {
@@ -310,26 +587,51 @@ $z-system: 10000;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  width: min(400px, calc(100% - 48px));
+  width: min(500px, calc(100% - 48px));
   min-height: auto;
-  padding: 36px 28px 28px;
+  padding: 50px 40px;
   box-sizing: border-box;
   transform: translate(-50%, -50%);
-  @include panel-surface;
+  background: #fff;
+  box-shadow: -12px 0 20px rgba(0, 0, 0, 0.15);
+  color: #000;
+
+  &.is-warn .modal-message {
+    text-align: center;
+  }
+
+  .modal-title {
+    margin: 0 0 10px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 36px;
+    text-align: center;
+    color: #000;
+  }
 
   .modal-message {
     margin: 0;
     font-size: 16px;
     font-weight: 500;
-    line-height: 1.65;
+    line-height: 26px;
     text-align: center;
-    color: var(--white-80);
+    color: #595959;
     word-break: keep-all;
 
     b {
-      color: var(--white);
+      color: #000;
       font-weight: 700;
     }
+  }
+
+  .modal-note {
+    margin-top: 20px;
+    padding: 16px 20px;
+    background: #f3f4f8;
+    font-size: 13px;
+    line-height: 22px;
+    color: #595959;
+    text-align: left;
   }
 
   .modal-image {
@@ -339,7 +641,6 @@ $z-system: 10000;
     img {
       max-width: 100%;
       height: auto;
-      border-radius: var(--radius);
     }
   }
 
@@ -347,36 +648,38 @@ $z-system: 10000;
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 24px;
+    margin-top: 30px;
     width: 100%;
 
     button {
       flex: 1;
       min-width: 0;
-      height: 48px;
+      height: 52px;
       margin: 0;
       padding: 0 16px;
       border: 0;
-      border-radius: var(--radius);
-      font-size: 15px;
+      border-radius: 0;
+      font-size: 18px;
       font-weight: 700;
-      color: var(--white);
+      color: #fff;
       cursor: pointer;
-      transition: opacity 0.2s;
 
       &:hover {
-        opacity: 0.9;
+        opacity: 0.92;
       }
     }
 
     .modal-button__confirm,
     .modal-button__yes {
-      background: linear-gradient(90deg, #22345d 0%, #4868b5 100%);
+      background: #4b53c3;
     }
 
     .modal-button__no {
-      background: #575970;
-      color: var(--white-80);
+      background: #a1a1a1;
+    }
+
+    &.is-single button {
+      flex: 1 1 100%;
     }
   }
 
@@ -384,6 +687,111 @@ $z-system: 10000;
     position: absolute;
     top: 12px;
     right: 12px;
-    @include close-x(32px);
+    @include close-x(32px, #333);
+  }
+}
+
+@media (max-width: 767px) {
+  .vault {
+    width: 100%;
+    max-width: 330px;
+  }
+
+  .notice-modal {
+    padding: 16px;
+
+    &__panel {
+      width: min(340px, 100%);
+      padding: 36px 24px 24px;
+      max-height: min(85vh, 640px);
+    }
+
+    &__title {
+      font-size: 16px;
+
+      span {
+        font-size: 13px;
+      }
+    }
+
+    &__actions .btn,
+    &__actions button {
+      height: 48px;
+      font-size: 16px;
+    }
+  }
+
+  .share-modal {
+    padding: 16px;
+
+    &__panel {
+      width: min(340px, 100%);
+      padding: 36px 20px 24px;
+    }
+
+    &__title {
+      font-size: 22px;
+      line-height: 28px;
+    }
+
+    &__desc {
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    &__channels {
+      gap: 12px;
+    }
+
+    &__channel-icon {
+      width: 56px;
+      height: 56px;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    &__channel-label {
+      font-size: 13px;
+    }
+
+    &__close {
+      height: 48px;
+      font-size: 16px;
+      margin-top: 24px;
+    }
+  }
+
+  .toast {
+    bottom: 24px;
+    font-size: 13px;
+    padding: 6px 16px;
+  }
+
+  .modal.modal-confirm {
+    width: min(310px, calc(100% - 32px));
+    padding: 36px 24px 24px;
+
+    .modal-title {
+      font-size: 18px;
+      line-height: 28px;
+    }
+
+    .modal-message {
+      font-size: 14px;
+      line-height: 22px;
+    }
+
+    .modal-buttons {
+      margin-top: 24px;
+      flex-direction: column;
+
+      button {
+        height: 48px;
+        font-size: 16px;
+      }
+    }
   }
 }
