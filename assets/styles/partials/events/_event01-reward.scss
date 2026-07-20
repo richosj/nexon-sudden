@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT1 · 보상 카드
 .reward-cards {
   display: flex;
@@ -78,8 +80,50 @@
   background: url("../images/icon_info.png") no-repeat center / cover;
 }
 
-@media (max-width: 767px) {
-.reward-cards {
+@include mo {
+  .reward-cards {
     flex-direction: column;
+    gap: 10px;
+    margin-top: 0;
+
+    &__card {
+      padding: 20px 16px;
+    }
+
+    &__title {
+      font-size: 18px;
+      letter-spacing: 0.4px;
+    }
+
+    &__line {
+      width: 120px;
+    }
+
+    &__desc {
+      font-size: 13px;
+      line-height: 17px;
+      margin: 10px 0;
+    }
+
+    &__items {
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  }
+
+  .reward-item {
+    flex: 1 1 0;
+    min-width: 0;
+    gap: 8px;
+
+    &__icon {
+      width: 72px;
+      height: 72px;
+    }
+
+    &__label {
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
 }

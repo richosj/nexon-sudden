@@ -1,3 +1,5 @@
+@use "breakpoints" as *;
+
 *,
 *::before,
 *::after {
@@ -11,7 +13,7 @@ body {
 }
 
 body {
-  min-width: var(--min-width);
+  min-width: 0;
   font-family: var(--font);
   font-size: 16px;
   line-height: 1.5;
@@ -50,4 +52,13 @@ ul {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+@include mo {
+  html,
+  body {
+    min-width: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 }

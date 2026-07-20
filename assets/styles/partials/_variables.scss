@@ -1,11 +1,12 @@
+@use "breakpoints" as *;
+
 :root {
   --font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-
-  /* 넥슨 GNB 높이 (고정 62px) — fnGnbResize 로도 갱신 가능 */
   --gnb-height: 62px;
 
   --max-width: 1920px;
-  --min-width: 1200px;
+  /* 1200 미만은 fluid — viewport device-width 와 맞춤 (구: 항상 1200 → 가로 스크롤) */
+  --min-width: 0;
   --inner-width: 1200px;
   --content-pad: 360px;
 
@@ -58,4 +59,18 @@
   --radius-lg: 500px;
   --shadow-panel: 0 0 31.2px rgba(0, 0, 0, 0.91);
   --shadow-card: 0 4px 25px rgba(0, 0, 0, 0.38);
+}
+
+/* PC 레이아웃 최소폭 — 1200px 이상에서만 */
+@media (min-width: 1200px) {
+  :root {
+    --min-width: 1200px;
+  }
+}
+
+@include mo {
+  :root {
+    --inner-width: 100%;
+    --content-pad: 16px;
+  }
 }

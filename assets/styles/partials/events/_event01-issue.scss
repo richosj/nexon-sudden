@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT1 · 메달 발급
 .medal-issue {
   display: flex;
@@ -46,16 +48,28 @@
   }
 }
 
-@media (max-width: 767px) {
-.medal-issue {
+@include mo {
+  .medal-issue {
     flex-direction: column;
     gap: 20px;
     min-height: 0;
     padding: 20px 16px;
 
+    &__visual,
+    &__action {
+      width: 100%;
+    }
+
     &__medal {
       width: 200px;
       height: 200px;
+      margin: 0 auto;
+    }
+
+    &__ring {
+      width: 200px;
+      height: 200px;
+      background-size: contain;
     }
 
     &__lock {

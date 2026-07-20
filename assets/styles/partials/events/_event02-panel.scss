@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT2 · 패널
 // EVENT 2 · 출석
 .event02 {
@@ -36,5 +38,36 @@
     text-align: center;
     width: 100%;
     margin-top: -10px;
+  }
+}
+
+@include mo {
+  .event02 {
+    .sec-head {
+      margin-bottom: 20px;
+    }
+
+    .attendance-panel {
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 20px 16px;
+      gap: 16px;
+      box-sizing: border-box;
+    }
+
+    .att-notes {
+      margin-top: 8px;
+
+      li {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 16px;
+      }
+    }
+
+    .notice-wrap {
+      margin-top: 8px;
+    }
   }
 }

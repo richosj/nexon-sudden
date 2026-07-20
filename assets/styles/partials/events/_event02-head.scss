@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT2 · 출석 헤더
 .att-head {
   display: flex;
@@ -123,5 +125,72 @@
 
   &:hover {
     opacity: 1;
+  }
+}
+
+@include mo {
+  .att-head {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    &__info {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+      width: 100%;
+    }
+
+    &__tag {
+      align-self: flex-start;
+      padding: 6px 12px 6px 6px;
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    &__avatar {
+      width: 24px;
+      height: 24px;
+
+      &.is-duo {
+        width: 40px;
+      }
+    }
+
+    &__stats {
+      width: 100%;
+      height: auto;
+      min-height: 36px;
+      padding: 6px 10px;
+      gap: 6px;
+      justify-content: center;
+      flex-wrap: wrap;
+      font-size: 12px;
+      line-height: 20px;
+      box-sizing: border-box;
+
+      strong {
+        font-size: 14px;
+        margin: 0 2px 0 4px;
+      }
+
+      .icon-ticket {
+        margin-right: 4px;
+      }
+    }
+
+    &__actions {
+      width: 100%;
+      gap: 8px;
+
+      .att-head__btn {
+        flex: 1 1 0;
+        min-width: 0;
+        height: 36px;
+        padding: 0 10px;
+        font-size: 13px;
+        gap: 4px;
+      }
+    }
   }
 }

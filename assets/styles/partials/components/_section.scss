@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // =============================================================================
 // 공통 섹션 UI — .sec-tag / .sec-head / .notice-btn / .section-block
 // =============================================================================
@@ -76,4 +78,42 @@
 
 .section-block--event3 {
   position: relative;
+}
+
+@include mo {
+  .sec-tag {
+    padding: 4px 16px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .sec-head {
+    gap: 6px;
+    padding: 0 10px;
+
+    h2 {
+      font-size: 26px;
+      line-height: 38px;
+    }
+
+    p {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 17px;
+    }
+  }
+
+  .notice-btn {
+    padding: 5px 11px;
+    font-size: 12px;
+    line-height: 12px;
+  }
+
+  .section-block {
+    padding: 60px 16px 0;
+
+    > .sec-head + * {
+      margin-top: 20px;
+    }
+  }
 }

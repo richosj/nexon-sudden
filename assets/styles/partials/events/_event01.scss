@@ -1,4 +1,6 @@
-// EVENT1 aggregator — MO는 각 파일 하단 @media 에 추가
+// EVENT1 · 메달 합체
+// phase: 1발급(issue) → 2~3찾기/대기(match·request) → 4완성(complete) + 하단 reward
+// Vue: medal.phase / v-show 로 전환 — 미리 전부 hide가 아니라 상태 갱신 후 렌더
 @use "event01-panel";
 @use "event01-steps";
 @use "event01-issue";

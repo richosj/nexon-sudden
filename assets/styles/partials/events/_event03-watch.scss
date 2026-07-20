@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // =============================================================================
 // EVENT3 · 시청 이벤트 (.watch-panel / .watch-list)
 // 패널 프레임은 _event03.scss 공통 선택자 참고
@@ -125,5 +127,54 @@
     font-size: 20px;
     font-weight: 500;
     line-height: 15px;
+  }
+}
+
+@include mo {
+  .watch-list {
+    &__item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 20px 16px 16px 20px;
+    }
+
+    &__num {
+      width: 36px;
+      height: 36px;
+      font-size: 12px;
+      padding: 3px 0 0 5px;
+    }
+
+    &__icon {
+      width: 72px;
+      height: 72px;
+    }
+
+    &__title {
+      font-size: 16px;
+      line-height: 22px;
+    }
+
+    &__desc {
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    &__reward-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    .reward-chip {
+      font-size: 12px;
+      line-height: 14px;
+      padding: 3px 8px;
+    }
+
+    &__reward-text {
+      font-size: 13px;
+      line-height: 16px;
+    }
   }
 }

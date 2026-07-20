@@ -1,9 +1,15 @@
-// style.scss — PC 기준 엔트리. MO는 각 partial 하단 @media 로 추가 예정
-@use "partials/variables";   // 디자인 토큰
+// =============================================================================
+// style.scss — PC 기준 엔트리
+//
+// 구조: variables → reset → layout → components → hero → event(1~3) → functional → modals
+// MO: 각 partial 하단 @include mo { }  (숫자는 partials/_breakpoints.scss 만 수정)
+// 디자인 토큰(:root)은 _variables.scss — 값/이미지는 건드리지 말고 레이아웃·그리드만 조정
+// =============================================================================
+@use "partials/variables";
 @use "partials/reset";
-@use "partials/layout";      // layout/* — wrap · topbar · sns · sidebar · footer · main
-@use "partials/components"; // components/* — btn · section · deco · badge · util
+@use "partials/layout";
+@use "partials/components";
 @use "partials/hero";
-@use "partials/event";       // events/* (event01~03 하위 분리)
-@use "partials/functional";  // scroll-offset only
-@use "partials/modals";      // vault · notice · share · Utils.alert
+@use "partials/event";
+@use "partials/functional";
+@use "partials/modals";

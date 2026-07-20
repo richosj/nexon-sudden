@@ -1,9 +1,6 @@
-// =============================================================================
-// EVENT3 · 공통
-// · 섹션 배경 · 매치 시작 일시 배너
-// · 타임테이블 / 쇼케이스 / 시청 패널 공통 프레임 (골드 보더 + 퍼플 그라데이션)
-// MO 대응 시 이 파일의 공통 프레임 width/padding 부터 조정
-// =============================================================================
+@use "../breakpoints" as *;
+
+// EVENT3
 
 .event03 {
   display: flex;
@@ -20,7 +17,6 @@
     margin-top: 0;
   }
 
-  // 매치 시작 일시 — 가로 블루 페이드 배경 + 상·하 골드 라인(410px)
   .match-date {
     position: relative;
     display: flex;
@@ -75,7 +71,6 @@
   }
 }
 
-// 패널 공통 크롬 (보더·배경·섀도) — width/padding 은 각 파일에서 유지
 .timetable,
 .showcase-panel__list,
 .watch-panel {
@@ -88,7 +83,8 @@
 
 .timetable,
 .watch-panel {
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 30px 32px;
 }
@@ -106,5 +102,39 @@
     font-weight: 400;
     line-height: 19px;
     color: #9da2ac;
+  }
+}
+
+@include mo {
+  .event03 {
+    gap: 30px;
+    padding-bottom: 60px;
+
+    .match-date {
+      max-width: 100%;
+      width: 100%;
+      padding: 10px 16px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+  }
+
+  .timetable,
+  .watch-panel {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px 16px;
+    box-sizing: border-box;
+  }
+
+  .block-title {
+    font-size: 14px;
+    line-height: 20px;
+    flex-wrap: wrap;
+
+    small {
+      font-size: 11px;
+      line-height: 16px;
+    }
   }
 }

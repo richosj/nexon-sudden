@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // =============================================================================
 // EVENT1 · 메달 완성 (.medal-complete)
 // phase 4 — 보상 보드 · 수령 CTA · 듀오 정보
@@ -178,5 +180,192 @@
     line-height: 24px;
     color: #b9bbd5;
     text-align: center;
+  }
+
+  /* 기획 v3.3 — 듀오 닉네임 고정 안내 */
+  &__duo-note {
+    margin: 8px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: rgba(185, 187, 213, 0.75);
+    text-align: center;
+  }
+}
+
+@include mo {
+  .medal-complete {
+    padding: 0;
+    gap: 0;
+    width: 100%;
+
+    &__visual {
+      width: 100%;
+      padding: 20px 16px 0;
+
+      img {
+        display: block;
+        width: min(100%, 200px);
+        margin: 0 auto;
+      }
+    }
+
+    &__title {
+      margin-top: 18px;
+      font-size: 26px;
+      line-height: normal;
+    }
+
+    &__desc {
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 17px;
+      color: #fff;
+    }
+    &__board {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      width: 100%;
+      margin-top: 20px;
+      padding: 20px 16px;
+      border: 0;
+      background: #222b3c;
+      box-sizing: border-box;
+    }
+
+    &__col {
+      width: 100%;
+      padding: 22px 16px;
+      gap: 4px;
+      box-sizing: border-box;
+    }
+
+    &__col-title {
+      font-size: 18px;
+      line-height: normal;
+      order: 2;
+    }
+
+    &__items {
+      gap: 10px;
+      order: 1;
+    }
+
+    &__item {
+      gap: 10px;
+
+      span {
+        font-size: 12px;
+        line-height: normal;
+      }
+    }
+
+    &__icon {
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.11);
+    }
+
+    // 2번째 카드(확정): 아이콘 가로 2~3개 유지, 타이틀은 카드 하단 요약 역할
+    &__col:nth-child(2) {
+      .medal-complete__items {
+        flex-wrap: nowrap;
+      }
+
+      .medal-complete__item:nth-child(n + 3) {
+        display: none;
+      }
+
+      .medal-complete__icon {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    // 3번째 카드(추첨): 아이콘 1개만
+    &__col:nth-child(3) {
+      .medal-complete__item:nth-child(n + 2) {
+        display: none;
+      }
+    }
+
+    &__claim-wrap {
+      width: 100%;
+      grid-column: auto;
+    }
+
+    &__claim {
+      width: 100%;
+      height: auto;
+      padding: 12px 32px;
+      border-radius: 500px;
+      border: 0;
+      background: linear-gradient(90deg, #4b53c3 0%, #4b53c3 100%), linear-gradient(90deg, #22345d 0%, #4868b5 100%);
+      font-size: 12px;
+      font-weight: 700;
+      box-sizing: border-box;
+    }
+    &__duo {
+      margin-top: 16px;
+      padding: 0;
+      gap: 4px;
+      border: 0;
+      background: transparent;
+      align-items: stretch;
+
+      .corner-deco {
+        display: none;
+      }
+    }
+
+    &__duo-title {
+      font-size: 14px;
+      line-height: 16px;
+      gap: 2px;
+
+      .icon-duo-user {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &__duo-info {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      padding: 10px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      background: #373f4e;
+      box-sizing: border-box;
+
+      strong {
+        flex: 1 1 auto;
+        min-width: 0;
+        font-size: 14px;
+        line-height: 26px;
+        text-align: left;
+      }
+    }
+
+    &__duo-link {
+      flex: 0 0 auto;
+      width: auto;
+      padding: 7px 25px;
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: normal;
+    }
+  }
+  .reward-cards.is-complete-phase {
+    display: flex;
+  }
+}
+
+@include mo-up {
+  .reward-cards.is-complete-phase {
+    display: none !important;
   }
 }

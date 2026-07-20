@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT1 · 스텝
 .step-list {
   display: flex;
@@ -85,16 +87,25 @@
   }
 }
 
-@media (max-width: 767px) {
-.step-list {
+@include mo {
+  .step-list {
     flex-wrap: wrap;
+    gap: 4px;
 
     &__item {
-      flex: 1 1 calc(50% - 4px);
+      flex: 1 1 calc(50% - 2px);
+      width: calc(50% - 2px);
       min-width: 0;
       height: auto;
-      min-height: 56px;
+      min-height: 60px;
       padding: 11px 17px;
+      gap: 8px;
+      box-sizing: border-box;
+    }
+
+    &__num-wrap {
+      width: 34px;
+      height: 34px;
     }
 
     &__title {

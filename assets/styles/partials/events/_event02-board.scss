@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT2 · 출석 보드
 .att-board {
   width: 100%;
@@ -61,6 +63,33 @@
     white-space: nowrap;
     b{
       color: #CFD2FF;
+    }
+  }
+}
+
+@include mo {
+  .att-board {
+    &__head {
+      font-size: 14px;
+      line-height: 20px;
+
+      .icon-calendar {
+        width: 16px;
+        height: 16px;
+      }
+
+      small {
+        font-size: 12px;
+      }
+    }
+
+    &__progress {
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    &__count {
+      font-size: 13px;
     }
   }
 }

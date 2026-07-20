@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // 이벤트 상단바 (sticky · GNB 아래 고정)
 .topbar {
   position: sticky;
@@ -70,12 +72,26 @@
       }
     }
   }
+
+  // MO 전용 — PC 숨김
+  &__menu,
+  &__drawer,
+  &__dim {
+    display: none;
+  }
 }
 
-@media (max-width: 767px) {
+@include mo {
   .topbar {
+    border-bottom: 1px solid #2b2b2b;
+    background:
+      linear-gradient(0deg, rgba(34, 53, 94, 0.3) 0%, rgba(61, 82, 141, 0.3) 100%),
+      linear-gradient(90deg, #1c1b1b 0%, #1c1b1b 100%);
+
     &__in {
-      min-height: 56px;
+      position: relative;
+      z-index: 2;
+      min-height: 60px;
       padding: 10px 16px;
     }
 
@@ -84,16 +100,97 @@
       height: 40px;
     }
 
+    // PC 네비·보상함 숨기고 햄버거만
     &__actions {
-      gap: 12px;
+      display: none;
     }
 
-    &__nav {
-      gap: 12px;
+    &__menu {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 22px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    &__menu-icon {
+      display: block;
+      width: 34px;
+      height: 22px;
+      background: url("../images/icon_menu.svg") no-repeat center / contain;
+    }
+
+    &__drawer {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      z-index: 2;
+      padding: 16px;
+      background: #1c1b1b;
+      border-bottom: 1px solid #2b2b2b;
+      transform: translateY(-8px);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+
+      &.is-open {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+    }
+
+    &__drawer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
 
       a {
-        font-size: 13px;
+        display: block;
+        padding: 12px 8px;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 22px;
+        color: rgba(255, 255, 255, 0.85);
+
+        &.is-active {
+          color: #fff;
+          font-weight: 700;
+        }
       }
+    }
+
+    &__dim {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.45);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.2s, visibility 0.2s;
+
+      &.is-open {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+    }
+
+    .btn--benefit {
+      width: 100%;
+      justify-content: center;
     }
   }
 }

@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // 좌측 퀵메뉴 (PC only)
 .side-nav {
   position: fixed;
@@ -53,7 +55,7 @@
   }
 }
 
-@media (max-width: 1520px) {
+@include sidebar-hide {
   .side-nav {
     display: none;
   }

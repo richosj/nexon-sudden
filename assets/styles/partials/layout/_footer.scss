@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // 푸터
 .footer {
   display: flex;
@@ -41,7 +43,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@include mo {
   .footer {
     gap: 24px;
     padding: 48px 16px 56px;

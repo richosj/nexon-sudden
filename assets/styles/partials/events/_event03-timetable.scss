@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // =============================================================================
 // EVENT3 · 타임테이블 (.timetable)
 // 패널 프레임은 _event03.scss 공통 선택자 참고
@@ -181,4 +183,91 @@
     width: 100%;
   }
   
+}
+
+@include mo {
+  .timetable {
+    &__head {
+      font-size: 14px;
+      line-height: 20px;
+      padding-bottom: 8px;
+
+      .icon-timetable {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &__cols {
+      gap: 10px;
+    }
+
+    &__part {
+      flex-direction: column;
+    }
+
+    &__part-head {
+      width: 100%;
+      padding: 10px 16px;
+      gap: 10px;
+      box-sizing: border-box;
+    }
+
+    &__part-num {
+      font-size: 20px;
+      line-height: 24px;
+    }
+
+    &__part-name {
+      font-size: 15px;
+      line-height: 20px;
+    }
+
+    &__row {
+      flex-direction: column;
+      gap: 8px;
+      padding: 12px 16px;
+      box-sizing: border-box;
+    }
+
+    &__time {
+      width: 100%;
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    &__desc {
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    &__line {
+      width: 100%;
+      max-width: 280px;
+      margin: 24px auto 16px;
+    }
+
+    &__title {
+      font-size: 22px;
+      line-height: 30px;
+    }
+
+    &__broadcast {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn--broadcast {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    &__note {
+      font-size: 12px;
+      line-height: 16px;
+    }
+  }
 }

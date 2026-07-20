@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT2 · 마일스톤
 .milestone {
   margin-top: 30px;
@@ -19,7 +21,7 @@
     line-height: 26px;
     color: #fff;
     flex: 1 0 0;
-    &-dummy{
+    &-spacer {
       height: 1px;
       flex: 1 0 0;
     }
@@ -112,5 +114,66 @@
 
   
 
+}
+
+@include mo {
+  .milestone {
+    margin-top: 24px;
+
+    &__heads {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    &__head {
+      flex: none;
+      width: 100%;
+      font-size: 14px;
+      line-height: 20px;
+
+      .icon-milestone,
+      .icon-milestone-duo {
+        width: 16px;
+        height: 16px;
+      }
+
+      &-dummy {
+        display: none;
+      }
+    }
+
+    &__row {
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    &__card {
+      padding: 16px 12px;
+      gap: 12px;
+    }
+
+    &__title {
+      font-size: 16px;
+      line-height: 20px;
+    }
+
+    &__icon {
+      width: 120px;
+      height: 58px;
+    }
+
+    &__gift {
+      font-size: 14px;
+      line-height: 18px;
+    }
+
+    &__btn {
+      width: 100%;
+      padding: 10px 0;
+      font-size: 13px;
+    }
+  }
 }
 

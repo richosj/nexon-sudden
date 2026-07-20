@@ -1,3 +1,5 @@
+@use "breakpoints" as *;
+
 // 패널·팝업 — Figma 「패널 & 팝업」 PC/MO
 //   .vault — 내 보상함 사이드패널
 //   .notice-modal — 유의사항
@@ -691,7 +693,7 @@ $z-system: 10000;
   }
 }
 
-@media (max-width: 767px) {
+@include mo {
   .vault {
     width: 100%;
     max-width: 330px;

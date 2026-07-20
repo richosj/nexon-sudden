@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT1 · 패널
 .event01-bg {
   background: url("../images/event01_bg.png") no-repeat center / cover;
@@ -22,9 +24,20 @@
   }
 }
 
-@media (max-width: 767px) {
-  .event01 .event01__panel {
-    max-width: calc(100% - 32px);
-    gap: 24px;
+@include mo {
+  .event01 {
+    .sec-head {
+      margin-bottom: 20px;
+    }
+
+    .event01__panel {
+      max-width: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      gap: 30px;
+      background: transparent;
+      box-shadow: none;
+    }
   }
 }

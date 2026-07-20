@@ -1,9 +1,12 @@
+@use "../breakpoints" as *;
+
 // =============================================================================
 // EVENT3 · 출전팀 & 중계진 (.showcase-panel / .team-grid / .caster-grid)
 // 패널 프레임·.block-title 은 _event03.scss 공통 참고
 // =============================================================================
 .showcase-panel {
-  width: 1200px;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
   padding-top: 40px;
 
@@ -204,6 +207,92 @@
       width: 1px;
       height: 9px;
       background: #B3B6D2;
+    }
+  }
+}
+
+@include mo {
+  .showcase-panel {
+    width: 100%;
+    max-width: 100%;
+    padding-top: 20px;
+
+    &__list {
+      margin-top: 20px;
+      padding: 20px 16px;
+      gap: 20px;
+      box-sizing: border-box;
+    }
+  }
+  .team-grid {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+
+    &__card {
+      flex: none;
+      width: 100%;
+      max-width: 100%;
+      padding: 20px 16px;
+      box-sizing: border-box;
+    }
+
+    &__logo {
+      width: 98px;
+      height: 98px;
+    }
+
+    &__name {
+      font-size: 20px;
+      line-height: 26px;
+    }
+
+    &__player {
+      font-size: 14px;
+      line-height: 18px;
+
+      .name {
+        font-size: 16px;
+        line-height: 22px;
+      }
+
+      .role {
+        font-size: 14px;
+        line-height: 18px;
+      }
+    }
+  }
+
+  .caster-grid {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+
+    &__card {
+      flex: none;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    &__photo-wrap {
+      height: 150px;
+    }
+
+    &__photo {
+      width: 120px;
+      height: 120px;
+    }
+
+    &__name {
+      font-size: 20px;
+      line-height: 26px;
+    }
+
+    &__meta {
+      font-size: 14px;
+      line-height: 20px;
+      white-space: normal;
     }
   }
 }

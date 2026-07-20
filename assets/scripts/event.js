@@ -1,18 +1,23 @@
 /**
  * event.js — 서든어택 21주년 Vue 앱 (mount: #app)
  *
- * 데이터 흐름: 사용자 액션 → get/post API → reactive 상태 갱신 → 템플릿 반영
- * mock: assets/data/*.json (rtnCode "0000" 형식) · 실서버 연동 시 TODO 구간 교체
+ * 데이터 흐름 (미리 세팅 후 show/hide 금지):
+ *   ① 액션(클릭) → ② get/post 수신 → ③ reactive 상태 세팅 → ④ 자동 렌더
  *
- * setup() 블록 구성:
- *   [상태] [정적 데이터] [계산값] [API 연동] [EVENT1] [EVENT2] [공통] [UI 헬퍼] [초기화]
+ * setup() 블록:
+ *   [상태] [정적 데이터] [계산값] [API 연동] [UI 헬퍼] [동작 함수] [초기화]
+ *
+ * 공용: utils.js(Utils.alert/confirm/bodyScroll) · control.js(data-scroll-active, pageScroll)
+ * mock: assets/data/*.json — 응답 계약 { rtnCode, message, result }
+ * 실서버 연동: 아래 get/post 함수 내부 // TODO: API 위치에 fetch 연결
  */
 (function () {
   const { createApp, reactive, computed, onMounted } = Vue;
 
-  /** mock JSON 경로 (배포 시 API base URL 로 교체) */
+  /** mock 경로 — 배포 시 API base URL 로 교체 */
   const DATA_BASE = "./assets/data";
-  /** 21일 일별 보상 라벨 — days computed 에서 날짜와 매핑 */
+
+  // 21일 일별 보상 라벨 (days computed 와 인덱스 매핑)
   const DAY_REWARDS = [
     "위장 닉네임 3일",
     "플러스 콤보팩 EX 3일",
@@ -37,7 +42,6 @@
     "5만 경험치",
   ];
   const DOW = "일월화수목금토";
-
   /** 공통 fetch — rtnCode !== "0000" 이면 Utils.alert 후 throw */
   async function fetchApi(url) {
     const res = await fetch(url);
@@ -52,57 +56,78 @@
 
   createApp({
     setup() {
-      /* [상태] — API 응답·클릭 핸들러가 갱신, 템플릿은 v-bind/@click 으로 연결 */
+      /* ------------------------------------------------------------------
+       * [상태] API/클릭이 갱신 → 템플릿은 바인딩만 (값 미리 박아두고 숨기지 않음)
+       * ------------------------------------------------------------------ */
 
-      /** login · character · penalty — 참여 자격 (TODO: GNB/세션 연동) */
+      /**
+       * 유저 계정 정보
+       * 로그인 여부, 인게임 캐릭터 존재 여부, 이벤트 제재 상태
+       * 참여 자격 = login && character && !penalty
+       */
       const user = reactive({
         login: true,
         character: true,
         penalty: false,
       });
 
-      /** EVENT1 메달 합체 — phase 1발급 2매칭 3대기 4완성 */
+      /**
+       * EVENT1 메달 합체 상태
+       * phase: 1발급 → 2찾기 → 3신청대기(sentTo) → 4완성
+       * side: 합체 연출용 L/R만 사용 (매칭 좌우 제한 없음)
+       * quota: 일 5회 · 오전 8시 초기화 · 취소 시 횟수 미복구
+       */
       const medal = reactive({
         issued: true,
         code: "SA-K7X9",
         side: "L",
         phase: 2,
-        quota: 5, // 일일 합체 신청 잔여 (매일 8시 초기화)
-        sentTo: null, // 내가 보낸 신청 { nick, code }
-        received: [], // 받은 신청 목록
+        quota: 5,
+        sentTo: null,
+        received: [],
         sortMode: "new",
-        matched: null, // 듀오 { nick, code }
+        matched: null,
         claimed: false,
-        find: { input: "", preview: null, alert: null }, // 코드 입력·실시간 조회 UI
+        find: { input: "", preview: null, alert: null },
       });
 
-      /** EVENT2 출석 — state[i]: 0미출석 1출석 2동반 4보충 */
+      /**
+       * EVENT2 21일 출석 상태
+       * state[i]: 0미출석 · 1출석 · 2동반 · 4보충 (보충일은 연속·동반 집계 제외)
+       */
       const attend = reactive({
         state: Array(21).fill(0),
         todayIdx: 0,
         makeup: 0,
         streak: 0,
         hasDuo: false,
-        claimed: [], // 일별 보상 수령 idx
+        claimed: [],
         msClaimed: [],
         duoMsClaimed: [],
-        streakDays: [], // 연속 3일 달성 표시용 idx
-        refreshAt: 0, // 출석 갱신 3분 쿨다운 (클라이언트)
+        streakDays: [],
+        refreshAt: 0,
       });
 
-      /** 내 보상함 드로어 (Teleport) */
-      const vault = reactive({ open: false });
       /**
-       * 공통 UI
-       * notice: 유의사항 키 / share: SNS 모달 / toast: 하단 알람
+       * 내 보상함 드로어 열림 여부
+       * TODO: getVaultRewards 연동 시 rewards 배열 추가
+       */
+      const vault = reactive({ open: false });
+
+      /**
+       * 공통 UI 상태
+       * notice: 유의사항 대상(event01~03) · share: SNS 모달 · menu: MO 햄버거 · toast
        */
       const ui = reactive({
         notice: null,
         share: false,
+        menu: false,
         toast: { show: false, text: "", timer: null },
       });
 
-      /** SNS 공유 채널 목록 */
+      /* ------------------------------------------------------------------
+       * [정적 데이터] API 불필요 — 스텝·보상카피·마일스톤·유의사항·쇼케이스
+       * ------------------------------------------------------------------ */
       const shareChannels = [
         { id: "kakao", label: "카카오톡", icon: "share_kakao.svg" },
         { id: "facebook", label: "페이스북", icon: "share_facebook.svg" },
@@ -111,9 +136,6 @@
         { id: "link", label: "링크복사", icon: "share_link.svg" },
       ];
 
-      /* [정적 데이터] — 마크업·카피 고정값 (API 불필요) */
-
-      /** 스텝 인디케이터 4단계 */
       const steps = [
         { id: "step-01", n: 1, title: "메달 발급", sub: "반쪽 메달·코드" },
         { id: "step-02", n: 2, title: "반쪽 찾기", sub: "코드 공유·신청" },
@@ -144,37 +166,41 @@
         icon: "ac_reward_icon_04.png",
       };
 
+      /* 유의사항 — 기획안 v3.3 슬라이드 문구 정합 (표시용 정적 카피) */
       const notices = {
         event01: [
           "참여 제한: 본 이벤트는 계정당 1회만 참여 가능하며, 1:1 매칭으로만 진행됩니다. 동일 명의 계정 간에는 듀오 결성이 불가합니다.",
           "신청 제한: 메달 합체 신청은 1일 최대 5회까지만 가능하며, 매일 오전 8시에 초기화됩니다.",
-          "신청 취소: 상대방에게 보낸 메달 합체 신청은 상대가 수락하기 전까지 언제든지 취소할 수 있습니다.",
-          "듀오 결성 후 변경 불가: 상대방이 수락하여 듀오가 결성된 이후에는 어떠한 경우에도 듀오 변경·취소가 불가능합니다.",
-          "듀오 닉네임 안내: 듀오 닉네임은 결성 완료 시점 기준으로 고정되며, 이후 인게임에서 닉네임을 변경해도 이벤트 페이지에는 반영되지 않습니다.",
-          "보상 지급: '보상 받기' 클릭 시 보상 아이템이 인게임 선물함으로 즉시 지급됩니다.",
-          "수령 기간: 보상은 9월 3일(목) 정기점검 전까지만 수령 가능합니다.",
+          "신청 취소: 상대방에게 보낸 메달 합체 신청은 상대방이 수락하기 전까지 언제든지 취소할 수 있습니다. 단, 신청 취소 시 일일 신청 횟수는 복구되지 않습니다.",
+          "신청 자동 취소: 이미 신청을 보낸 상태에서 새로운 상대에게 다시 신청하는 경우, 이전 상대에게 보낸 신청은 자동으로 취소됩니다.",
+          "듀오 결성 후 변경 불가: 상대방이 신청을 수락하여 듀오가 결성된 이후에는 어떠한 경우에도 듀오 변경 및 취소가 불가능하니 신중하게 결정해 주세요.",
+          "듀오 닉네임 안내: 듀오의 닉네임은 듀오 결성 완료 시점을 기준으로 고정됩니다. 이후 인게임에서 닉네임을 변경하더라도 이벤트 페이지 내 듀오 닉네임은 변경되지 않습니다.",
+          "보상 지급: '보상 받기' 버튼 클릭 시 보상 아이템(10만 경험치 + 리센느 멀티카운트 + 돌격 기간연장 영구제)이 인게임 선물함으로 즉시 지급됩니다.",
+          "수령 기간: 보상 아이템은 9월 3일(목) 정기점검 전까지만 수령이 가능하오니 반드시 기간 내에 보상을 수령해 주세요.",
+          "추첨 보상 발표: 트윈 블루투스 스피커 및 넥슨캐시 당첨 여부는 9월 3일(목) 당첨자 발표 게시판을 통해 확인하실 수 있습니다.",
         ],
         event02: [
           "출석 인정 기준: 이벤트 기간 동안 게임에 접속하면 당일 출석으로 인정됩니다. (하루 기준: 오전 08:00 ~ 다음 날 오전 07:59)",
           "출석 현황 갱신: 출석이 웹페이지에 즉시 반영되지 않을 경우 '출석 갱신하기' 버튼을 클릭해 주세요. (출석 재갱신은 3분 간격으로만 가능합니다.)",
-          "듀오 동반 출석 보상: 듀오 결성 후 같은 날 함께 출석하면 '보충 출석권'이 1장 지급됩니다. (기간 내 최대 5장)",
-          "동반 출석 달성 보상: 듀오와 동반 출석을 누적 5일 달성하면 듀오 양측 모두에게 보상이 지급됩니다. (보충 출석권으로 출석 처리한 날은 동반 출석 횟수에서 제외)",
-          "연속 출석 보상: 3일 연속 접속할 때마다 '보충 출석권'이 1장 지급됩니다. (기간 내 최대 5장)",
-          "연속 출석 초기화: 하루라도 결석하면 기존 연속 출석 기록은 즉시 초기화됩니다.",
-          "보충 출석권 사용·제한: 결석한 날을 출석으로 메울 수 있으나, 처리 완료한 날은 취소·변경이 불가하며 '3일 연속 출석'·'듀오 동반 출석' 조건에 모두 반영되지 않습니다.",
-          "누적 출석 보상: 누적 출석 7/14/21일, 듀오 동반 출석 5일 달성 시 각 단계별 추가 보상을 획득할 수 있습니다.",
-          "듀오 변경 불가: 듀오 결성 후에는 변경·취소가 불가하므로 신중하게 맺어주세요.",
-          "보상 지급: 모든 출석 보상은 '보상 받기'를 클릭해야 인게임 선물함으로 지급됩니다.",
-          "보상 수령 기간: 보상은 9월 3일(목) 정기점검 전까지만 수령 가능합니다.",
-          "보상 수령 안내: SP·제작 재료는 지급일로부터 30일 이내 미수령 시 삭제되며, SP는 본인 인증을 완료한 계정만 수령 가능합니다.",
-          "보상 거래 속성: 모든 출석 보상은 '거래불가'로 지급됩니다.",
+          "동반 출석 인정: 동반 출석은 이벤트1에서 듀오를 맺은 서든러 2명이 같은 날 각각 게임에 접속하면 반영됩니다. (기간 내 최대 5장)",
+          "동반 출석 보충권: 듀오와 같은 날 함께 출석하면 '보충 출석권'이 1장 지급됩니다.",
+          "동반 출석 누적 보상: 동반 출석이 누적 5일에 도달하면 듀오 양측 모두에게 보상이 지급됩니다. 단, 보충 출석권으로 출석 처리한 날은 누적 집계에 포함되지 않습니다.",
+          "연속 출석 보충권: 3일 연속으로 게임에 접속할 때마다 '보충 출석권'이 1장 지급됩니다. (이벤트 기간 내 최대 5장)",
+          "연속 출석 초기화: 단 하루라도 결석할 경우, 기존의 연속 출석 기록은 즉시 초기화(리셋)됩니다.",
+          "보충 출석권 사용 및 제한: 빈 날짜를 클릭하면 보충 출석권 1장으로 결석한 날을 출석 상태로 메울 수 있습니다. (보충 출석권 한도: 동반 5장 + 연속 5장) 단, 보충 출석권으로 채운 날은 취소·변경이 불가능하며, '연속 출석'과 '동반 출석' 조건에는 포함되지 않습니다.",
+          "누적 출석 보상: 누적 출석일 7일 / 14일 / 21일 달성 시, 각 단계별 추가 보상을 획득할 수 있습니다.",
+          "듀오 변경 불가: 듀오 결성 완료 후에는 듀오 변경 및 취소가 불가능하므로 신중하게 듀오를 맺어 주세요.",
+          "보상 지급: 모든 출석 보상은 이벤트 페이지 내 '보상 받기' 버튼을 클릭해야 인게임 선물함으로 지급됩니다.",
+          "보상 수령 기간: 보상은 9월 3일(목) 정기점검 전까지만 수령이 가능하오니 기간 내에 반드시 수령해 주세요.",
+          "SP 보상 수령 안내: SP 및 제작 재료는 지급일로부터 30일 이내 수령하지 않을 경우 삭제되며, SP는 본인 인증을 완료한 계정만 수령 가능합니다.",
           "기타 안내: 자세한 이벤트 유의사항은 [이벤트 정책]을 확인해 주시기 바랍니다.",
         ],
         event03: [
-          "쇼케이스 일정·출연진·경품은 사전 고지 없이 변경될 수 있습니다.",
-          "시청 이벤트 참여 방법 및 당첨자 발표 일정은 각 이벤트 안내를 따릅니다.",
-          "승부 예측·퀴즈 등 참여형 이벤트는 SOOP·YouTube 채널 공지를 확인해 주세요.",
+          "21주년 쇼케이스 방송 시청 이벤트: 21주년 쇼케이스 방송을 시청하고 조건을 충족하면 보상이 지급됩니다.",
+          "승부 예측: 8월 23일(일) 오후 5시 전까지 참여한 예측만 인정됩니다. 승부 예측은 계정당 최대 5회까지만 참여 가능하며, 이후엔 수정이 불가능합니다. 보상은 예측 참여 횟수와 상관 없이 계정당 1회만 지급됩니다.",
+          "N커넥트 연동: 선택 동의를 포함한 N커넥트 연동을 완료한 후 방송을 시청해야 드롭스 보상이 지급됩니다.",
           "듀오 동반 시청: 21주년 메달을 완성하고 N커넥트 연동을 완료한 듀오가 함께 시청해야 추가 보상 대상이 됩니다. 보상은 계정당 1회만 지급됩니다.",
+          "상세 보상 내용 및 세부 유의사항은 추후 업데이트될 예정입니다.",
         ],
       };
 
@@ -239,9 +265,10 @@
         ],
       };
 
-      /* [계산값] — reactive 상태 기반 파생값 (computed) */
-
-      /** 받은 합체 신청 — sortMode 기준 정렬, 최대 10건 */
+      /* [계산값]
+       * sortedReceived · days/calRows · totalDays/duoDays · progress · duoLabel · vaultMilestones
+       * duoDays 는 state===2 만 (보충 4 제외)
+       */
       const sortedReceived = computed(() => {
         const list = [...medal.received];
         list.sort((a, b) =>
@@ -249,12 +276,8 @@
         );
         return list.slice(0, 10);
       });
-
-      /** 누적 출석일 (0 초과) · 동반 출석일 (state === 2) */
       const totalDays = computed(() => attend.state.filter((s) => s > 0).length);
       const duoDays = computed(() => attend.state.filter((s) => s === 2).length);
-
-      /** 21일 캘린더 카드 데이터 — makeable: 보충 가능한 과거 미출석일 */
       const days = computed(() =>
         DAY_REWARDS.map((reward, i) => {
           const d = new Date(2026, 7, 6 + i);
@@ -299,8 +322,6 @@
         }
         return "나 혼자 출석 중";
       });
-
-      /** 보상함 · 마일스톤 행 (받기 가능 / 미달성 / 수령완료) */
       const vaultMilestones = computed(() =>
         milestoneDefs.map((m) => {
           const claimed = attend.msClaimed.includes(m.d);
@@ -318,9 +339,11 @@
         })
       );
 
-      /* [API 연동] — apply* 는 응답 → reactive 매핑, get/post 는 TODO 교체 */
-
-      /** GET 메달 상태 응답 → medal (+ matched 시 attend.hasDuo) */
+      /* [API 연동]
+       * 흐름: 클릭 → get/post → apply*로 상태 세팅 → 렌더
+       * 응답 권장: { rtnCode, message, result } — fetchApi 가 rtnCode 검사
+       * 실서버: 각 함수 TODO API 위치에 fetch 연결 (mock JSON 제거)
+       */
       function applyMedalState(result) {
         medal.issued = !!result.issued;
         medal.code = result.code || "";
@@ -337,8 +360,6 @@
         }));
         if (medal.matched) attend.hasDuo = true;
       }
-
-      /** GET 출석 상태 응답 → attend */
       function applyAttendanceState(result) {
         attend.state = [...(result.state || Array(21).fill(0))];
         attend.todayIdx = result.todayIdx ?? 0;
@@ -351,13 +372,20 @@
         attend.streakDays = [...(result.streakDays || [])];
       }
 
-      /** TODO: GET /api/medal/state — 초기·새로고침 시 메달·듀오·phase */
+      /**
+       * GET 메달 초기 상태
+       * 로드 시 issued · code · phase · quota · matched · received 등을 상태에 반영
+       * TODO: 실 API 연결 · 배포 전 medal.json(미발급) 복구 여부 확인
+       */
       async function getMedalState() {
         // TODO(작업용): phase2 미리보기 — 배포 전 medal.json 으로 복구
         applyMedalState(await fetchApi(DATA_BASE + "/medal_issued.json"));
       }
 
-      /** TODO: POST /api/medal/issue — 반쪽 메달·코드 발급 (phase 1→2) */
+      /**
+       * POST 메달 발급
+       * 반쪽 메달·코드 부여 후 phase 2 로 전환
+       */
       async function postIssueMedal() {
         const result = await fetchApi(DATA_BASE + "/medal_issued.json");
         medal.issued = true;
@@ -372,7 +400,10 @@
         return result;
       }
 
-      /** TODO: GET /api/medal/partner?code= — 코드 실시간 조회 (닉네임·합체 가능 여부) */
+      /**
+       * GET 상대 메달 코드 조회
+       * found · nick · matchable · reason 반환 (닉네임만 미리보기)
+       */
       async function getPartner(code) {
         const table = await fetchApi(DATA_BASE + "/partner.json");
         const key = code.toUpperCase();
@@ -383,28 +414,38 @@
         };
       }
 
-      /** TODO: POST /api/medal/request — 합체 신청 전송 (quota 차감) */
+      /**
+       * POST 합체 신청 전송
+       * quota 차감·이전 신청 자동 취소는 서버 정책과 맞춰야 함
+       */
       async function postSendRequest(payload) {
         void payload;
         return { ok: true };
       }
 
-      /** TODO: POST /api/medal/accept — 합체 수락 (phase→4, matched 설정) */
+      /**
+       * POST 합체 수락 / 매칭 완료
+       * matched · 기본 보상 정보 반환
+       */
       async function postAcceptMerge(payload) {
         return { matched: payload, reward: { basic: [] } };
       }
 
-      /** TODO: POST /api/medal/claim — EVENT1 기본 보상 수령 */
+      /**
+       * POST EVENT1 기본 보상 수령
+       */
       async function postClaimReward() {
         return { ok: true };
       }
 
-      /** TODO: GET /api/attendance/state — 21일 출석판·보충권·마일스톤 */
+      /**
+       * GET 21일 출석 현황
+       * state · makeup · streak · hasDuo · 마일스톤 수령 여부
+       */
       async function getAttendance() {
         applyAttendanceState(await fetchApi(DATA_BASE + "/attendance.json"));
       }
-
-      /** 하단 토스트 표시 (자동 숨김) */
+      /* [UI 헬퍼] 템플릿 :class / :disabled / 라벨 */
       function showToast(text, duration = 2800) {
         if (ui.toast.timer) clearTimeout(ui.toast.timer);
         ui.toast.text = text;
@@ -415,12 +456,9 @@
         }, duration);
       }
 
-      /* [UI 헬퍼] — 클래스·disabled·라벨 (템플릿 :class / :disabled 용) */
-
-      /** step-list__item--active | --done */
       function stepItemClass(stepNum) {
+        /* --active 만 스타일 존재. 지난 단계는 기본 스타일 유지 */
         if (medal.phase === stepNum) return "step-list__item--active";
-        if (medal.phase > stepNum) return "step-list__item--done";
         return "";
       }
 
@@ -457,13 +495,9 @@
         if (day.makeable && attend.makeup <= 0) cls.push("cal-card--need-ticket");
         return cls;
       }
-
-      /** 우상단 체크/듀오 마크 — 출석·보충 완료 카드에만 */
       function calShowMark(day) {
         return day.s > 0;
       }
-
-      /** 중앙 버튼 문구 */
       function calBtnLabel(day) {
         if (day.s > 0 && !day.claimed) return "보상 받기";
         if (day.claimed) return "수령 완료";
@@ -506,16 +540,26 @@
         return !reached || claimed;
       }
 
+      /**
+       * 받은 신청 목록 정렬 모드 변경 (new | old)
+       */
       function setSort(mode) {
         medal.sortMode = mode;
       }
 
-      /* [EVENT1] 메달 합체 — phase 1~4 클릭 핸들러 */
+      /* [동작 함수]
+       * EVENT1: clickIssueMedal → … → clickClaimReward
+       * EVENT2: clickDay · claimAllDaily · clickClaimMilestone · clickRefreshAttendance
+       * 공통: openVault / openNotice / toggleMenu — 초입에서 중복·자격 검사 후 return
+       */
 
-      /** phase1 · 유저 자격 검사 후 postIssueMedal */
+      /**
+       * '메달 발급받기' 버튼 클릭 핸들러
+       * 로그인·캐릭터 존재 여부 및 참여 자격을 검증한 후, 메달 발급 API를 호출하여 내 코드를 부여
+       */
       async function clickIssueMedal() {
         if (!user.login) {
-          return Utils.confirm("출석 현황은 로그인 후 확인할 수 있어요", {
+          return Utils.confirm("메달 발급은 로그인 후 참여할 수 있어요", {
             title: "로그인이 필요한 서비스예요",
             confirmText: "로그인 하기",
             confirmOnly: true,
@@ -534,8 +578,8 @@
       }
 
       /**
-       * 데모용 · 스텝 클릭으로 phase 미리보기
-       * 1: 미발급 / 2~3: 발급 mock / 4: 합체 완료 mock
+       * 퍼블 데모용 · 스텝 클릭으로 phase 미리보기
+       * 1: 미발급 / 2~3: 발급 mock / 4: 합체 완료 mock — 배포 전 제거 또는 비활성
        */
       async function demoGoStep(stepNum) {
         try {
@@ -567,13 +611,19 @@
         }
       }
 
+      /**
+       * 내 메달 코드 클립보드 복사
+       */
       function copyCode() {
         if (!medal.code) return;
         navigator.clipboard?.writeText(medal.code);
         showToast("코드가 복사되었습니다. " + medal.code);
       }
 
-      /** SNS 공유 모달 오픈 */
+      /**
+       * SNS 공유 모달 열기
+       * 메달 미발급 시 안내 후 중단
+       */
       function clickShare() {
         if (!medal.code) {
           return Utils.alert("먼저 메달을 발급받아 주세요.");
@@ -582,12 +632,18 @@
         Utils.bodyScroll.hide();
       }
 
+      /**
+       * SNS 공유 모달 닫기
+       */
       function closeShare() {
         ui.share = false;
         Utils.bodyScroll.show();
       }
 
-      /** SNS 채널 클릭 — 링크복사는 copyCode, 나머지는 연동 예정 */
+      /**
+       * 공유 채널 선택 핸들러
+       * link: 코드 복사 / 그 외: SNS SDK TODO
+       */
       function clickShareChannel(id) {
         if (id === "link") {
           copyCode();
@@ -597,8 +653,11 @@
         showToast(id + " 공유는 API 연동 후 제공됩니다.");
       }
 
+      /**
+       * 상대 메달 코드 실시간 조회
+       * 4자 이상 입력 시 getPartner 호출 → find.alert / preview 세팅
+       */
       async function lookupLive() {
-        /** @input medal.find.input — 4자 이상 시 getPartner 실시간 조회 */
         const code = medal.find.input.trim().toUpperCase();
         medal.find.preview = null;
         medal.find.alert = null;
@@ -628,7 +687,8 @@
           medal.find.alert = {
             type: "ok",
             text: res.nick + " 님에게 합체 신청을 보낼 수 있습니다.",
-            ok: medal.quota > 0 && !medal.sentTo,
+            /* 재신청 허용: 이전 sentTo 는 새 신청 시 자동 취소(횟수 미복구) */
+            ok: medal.quota > 0,
           };
         } catch (err) {
           console.error(err);
@@ -636,48 +696,74 @@
         }
       }
 
+      /**
+       * '메달 합체 신청하기' 클릭 핸들러
+       * 확인 모달 후 postSendRequest · quota 차감 · phase 3
+       * 이미 sentTo 가 있으면 이전 신청 자동 취소(횟수 미복구)
+       */
       async function clickSendRequest() {
-        if (!medal.find.alert?.ok || medal.quota <= 0 || medal.sentTo) return;
+        if (!medal.find.alert?.ok || medal.quota <= 0) return;
         const nick = medal.find.preview?.nick || "상대";
+        const replacing = !!medal.sentTo;
         const ok = await Utils.confirm(
-          "상대방이 메달 합체를 수락하면 메달 합체와 함께 듀오가 결성되며, 결성 후에는 취소·변경이 불가합니다. Event2에서 듀오 동반 출석 혜택이 있으니 신중하게 선택해 주세요.",
+          replacing
+            ? "이미 보낸 신청이 있습니다. 새 상대에게 신청하면 이전 신청은 자동 취소되며, 일일 신청 횟수는 복구되지 않습니다. 계속할까요?"
+            : "상대방이 메달 합체를 수락하면 메달 합체와 함께 듀오가 결성되며, 결성 후에는 취소·변경이 불가합니다. Event2에서 듀오 동반 출석 혜택이 있으니 신중하게 선택해 주세요.",
           {
-            title: "메달 합체 신청",
+            title: replacing ? "신청 변경" : "메달 합체 신청",
             confirmText: "신청 보내기",
             cancelText: "취소",
           }
         );
         if (!ok) return;
 
-        await postSendRequest({ code: medal.find.input, nick });
-        medal.quota--;
+        await postSendRequest({ code: medal.find.input, nick, replace: replacing });
+        medal.quota--; // 취소·재신청 모두 횟수 미복구(기획 v3.3)
         medal.sentTo = { nick, code: medal.find.input.toUpperCase() };
         medal.phase = 3;
         medal.find.alert = null;
-        showToast(nick + " 님에게 합체 신청을 보냈어요");
+        showToast(
+          replacing
+            ? "이전 신청을 취소하고 " + nick + " 님에게 합체 신청을 보냈어요"
+            : nick + " 님에게 합체 신청을 보냈어요"
+        );
       }
 
+      /**
+       * 보낸 합체 신청 취소
+       * 취소해도 일일 신청 횟수는 복구되지 않음
+       */
       async function cancelRequest() {
         if (!medal.sentTo) return;
         if (
-          !(await Utils.confirm("보낸 합체 신청을 취소할까요?", {
-            confirmText: "신청 취소",
-            cancelText: "닫기",
-          }))
+          !(await Utils.confirm(
+            "보낸 합체 신청을 취소할까요?<br>취소해도 오늘 사용한 신청 횟수는 복구되지 않습니다.",
+            {
+              confirmText: "신청 취소",
+              cancelText: "닫기",
+            }
+          ))
         )
           return;
+        // TODO: API POST 신청 취소 — 횟수 미복구는 서버 정책과 동일해야 함
         medal.sentTo = null;
         medal.phase = 2;
-        medal.quota = Math.min(5, medal.quota + 1);
+        showToast("합체 신청을 취소했어요 (신청 횟수는 복구되지 않습니다)");
       }
 
-      /** 데모용 — 상대 수락 시뮬레이션 (실서버는 폴링/푸시) */
+      /**
+       * 퍼블 데모용 · 상대가 내 신청을 수락한 것처럼 시뮬레이션
+       * 실서버는 폴링/푸시로 completeMatch 호출
+       */
       async function partnerAccepts() {
         if (!medal.sentTo) return;
         await completeMatch({ nick: medal.sentTo.nick, code: medal.sentTo.code });
       }
 
-      /** postAcceptMerge → matched·phase4·hasDuo 공통 처리 */
+      /**
+       * 매칭 완료 공통 처리
+       * postAcceptMerge → matched · phase4 · attend.hasDuo
+       */
       async function completeMatch(partner) {
         await postAcceptMerge(partner);
         medal.matched = { nick: partner.nick, code: partner.code };
@@ -686,6 +772,10 @@
         attend.hasDuo = true;
       }
 
+      /**
+       * 받은 합체 신청 '수락' 클릭 핸들러
+       * 확인 모달 후 completeMatch · 목록에서 해당 건 제거
+       */
       async function clickAcceptReceived(code) {
         if (medal.claimed || medal.phase === 4) return;
         const item = medal.received.find((r) => r.code === code);
@@ -706,22 +796,33 @@
         showToast("듀오 결성 완료! " + item.nick + " 님과 메달을 합쳤어요");
       }
 
+      /**
+       * 받은 합체 신청 '거절' 클릭 핸들러
+       */
       function rejectReceived(code) {
+        // TODO: API POST 신청 거절
         medal.received = medal.received.filter((r) => r.code !== code);
+        showToast("합체 신청을 거절했어요");
       }
 
-      /** phase4 · EVENT1 기본 보상 수령 */
+      /**
+       * EVENT1 '보상 받기' 클릭 핸들러
+       * 기본 보상 수령 API 호출 후 claimed · hasDuo 세팅 · 듀오 결성 안내
+       */
       async function clickClaimReward() {
         if (medal.claimed || medal.phase !== 4) return;
         await postClaimReward();
         medal.claimed = true;
         attend.hasDuo = true;
-        await Utils.alert("기본 보상이 지급되었습니다.");
+        await Utils.alert(
+          "듀오가 결성되었습니다!<br>기본 보상이 인게임 선물함으로 지급됐어요.<br>이제 21일 듀오 출석 챌린지에 동반 출석으로 참여할 수 있어요."
+        );
       }
 
-      /* [EVENT2] 21일 출석 · 마일스톤 */
-
-      /** cal-card 클릭 — 일별 보상 수령 또는 보충 출석권 사용 */
+      /**
+       * 출석 달력 셀 클릭 핸들러
+       * 출석일+미수령 → 일별 보상 수령 / 과거 미출석+보충권 → 보충 출석(state=4)
+       */
       async function clickDay(i) {
         const day = days.value.find((d) => d.i === i);
         if (!day) return;
@@ -740,18 +841,27 @@
         }
       }
 
+      /**
+       * 개인 누적 마일스톤(7/14/21일) '보상 받기' 클릭 핸들러
+       */
       async function clickClaimMilestone(d) {
         if (totalDays.value < d || attend.msClaimed.includes(d)) return;
         attend.msClaimed.push(d);
         // TODO: API POST
       }
 
+      /**
+       * 동반 출석 마일스톤(5일) '보상 받기' 클릭 핸들러
+       */
       async function clickClaimDuoMilestone(d) {
         if (duoDays.value < d || attend.duoMsClaimed.includes(d)) return;
         attend.duoMsClaimed.push(d);
         // TODO: API POST
       }
 
+      /**
+       * 일별 출석 보상 일괄 수령
+       */
       async function claimAllDaily() {
         days.value.forEach((d) => {
           if (d.s > 0 && !d.claimed) attend.claimed.push(d.i);
@@ -760,7 +870,10 @@
         await Utils.alert("수령 가능한 일별 보상을 모두 받았습니다.");
       }
 
-      /** 3분 쿨다운 후 getAttendance 재호출 */
+      /**
+       * '출석 갱신하기' 클릭 핸들러
+       * 3분 쿨다운 후 getAttendance 재호출
+       */
       async function clickRefreshAttendance() {
         const now = Date.now();
         if (now - attend.refreshAt < 180000) {
@@ -772,32 +885,57 @@
         await Utils.alert("출석 현황이 갱신되었습니다.");
       }
 
-      /* [공통] 보상함 · 유의사항 (Teleport 모달) */
-
-      /** topbar 「내 보상함」 — medal/attend 상태로 섹션 렌더 */
+      /**
+       * 상단바·사이드 '내 보상함' 열기
+       * TODO: getVaultRewards → vault.rewards 세팅 후 오픈 (현재는 medal/attend 기반 표시)
+       */
       async function openVault() {
         vault.open = true;
         Utils.bodyScroll.hide();
       }
 
+      /**
+       * 내 보상함 닫기
+       */
       function closeVault() {
         vault.open = false;
         Utils.bodyScroll.show();
       }
 
-      /** @param {"event01"|"event02"|"event03"} key */
+      /**
+       * 이벤트별 유의사항 모달 열기
+       * @param {"event01"|"event02"|"event03"} key
+       */
       function openNotice(key) {
         ui.notice = key;
         Utils.bodyScroll.hide();
       }
 
+      /**
+       * 유의사항 모달 닫기
+       */
       function closeNotice() {
         ui.notice = null;
         Utils.bodyScroll.show();
       }
 
-      /* [초기화] — 해시 스크롤은 control.js pageScroll.initHash */
+      /**
+       * MO 햄버거 메뉴 토글
+       */
+      function toggleMenu() {
+        ui.menu = !ui.menu;
+      }
 
+      /**
+       * MO 햄버거 메뉴 닫기
+       */
+      function closeMenu() {
+        ui.menu = false;
+      }
+
+      /* [초기화]
+       * onMounted: getMedalState + getAttendance (①로드 → ②get → ③상태 → ④렌더)
+       */
       onMounted(async () => {
         try {
           await getMedalState();
@@ -871,6 +1009,8 @@
         closeVault,
         openNotice,
         closeNotice,
+        toggleMenu,
+        closeMenu,
       };
     },
   }).mount("#app");

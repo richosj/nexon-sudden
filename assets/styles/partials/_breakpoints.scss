@@ -1,0 +1,31 @@
+// =============================================================================
+// Breakpoints — 반응형 숫자는 여기만 변경
+// 사용: @use "../breakpoints" as *;  →  @include mo { ... }
+// =============================================================================
+$bp-mo: 767px;       // 모바일 max
+$bp-tablet: 1100px;  // 중간폭 max (메달 매치·신청 그리드)
+$bp-sidebar: 1520px; // 좌측 퀵메뉴 숨김 max
+
+@mixin mo {
+  @media (max-width: $bp-mo) {
+    @content;
+  }
+}
+
+@mixin mo-up {
+  @media (min-width: $bp-mo + 1) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $bp-tablet) {
+    @content;
+  }
+}
+
+@mixin sidebar-hide {
+  @media (max-width: $bp-sidebar) {
+    @content;
+  }
+}

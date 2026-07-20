@@ -1,3 +1,5 @@
+@use "../breakpoints" as *;
+
 // EVENT2 · 출석 캘린더
 //
 // cal-card 타입 (Figma 1:4012 ~ 1:4158 외)
@@ -350,5 +352,87 @@
     &.is-duo { background: linear-gradient(180deg, rgba(234, 156, 29, 0.6), rgba(182, 54, 234, 0.6)); border-color: #ea9c1d; }
     &.is-makeup { background: rgba(36, 161, 125, 0.6); border-color: #24a17d; }
     &.is-streak { background: rgba(234, 156, 29, 0.4); border-color: #ea9c1d; }
+  }
+}
+
+@include mo {
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+
+    &__row {
+      display: contents;
+    }
+  }
+
+  .cal-card {
+    width: auto;
+    max-width: none;
+    min-width: 0;
+    min-height: 120px;
+    padding: 16px 0;
+    box-sizing: border-box;
+
+    &__icon {
+      width: 90px;
+      height: 50px;
+    }
+
+    &__date {
+      font-size: 14px;
+      line-height: 18px;
+
+      em {
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+
+    &__reward {
+      font-size: 11px;
+      line-height: 14px;
+      padding: 0 4px;
+    }
+
+    &__btn {
+      left: 12px;
+      right: 12px;
+      height: 24px;
+      font-size: 11px;
+      padding: 0 8px;
+    }
+
+    &__badge {
+      top: 6px;
+      left: 6px;
+      font-size: 10px;
+    }
+
+    &__mark {
+      top: 6px;
+      right: 6px;
+    }
+  }
+
+  // 21일 → 마지막 1장 풀폭 (Figma 328px 단독 행)
+  .cal-grid__row:last-child .cal-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .cal-legend {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin-top: 12px;
+
+    span {
+      font-size: 11px;
+      line-height: 16px;
+    }
+
+    i {
+      width: 12px;
+      height: 12px;
+    }
   }
 }
